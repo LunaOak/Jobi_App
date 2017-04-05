@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">AgileAndroid</string>
+
+    <string name="create_story_button">Create Story</string>
+    <string name="active_sprint_button">Active Sprint</string>
+
+    <string name="backlog_label">Backlog</string>
+
+    <string name="summary_label">Summary</string>
+    <string name="summary_hint">User story</string>
+
+    <string name="criteria_label">Acceptance Criteria</string>
+    <string name="criteria_hint">Implementation details</string>
+
+    <string name="points_label">Story Points</string>
+    <string name="points_hint">Planning poker numbers</string>
+
+    <string name="priority_label">Priority</string>
+    <string name="radio_current">Current</string>
+    <string name="radio_next">Next</string>
+    <string name="radio_later">Later</string>
+
+    <string name="status_label">Status</string>
+    <string-array name="status_array">
+        <item>To Do</item>
+        <item>In Progress</item>
+        <item>Done</item>
+    </string-array>
+
+    <string name="todo_label">To Do</string>
+    <string name="inprogress_label">In Progress</string>
+    <string name="done_label">Done</string>
+
+    <string name="save_button">Save</string>
+    <string name="cancel_button">Cancel</string>
+</resources>
