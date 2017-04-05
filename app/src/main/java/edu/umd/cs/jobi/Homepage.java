@@ -1,5 +1,7 @@
 package edu.umd.cs.jobi;
 
+import java.util.*;
+
 /* Main/Home Activity for Jobi App *********************************/
 public class Homepage {
 
