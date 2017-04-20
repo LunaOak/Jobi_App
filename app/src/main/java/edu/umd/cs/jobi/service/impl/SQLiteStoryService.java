@@ -14,8 +14,6 @@ import java.util.List;
 
 import edu.umd.cs.jobi.model.Story;
 import edu.umd.cs.jobi.service.StoryService;
-import edu.umd.cs.jobi.service.impl.AgileAndroidDbHelper;
-import edu.umd.cs.jobi.service.impl.AgileAndroidDbSchema;
 
 
 public class SQLiteStoryService implements StoryService {
@@ -31,13 +29,13 @@ public class SQLiteStoryService implements StoryService {
         }
 
         public Story getStory() {
-            String id = getString(getColumnIndex(AgileAndroidDbSchema.StoryTable.Columns.ID));
-            String summary = getString(getColumnIndex(AgileAndroidDbSchema.StoryTable.Columns.SUMMARY));
-            String acceptanceCriteria = getString(getColumnIndex(AgileAndroidDbSchema.StoryTable.Columns.ACCEPTANCE_CRITERIA));
-            double storyPoints = getDouble(getColumnIndex(AgileAndroidDbSchema.StoryTable.Columns.STORY_POINTS));
-            String priority = getString(getColumnIndex(AgileAndroidDbSchema.StoryTable.Columns.PRIORITY));
-            String status = getString(getColumnIndex(AgileAndroidDbSchema.StoryTable.Columns.STATUS));
-            long timeCreated = getLong(getColumnIndex(AgileAndroidDbSchema.StoryTable.Columns.TIME_CREATED));
+            String id = getString(getColumnIndex(JobiDbSchema.StoryTable.Columns.ID));
+            String summary = getString(getColumnIndex(JobiDbSchema.StoryTable.Columns.SUMMARY));
+            String acceptanceCriteria = getString(getColumnIndex(JobiDbSchema.StoryTable.Columns.ACCEPTANCE_CRITERIA));
+            double storyPoints = getDouble(getColumnIndex(JobiDbSchema.StoryTable.Columns.STORY_POINTS));
+            String priority = getString(getColumnIndex(JobiDbSchema.StoryTable.Columns.PRIORITY));
+            String status = getString(getColumnIndex(JobiDbSchema.StoryTable.Columns.STATUS));
+            long timeCreated = getLong(getColumnIndex(JobiDbSchema.StoryTable.Columns.TIME_CREATED));
 
             Story story = new Story();
             story.setId(id);
@@ -56,7 +54,7 @@ public class SQLiteStoryService implements StoryService {
 
     // Constructor and Methods ///////////////////////////////////
     public SQLiteStoryService (Context c) {
-        db = new AgileAndroidDbHelper(c).getWritableDatabase();
+        db = new JobiDbHelper(c).getWritableDatabase();
     }
 
     protected SQLiteDatabase getDatabase() {
@@ -68,7 +66,7 @@ public class SQLiteStoryService implements StoryService {
 
         List<Story> list = new ArrayList<Story>();
 
-        Cursor cursor = db.query(AgileAndroidDbSchema.StoryTable.NAME, null, whereClause, whereArgs, null, null, orderBy);
+        Cursor cursor = db.query(JobiDbSchema.StoryTable.NAME, null, whereClause, whereArgs, null, null, orderBy);
         StoryCursorWrapper story_cursor = new StoryCursorWrapper(cursor);
         try {
             story_cursor.moveToFirst();
@@ -88,13 +86,13 @@ public class SQLiteStoryService implements StoryService {
     private static ContentValues getContentValues(Story story) {
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(AgileAndroidDbSchema.StoryTable.Columns.ID,story.getId());
-        contentValues.put(AgileAndroidDbSchema.StoryTable.Columns.SUMMARY,story.getSummary());
-        contentValues.put(AgileAndroidDbSchema.StoryTable.Columns.ACCEPTANCE_CRITERIA,story.getAcceptanceCriteria());
-        contentValues.put(AgileAndroidDbSchema.StoryTable.Columns.STORY_POINTS, story.getStoryPoints());
-        contentValues.put(AgileAndroidDbSchema.StoryTable.Columns.PRIORITY, story.getPriority().toString());
-        contentValues.put(AgileAndroidDbSchema.StoryTable.Columns.STATUS, story.getStatus().toString());
-        contentValues.put(AgileAndroidDbSchema.StoryTable.Columns.TIME_CREATED, story.getTimeCreated().getTime());
+        contentValues.put(JobiDbSchema.StoryTable.Columns.ID,story.getId());
+        contentValues.put(JobiDbSchema.StoryTable.Columns.SUMMARY,story.getSummary());
+        contentValues.put(JobiDbSchema.StoryTable.Columns.ACCEPTANCE_CRITERIA,story.getAcceptanceCriteria());
+        contentValues.put(JobiDbSchema.StoryTable.Columns.STORY_POINTS, story.getStoryPoints());
+        contentValues.put(JobiDbSchema.StoryTable.Columns.PRIORITY, story.getPriority().toString());
+        contentValues.put(JobiDbSchema.StoryTable.Columns.STATUS, story.getStatus().toString());
+        contentValues.put(JobiDbSchema.StoryTable.Columns.TIME_CREATED, story.getTimeCreated().getTime());
 
         return contentValues;
     }
@@ -107,10 +105,10 @@ public class SQLiteStoryService implements StoryService {
 
         // If not present in the list at all, add //
         if (getStoryById(story.getId()) == null) {
-            db.insert(AgileAndroidDbSchema.StoryTable.NAME,null,getContentValues(story));
+            db.insert(JobiDbSchema.StoryTable.NAME,null,getContentValues(story));
         // Otherwise if it is then update it //
         } else {
-            db.update(AgileAndroidDbSchema.StoryTable.NAME,getContentValues(story),"ID=?",IDs);
+            db.update(JobiDbSchema.StoryTable.NAME,getContentValues(story),"ID=?",IDs);
         }
     }
 

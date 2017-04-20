@@ -1,7 +1,7 @@
 package edu.umd.cs.jobi.service.impl;
 
 
-public class AgileAndroidDbSchema {
+public class JobiDbSchema {
 
     public static final class StoryTable {
         static final String NAME = "NAME";
