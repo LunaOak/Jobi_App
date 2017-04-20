@@ -1,6 +1,9 @@
-package edu.umd.cs.jobi;
+package edu.umd.cs.jobi.model;
 
 import java.util.*;
+
+import edu.umd.cs.jobi.model.Company;
+import edu.umd.cs.jobi.model.Contact;
 
 public class Position {
 
@@ -14,7 +17,7 @@ public class Position {
     private List<Contact> contacts;
     private Company company;
 
-    public Story(String title, Status status, String location, String description,
+    public Position(String title, Status status, String location, String description,
                  boolean favorite, String type, List<Contact> contacts, Company company) {
         id = UUID.randomUUID().toString();
         this.title = title;
@@ -88,7 +91,7 @@ public class Position {
     }
 
     public void addContact(Contact contact) {
-        this.contacts.append(contact);
+       // this.contacts.append(contact);
     }
 
     // TODO verify this works

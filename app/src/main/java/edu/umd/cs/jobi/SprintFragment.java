@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import edu.umd.cs.agileandroid.R;
+import edu.umd.cs.jobi.R;
 import edu.umd.cs.jobi.model.Story;
 import edu.umd.cs.jobi.service.StoryService;
 

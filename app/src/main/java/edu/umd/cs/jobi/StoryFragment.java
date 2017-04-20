@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
-import edu.umd.cs.agileandroid.R;
+import edu.umd.cs.jobi.R;
 import edu.umd.cs.jobi.model.Story;
 
 import static android.app.Activity.RESULT_CANCELED;

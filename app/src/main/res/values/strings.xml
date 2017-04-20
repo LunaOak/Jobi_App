@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AgileAndroid</string>
+    <string name="app_name">Jobi</string>
 
     <string name="create_story_button">Create Story</string>
     <string name="active_sprint_button">Active Sprint</string>

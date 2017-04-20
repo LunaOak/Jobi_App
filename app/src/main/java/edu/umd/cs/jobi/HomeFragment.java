@@ -19,11 +19,13 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import edu.umd.cs.agileandroid.R;
+import edu.umd.cs.jobi.R;
 import edu.umd.cs.jobi.model.Story;
 import edu.umd.cs.jobi.service.StoryService;
 
-public class BacklogFragment extends Fragment {
+import edu.umd.cs.jobi.model.Home;
+
+public class HomeFragment extends Fragment {
     private final String TAG = getClass().getSimpleName();
     private static final int REQUEST_CODE_CREATE_STORY = 0;
 
@@ -32,8 +34,8 @@ public class BacklogFragment extends Fragment {
     private RecyclerView storyRecyclerView;
     private StoryAdapter adapter;
 
-    public static BacklogFragment newInstance() {
-        BacklogFragment fragment = new BacklogFragment();
+    public static HomeFragment newInstance() {
+        HomeFragment fragment = new HomeFragment();
 
         return fragment;
     }

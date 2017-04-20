@@ -1,4 +1,4 @@
-package edu.umd.cs.jobi;
+package edu.umd.cs.jobi.model;
 
 public class Contact {
 

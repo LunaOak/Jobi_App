@@ -1,18 +1,18 @@
-package edu.umd.cs.jobi;
+package edu.umd.cs.jobi.model;
 
 import java.util.*;
 
 /* Main/Home Activity for Jobi App *********************************/
-public class Homepage {
+public class Home {
 
     private ArrayList<Position> postions;
     private ArrayList<Position> favorite_postions;
     private ArrayList<Company> companies;
-    private ArrayList<Event> events;
-    private Status status = Status.TODO;
+    //private ArrayList<Event> events;
+    //private Status status = Status.TODO;
     private Date date;
 
-    public Homepage() {
+    public Home() {
 
     }
 
@@ -40,17 +40,17 @@ public class Homepage {
     }
 
     /* Positions Handling ****************************************/
-    public String getPositions() {
-        return this.positions;
-    }
+//    public String getPositions() {
+//        return this.positions;
+//    }
 
-    public void setPositions(String title) {
-        this.title = title;
-    }
+//    public void setPositions(String title) {
+//        this.title = title;
+//    }
 
-    public Status getStatus() {
-        return status;
-    }
+//    public Status getStatus() {
+//        return status;
+//    }
 
 
 }
