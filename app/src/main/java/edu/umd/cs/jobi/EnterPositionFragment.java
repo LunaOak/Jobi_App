@@ -189,6 +189,9 @@ public class EnterPositionFragment extends Fragment {
 
                     position.setType(typeEditText.getText().toString());
 
+                    // We need to add the contact and company update here too and add the company to the
+                    // database
+
                     Intent data = new Intent();
                     data.putExtra(POSITION_CREATED, position);
                     getActivity().setResult(RESULT_OK, data);

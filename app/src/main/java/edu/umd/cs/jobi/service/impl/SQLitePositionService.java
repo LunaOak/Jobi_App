@@ -19,9 +19,29 @@ import edu.umd.cs.jobi.model.Position;
 import edu.umd.cs.jobi.service.PositionService;
 
 
-public class SQLitePositionService implements StoryService {
+public class SQLitePositionService implements PositionService {
 
     private SQLiteDatabase db;
+
+    @Override
+    public void addPositionToDb(Position position) {
+        
+    }
+
+    @Override
+    public Position getPositionById(String id) {
+        return null;
+    }
+
+    @Override
+    public List<Position> getAllPositions() {
+        return null;
+    }
+
+    @Override
+    public List<Position> getFavoritePositions() {
+        return null;
+    }
 
 
     // Private Inner Class StoryCursorWrapper ///////////////////

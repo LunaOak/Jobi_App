@@ -18,9 +18,29 @@ import edu.umd.cs.jobi.model.Company;
 import edu.umd.cs.jobi.service.CompanyService;
 
 
-public class SQLiteCompanyService implements StoryService {
+public class SQLiteCompanyService implements CompanyService {
 
     private SQLiteDatabase db;
+
+    @Override
+    public void addCompanyToDb(Company company) {
+
+    }
+
+    @Override
+    public Company getCompanyByName(String name) {
+        return null;
+    }
+
+    @Override
+    public List<Company> getAllCompanies() {
+        return null;
+    }
+
+    @Override
+    public List<Company> getCurrentCompanies() {
+        return null;
+    }
 
 
     // Private Inner Class StoryCursorWrapper ///////////////////
