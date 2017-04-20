@@ -1,12 +1,12 @@
 package edu.umd.cs.jobi.model;
 
 import java.util.*;
-import java.io.Serializable;
 
 import edu.umd.cs.jobi.model.Company;
 import edu.umd.cs.jobi.model.Contact;
+import java.io.Serializable;
 
-public class Position {
+public class Position implements Serializable{
 
     private String id;
     private String title;
