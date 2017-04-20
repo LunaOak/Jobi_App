@@ -9,7 +9,7 @@ public class JobiDbHelper extends SQLiteOpenHelper {
 
 
     public JobiDbHelper(Context c) {
-        super(c,"jobi.db", null, 1);
+        super(c,"jobi_positions.db", null, 1);
     }
 
     @Override
@@ -17,12 +17,14 @@ public class JobiDbHelper extends SQLiteOpenHelper {
         database.execSQL("create table " + JobiDbSchema.StoryTable.NAME + "(" +
                 " _id integer primary key autoincrement, " +
                 JobiDbSchema.StoryTable.Columns.ID + ", " +
-                JobiDbSchema.StoryTable.Columns.SUMMARY + ", " +
-                JobiDbSchema.StoryTable.Columns.ACCEPTANCE_CRITERIA + ", " +
-                JobiDbSchema.StoryTable.Columns.STORY_POINTS + ", " +
-                JobiDbSchema.StoryTable.Columns.PRIORITY + ", " +
+                JobiDbSchema.StoryTable.Columns.TITLE + ", " +
                 JobiDbSchema.StoryTable.Columns.STATUS + ", " +
-                JobiDbSchema.StoryTable.Columns.TIME_CREATED + ")");
+                JobiDbSchema.StoryTable.Columns.LOCATION + ", " +
+                JobiDbSchema.StoryTable.Columns.DESCRIPTION + ", " +
+                JobiDbSchema.StoryTable.Columns.FAVORITE + ", " +
+                JobiDbSchema.StoryTable.Columns.TYPE + ", " +
+                JobiDbSchema.StoryTable.Columns.CONTACTS + ", " +
+                JobiDbSchema.StoryTable.Columns.COMPANY + ")");
     }
 
     @Override

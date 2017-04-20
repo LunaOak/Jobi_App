@@ -8,12 +8,14 @@ public class JobiDbSchema {
 
         static final class Columns {
             public static final String ID = "ID";
-            public static final String SUMMARY = "SUMMARY";
-            public static final String ACCEPTANCE_CRITERIA = "ACCEPTANCE_CRITERIA";
-            public static final String STORY_POINTS = "STORY_POINTS";
-            public static final String PRIORITY = "PRIORITY";
+            public static final String TITLE = "TITLE";
             public static final String STATUS = "STATUS";
-            public static final String TIME_CREATED = "TIME_CREATED";
+            public static final String LOCATION = "LOCATION";
+            public static final String DESCRIPTION = "DESCRIPTION";
+            public static final String FAVORITE = "FAVORITE";
+            public static final String TYPE = "TYPE";
+            public static final String CONTACTS = "CONTACTS";
+            public static final String COMPANY = "COMPANY";
         }
     }
 }
