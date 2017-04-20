@@ -21,6 +21,15 @@
         </activity>
 
         <!-- All other subsequent Activities -->
+        <activity android:name="edu.umd.cs.jobi.CompanyActivity">
+        </activity>
+
+        <activity android:name="edu.umd.cs.jobi.PositionActivity">
+        </activity>
+
+        <activity android:name="edu.umd.cs.jobi.EnterPositionActivity">
+        </activity>
+
         <activity android:name="edu.umd.cs.jobi.StoryActivity">
         </activity>
 

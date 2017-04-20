@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Company implements Serializable {
     private String name;
     private boolean current;
+    private String location;
 
     public Company(String name, boolean current) {
         this.name = name;
@@ -25,6 +26,14 @@ public class Company implements Serializable {
 
     public void setCurrent(boolean current) {
         this.current = current;
+    }
+
+    public String getLocation() {
+        return this.location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     @Override

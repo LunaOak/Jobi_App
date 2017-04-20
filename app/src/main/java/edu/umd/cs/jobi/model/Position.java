@@ -4,30 +4,35 @@ import java.util.*;
 
 import edu.umd.cs.jobi.model.Company;
 import edu.umd.cs.jobi.model.Contact;
+import java.io.Serializable;
 
-public class Position {
+public class Position implements Serializable{
 
     private String id;
     private String title;
     private Status status = Status.TODO;
     private String location;
     private String description;
-    private boolean favorite;
+    private Favorite favorite = Favorite.NO;
     private String type;
     private List<Contact> contacts;
     private Company company;
 
-    public Position(String title, Status status, String location, String description,
-                 boolean favorite, String type, List<Contact> contacts, Company company) {
+//    public Position(String title, Status status, String location, String description,
+//                 Favorite favorite, String type, List<Contact> contacts, Company company) {
+//        id = UUID.randomUUID().toString();
+//        this.title = title;
+//        this.status = status;
+//        this.location = location;
+//        this.description = description;
+//        this.favorite = favorite;
+//        this.type = type;
+//        this.contacts = contacts;
+//        this.company = company;
+//    }
+
+    public Position() {
         id = UUID.randomUUID().toString();
-        this.title = title;
-        this.status = status;
-        this.location = location;
-        this.description = description;
-        this.favorite = favorite;
-        this.type = type;
-        this.contacts = contacts;
-        this.company = company;
     }
 
     public String getTitle() {
@@ -62,17 +67,17 @@ public class Position {
         this.description = description;
     }
 
-    public boolean isFavorite() {
+    public Favorite getFavorite() {
         return favorite;
     }
 
-    public void setFavorite() {
-        this.favorite = true;
+    public void setFavorite(Favorite favorite) {
+        this.favorite = favorite;
     }
 
-    public void unsetFavorite() {
-        this.favorite = false;
-    }
+//    public void unsetFavorite() {
+//        this.favorite = false;
+//    }
 
     public String getType() {
         return type;
@@ -119,5 +124,9 @@ public class Position {
 
     public enum Status {
         TODO, IN_PROGRESS, DONE;
+    }
+
+    public enum Favorite {
+        YES, NO;
     }
 }

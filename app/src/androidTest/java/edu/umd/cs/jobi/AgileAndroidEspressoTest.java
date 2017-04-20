@@ -1,4 +1,4 @@
-package edu.umd.cs.agileandroid;
+package edu.umd.cs.jobi;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,8 +17,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import edu.umd.cs.jobi.BacklogActivity;
-import edu.umd.cs.jobi.SprintActivity;
-import edu.umd.cs.jobi.StoryActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

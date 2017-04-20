@@ -88,6 +88,10 @@ public class Story implements Serializable {
         }
     }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     public void setStatus(int position) {
         switch (position) {
             case 0:
@@ -107,6 +111,10 @@ public class Story implements Serializable {
 
     public Date getTimeCreated() {
         return timeCreated;
+    }
+
+    public void setTimeCreated(Date timeCreated) {
+        this.timeCreated = timeCreated;
     }
 
     @Override

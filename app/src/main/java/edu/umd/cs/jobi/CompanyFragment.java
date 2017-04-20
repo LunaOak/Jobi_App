@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import edu.umd.cs.jobi.model.Company;
+
 public class CompanyFragment extends Fragment{
 
     public static CompanyFragment newInstance() {

@@ -1,4 +1,4 @@
-package edu.umd.cs.agileandroid;
+package edu.umd.cs.jobi;
 
 import static org.junit.Assert.*;
 
