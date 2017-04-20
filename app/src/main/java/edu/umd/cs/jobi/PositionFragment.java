@@ -16,10 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class CompanyFragment extends Fragment{
+public class PositionFragment extends Fragment{
 
-    public static CompanyFragment newInstance() {
-        CompanyFragment fragment = new CompanyFragment();
+    public static PositionFragment newInstance() {
+        PositionFragment fragment = new PositionFragment();
         return fragment;
     }
 
