@@ -9,6 +9,7 @@ public class JobiCompanyDbSchema {
         static final class Columns {
             public static final String TITLE = "TITLE";
             public static final String STATUS = "STATUS";
+            public static final String LOCATION = "LOCATION";
         }
     }
 }

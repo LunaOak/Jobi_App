@@ -16,7 +16,8 @@ public class JobiCompanyDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase database) {
         database.execSQL("create table " + JobiCompanyDbSchema.CompanyTable.NAME + "(" +
                 JobiCompanyDbSchema.CompanyTable.Columns.TITLE + ", " +
-                JobiCompanyDbSchema.CompanyTable.Columns.STATUS + ")");
+                JobiCompanyDbSchema.CompanyTable.Columns.STATUS + ", " +
+                JobiCompanyDbSchema.CompanyTable.Columns.LOCATION + ")");
     }
 
     @Override

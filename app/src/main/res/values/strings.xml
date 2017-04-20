@@ -33,4 +33,27 @@
 
     <string name="save_button">Save</string>
     <string name="cancel_button">Cancel</string>
+
+
+    <!--EnterPosition Activity/Fragment Strings-->
+    <string name="position_label">Position</string>
+    <string name="position_hint">Enter Position</string>
+    <string name="position_status">Status</string>
+    <string name="position_status_todo">To Do</string>
+    <string name="position_status_inProgress">In Progress</string>
+    <string name="position_status_done">Done</string>
+    <string name="position_location_label">Location</string>
+    <string name="position_location_hint">Enter Location</string>
+    <string name="position_description_label">Description</string>
+    <string name="position_description_hint">Enter Description</string>
+    <string name="position_favorite">Favorite</string>
+    <string name="position_favorite_yes">Yes</string>
+    <string name="position_favorite_no">No</string>
+    <string name="position_type_label">Type</string>
+    <string name="position_type_hint">Enter Type</string>
+    <string name="position_contact_label">Contact</string>
+    <string name="position_contact_hint">Enter Contact</string>
+    <string name="position_company_label">Company</string>
+    <string name="position_company_hint">Enter Company</string>
+
 </resources>
