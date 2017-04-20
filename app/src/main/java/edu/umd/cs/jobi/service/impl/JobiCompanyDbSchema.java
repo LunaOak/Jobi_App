@@ -1,0 +1,14 @@
+package edu.umd.cs.jobi.service.impl;
+
+
+public class JobiCompanyDbSchema {
+
+    public static final class CompanyTable {
+        static final String NAME = "NAME";
+
+        static final class Columns {
+            public static final String TITLE = "TITLE";
+            public static final String STATUS = "STATUS";
+        }
+    }
+}
