@@ -1,4 +1,4 @@
-package edu.umd.cs.agileandroid;
+package edu.umd.cs.jobi;
 
 import static org.junit.Assert.*;
 import android.support.v4.app.Fragment;
@@ -7,8 +7,8 @@ import org.junit.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.umd.cs.agileandroid.model.Story;
-import edu.umd.cs.agileandroid.service.impl.InMemoryStoryService;
+import edu.umd.cs.jobi.model.Story;
+import edu.umd.cs.jobi.service.impl.InMemoryStoryService;
 
 
 public class InMemoryStoryServiceTest {

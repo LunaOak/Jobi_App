@@ -1,4 +1,4 @@
-package edu.umd.cs.agileandroid;
+package edu.umd.cs.jobi;
 
 import android.app.Activity;
 import android.content.Context;
