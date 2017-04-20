@@ -1,7 +1,7 @@
 package edu.umd.cs.jobi.service.impl;
 
 
-public class JobiDbSchema {
+public class JobiPositionDbSchema {
 
     public static final class PositionTable {
         static final String NAME = "NAME";

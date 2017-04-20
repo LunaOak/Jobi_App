@@ -15,8 +15,11 @@ import java.util.List;
 import edu.umd.cs.jobi.model.Story;
 import edu.umd.cs.jobi.service.StoryService;
 
+import edu.umd.cs.jobi.model.Position;
+import edu.umd.cs.jobi.service.PositionService;
 
-public class SQLiteStoryService implements StoryService {
+
+public class SQLitePositionService implements StoryService {
 
     private SQLiteDatabase db;
 
@@ -29,22 +32,22 @@ public class SQLiteStoryService implements StoryService {
         }
 
         public Story getStory() {
-            String id = getString(getColumnIndex(JobiDbSchema.PositionTable.Columns.ID));
-            String summary = getString(getColumnIndex(JobiDbSchema.PositionTable.Columns.SUMMARY));
-            String acceptanceCriteria = getString(getColumnIndex(JobiDbSchema.PositionTable.Columns.ACCEPTANCE_CRITERIA));
-            double storyPoints = getDouble(getColumnIndex(JobiDbSchema.PositionTable.Columns.STORY_POINTS));
-            String priority = getString(getColumnIndex(JobiDbSchema.PositionTable.Columns.PRIORITY));
-            String status = getString(getColumnIndex(JobiDbSchema.PositionTable.Columns.STATUS));
-            long timeCreated = getLong(getColumnIndex(JobiDbSchema.PositionTable.Columns.TIME_CREATED));
+//            String id = getString(getColumnIndex(JobiPositionDbSchema.PositionTable.Columns.ID));
+//            String title = getString(getColumnIndex(JobiPositionDbSchema.PositionTable.Columns.TITLE));
+//            String status = getString(getColumnIndex(JobiPositionDbSchema.PositionTable.Columns.STATUS));
+//            double storyPoints = getDouble(getColumnIndex(JobiPositionDbSchema.PositionTable.Columns.STORY_POINTS));
+//            String priority = getString(getColumnIndex(JobiPositionDbSchema.PositionTable.Columns.PRIORITY));
+//            String status = getString(getColumnIndex(JobiPositionDbSchema.PositionTable.Columns.STATUS));
+//            long timeCreated = getLong(getColumnIndex(JobiPositionDbSchema.PositionTable.Columns.TIME_CREATED));
 
             Story story = new Story();
-            story.setId(id);
-            story.setSummary(summary);
-            story.setAcceptanceCriteria(acceptanceCriteria);
-            story.setStoryPoints(storyPoints);
-            story.setPriority(Story.Priority.valueOf(priority));
-            story.setStatus(Story.Status.valueOf(status));
-            story.setTimeCreated(new Date(timeCreated));
+//            story.setId(id);
+//            story.setSummary(title);
+//            //story.setAcceptanceCriteria(acceptanceCriteria);
+//            story.setStoryPoints(storyPoints);
+//            story.setPriority(Story.Priority.valueOf(priority));
+//            story.setStatus(Story.Status.valueOf(status));
+//            story.setTimeCreated(new Date(timeCreated));
 
             return story;
         }
@@ -53,8 +56,8 @@ public class SQLiteStoryService implements StoryService {
 
 
     // Constructor and Methods ///////////////////////////////////
-    public SQLiteStoryService (Context c) {
-        db = new JobiDbHelper(c).getWritableDatabase();
+    public SQLitePositionService(Context c) {
+        db = new JobiPositionDbHelper(c).getWritableDatabase();
     }
 
     protected SQLiteDatabase getDatabase() {
@@ -66,7 +69,7 @@ public class SQLiteStoryService implements StoryService {
 
         List<Story> list = new ArrayList<Story>();
 
-        Cursor cursor = db.query(JobiDbSchema.PositionTable.NAME, null, whereClause, whereArgs, null, null, orderBy);
+        Cursor cursor = db.query(JobiPositionDbSchema.PositionTable.NAME, null, whereClause, whereArgs, null, null, orderBy);
         StoryCursorWrapper story_cursor = new StoryCursorWrapper(cursor);
         try {
             story_cursor.moveToFirst();
@@ -86,13 +89,13 @@ public class SQLiteStoryService implements StoryService {
     private static ContentValues getContentValues(Story story) {
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(JobiDbSchema.PositionTable.Columns.ID,story.getId());
-        contentValues.put(JobiDbSchema.PositionTable.Columns.SUMMARY,story.getSummary());
-        contentValues.put(JobiDbSchema.PositionTable.Columns.ACCEPTANCE_CRITERIA,story.getAcceptanceCriteria());
-        contentValues.put(JobiDbSchema.PositionTable.Columns.STORY_POINTS, story.getStoryPoints());
-        contentValues.put(JobiDbSchema.PositionTable.Columns.PRIORITY, story.getPriority().toString());
-        contentValues.put(JobiDbSchema.PositionTable.Columns.STATUS, story.getStatus().toString());
-        contentValues.put(JobiDbSchema.PositionTable.Columns.TIME_CREATED, story.getTimeCreated().getTime());
+        contentValues.put(JobiPositionDbSchema.PositionTable.Columns.ID,story.getId());
+//        contentValues.put(JobiPositionDbSchema.PositionTable.Columns.SUMMARY,story.getSummary());
+//        contentValues.put(JobiPositionDbSchema.PositionTable.Columns.ACCEPTANCE_CRITERIA,story.getAcceptanceCriteria());
+//        contentValues.put(JobiPositionDbSchema.PositionTable.Columns.STORY_POINTS, story.getStoryPoints());
+//        contentValues.put(JobiPositionDbSchema.PositionTable.Columns.PRIORITY, story.getPriority().toString());
+//        contentValues.put(JobiPositionDbSchema.PositionTable.Columns.STATUS, story.getStatus().toString());
+//        contentValues.put(JobiPositionDbSchema.PositionTable.Columns.TIME_CREATED, story.getTimeCreated().getTime());
 
         return contentValues;
     }
@@ -105,10 +108,10 @@ public class SQLiteStoryService implements StoryService {
 
         // If not present in the list at all, add //
         if (getStoryById(story.getId()) == null) {
-            db.insert(JobiDbSchema.PositionTable.NAME,null,getContentValues(story));
+            db.insert(JobiPositionDbSchema.PositionTable.NAME,null,getContentValues(story));
         // Otherwise if it is then update it //
         } else {
-            db.update(JobiDbSchema.PositionTable.NAME,getContentValues(story),"ID=?",IDs);
+            db.update(JobiPositionDbSchema.PositionTable.NAME,getContentValues(story),"ID=?",IDs);
         }
     }
 
