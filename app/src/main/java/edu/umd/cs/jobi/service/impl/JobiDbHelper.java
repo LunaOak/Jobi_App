@@ -14,17 +14,17 @@ public class JobiDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase database) {
-        database.execSQL("create table " + JobiDbSchema.StoryTable.NAME + "(" +
+        database.execSQL("create table " + JobiDbSchema.PositionTable.NAME + "(" +
                 " _id integer primary key autoincrement, " +
-                JobiDbSchema.StoryTable.Columns.ID + ", " +
-                JobiDbSchema.StoryTable.Columns.TITLE + ", " +
-                JobiDbSchema.StoryTable.Columns.STATUS + ", " +
-                JobiDbSchema.StoryTable.Columns.LOCATION + ", " +
-                JobiDbSchema.StoryTable.Columns.DESCRIPTION + ", " +
-                JobiDbSchema.StoryTable.Columns.FAVORITE + ", " +
-                JobiDbSchema.StoryTable.Columns.TYPE + ", " +
-                JobiDbSchema.StoryTable.Columns.CONTACTS + ", " +
-                JobiDbSchema.StoryTable.Columns.COMPANY + ")");
+                JobiDbSchema.PositionTable.Columns.ID + ", " +
+                JobiDbSchema.PositionTable.Columns.TITLE + ", " +
+                JobiDbSchema.PositionTable.Columns.STATUS + ", " +
+                JobiDbSchema.PositionTable.Columns.LOCATION + ", " +
+                JobiDbSchema.PositionTable.Columns.DESCRIPTION + ", " +
+                JobiDbSchema.PositionTable.Columns.FAVORITE + ", " +
+                JobiDbSchema.PositionTable.Columns.TYPE + ", " +
+                JobiDbSchema.PositionTable.Columns.CONTACTS + ", " +
+                JobiDbSchema.PositionTable.Columns.COMPANY + ")");
     }
 
     @Override

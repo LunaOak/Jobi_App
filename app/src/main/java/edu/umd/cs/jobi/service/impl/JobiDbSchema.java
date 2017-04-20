@@ -3,7 +3,7 @@ package edu.umd.cs.jobi.service.impl;
 
 public class JobiDbSchema {
 
-    public static final class StoryTable {
+    public static final class PositionTable {
         static final String NAME = "NAME";
 
         static final class Columns {

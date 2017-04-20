@@ -29,13 +29,13 @@ public class SQLiteStoryService implements StoryService {
         }
 
         public Story getStory() {
-            String id = getString(getColumnIndex(JobiDbSchema.StoryTable.Columns.ID));
-            String summary = getString(getColumnIndex(JobiDbSchema.StoryTable.Columns.SUMMARY));
-            String acceptanceCriteria = getString(getColumnIndex(JobiDbSchema.StoryTable.Columns.ACCEPTANCE_CRITERIA));
-            double storyPoints = getDouble(getColumnIndex(JobiDbSchema.StoryTable.Columns.STORY_POINTS));
-            String priority = getString(getColumnIndex(JobiDbSchema.StoryTable.Columns.PRIORITY));
-            String status = getString(getColumnIndex(JobiDbSchema.StoryTable.Columns.STATUS));
-            long timeCreated = getLong(getColumnIndex(JobiDbSchema.StoryTable.Columns.TIME_CREATED));
+            String id = getString(getColumnIndex(JobiDbSchema.PositionTable.Columns.ID));
+            String summary = getString(getColumnIndex(JobiDbSchema.PositionTable.Columns.SUMMARY));
+            String acceptanceCriteria = getString(getColumnIndex(JobiDbSchema.PositionTable.Columns.ACCEPTANCE_CRITERIA));
+            double storyPoints = getDouble(getColumnIndex(JobiDbSchema.PositionTable.Columns.STORY_POINTS));
+            String priority = getString(getColumnIndex(JobiDbSchema.PositionTable.Columns.PRIORITY));
+            String status = getString(getColumnIndex(JobiDbSchema.PositionTable.Columns.STATUS));
+            long timeCreated = getLong(getColumnIndex(JobiDbSchema.PositionTable.Columns.TIME_CREATED));
 
             Story story = new Story();
             story.setId(id);
@@ -66,7 +66,7 @@ public class SQLiteStoryService implements StoryService {
 
         List<Story> list = new ArrayList<Story>();
 
-        Cursor cursor = db.query(JobiDbSchema.StoryTable.NAME, null, whereClause, whereArgs, null, null, orderBy);
+        Cursor cursor = db.query(JobiDbSchema.PositionTable.NAME, null, whereClause, whereArgs, null, null, orderBy);
         StoryCursorWrapper story_cursor = new StoryCursorWrapper(cursor);
         try {
             story_cursor.moveToFirst();
@@ -86,13 +86,13 @@ public class SQLiteStoryService implements StoryService {
     private static ContentValues getContentValues(Story story) {
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(JobiDbSchema.StoryTable.Columns.ID,story.getId());
-        contentValues.put(JobiDbSchema.StoryTable.Columns.SUMMARY,story.getSummary());
-        contentValues.put(JobiDbSchema.StoryTable.Columns.ACCEPTANCE_CRITERIA,story.getAcceptanceCriteria());
-        contentValues.put(JobiDbSchema.StoryTable.Columns.STORY_POINTS, story.getStoryPoints());
-        contentValues.put(JobiDbSchema.StoryTable.Columns.PRIORITY, story.getPriority().toString());
-        contentValues.put(JobiDbSchema.StoryTable.Columns.STATUS, story.getStatus().toString());
-        contentValues.put(JobiDbSchema.StoryTable.Columns.TIME_CREATED, story.getTimeCreated().getTime());
+        contentValues.put(JobiDbSchema.PositionTable.Columns.ID,story.getId());
+        contentValues.put(JobiDbSchema.PositionTable.Columns.SUMMARY,story.getSummary());
+        contentValues.put(JobiDbSchema.PositionTable.Columns.ACCEPTANCE_CRITERIA,story.getAcceptanceCriteria());
+        contentValues.put(JobiDbSchema.PositionTable.Columns.STORY_POINTS, story.getStoryPoints());
+        contentValues.put(JobiDbSchema.PositionTable.Columns.PRIORITY, story.getPriority().toString());
+        contentValues.put(JobiDbSchema.PositionTable.Columns.STATUS, story.getStatus().toString());
+        contentValues.put(JobiDbSchema.PositionTable.Columns.TIME_CREATED, story.getTimeCreated().getTime());
 
         return contentValues;
     }
@@ -105,10 +105,10 @@ public class SQLiteStoryService implements StoryService {
 
         // If not present in the list at all, add //
         if (getStoryById(story.getId()) == null) {
-            db.insert(JobiDbSchema.StoryTable.NAME,null,getContentValues(story));
+            db.insert(JobiDbSchema.PositionTable.NAME,null,getContentValues(story));
         // Otherwise if it is then update it //
         } else {
-            db.update(JobiDbSchema.StoryTable.NAME,getContentValues(story),"ID=?",IDs);
+            db.update(JobiDbSchema.PositionTable.NAME,getContentValues(story),"ID=?",IDs);
         }
     }
 
