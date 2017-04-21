@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
-import edu.umd.cs.jobi.model.Story;
 import edu.umd.cs.jobi.model.Position;
 
 import static android.app.Activity.RESULT_CANCELED;
@@ -29,16 +28,17 @@ public class EnterPositionFragment extends Fragment {
 
     private Position position;
 
-    private EditText titleEditText;
+    // Interactive Elements //
+    private EditText positionTitleEditText;
     private RadioGroup statusRadioGroup;
     private EditText locationEditText;
     private EditText descriptionEditText;
     private RadioGroup favoriteRadioGroup;
-    private EditText typeEditText;
+    private Spinner positionTypeSpinner;
     private EditText contactEditText;
     private EditText companyEditText;
 
-
+    // Buttons //
     private Button saveButton;
     private Button cancelButton;
 
@@ -66,9 +66,9 @@ public class EnterPositionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_position, container, false);
 
         // Position Title //
-        titleEditText = (EditText)view.findViewById(R.id.position);
+        positionTitleEditText = (EditText)view.findViewById(R.id.position);
         if (position != null) {
-            titleEditText.setText(position.getTitle());
+            positionTitleEditText.setText(position.getTitle());
         }
 
         // Position Status //
@@ -123,9 +123,12 @@ public class EnterPositionFragment extends Fragment {
         }
 
         // Position Type //
-        typeEditText = (EditText)view.findViewById(R.id.position_type);
+        positionTypeSpinner = (Spinner)view.findViewById(R.id.position_type_spinner);
+        ArrayAdapter<CharSequence> statusAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.position_type_array, android.R.layout.simple_spinner_item);
+        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        positionTypeSpinner.setAdapter(statusAdapter);
         if (position != null) {
-            typeEditText.setText(position.getType());
+            positionTypeSpinner.setSelection(position.getPositionType());
         }
 
         // TODO ///////
@@ -153,7 +156,7 @@ public class EnterPositionFragment extends Fragment {
                         position = new Position();
                     }
 
-                    position.setTitle(titleEditText.getText().toString());
+                    position.setTitle(positionTitleEditText.getText().toString());
                     
                     int statusId = statusRadioGroup.getCheckedRadioButtonId();
                     switch (statusId) {
@@ -187,7 +190,7 @@ public class EnterPositionFragment extends Fragment {
                             break;
                     }
 
-                    position.setType(typeEditText.getText().toString());
+                    position.setType(positionTypeSpinner.getSelectedItemPosition());
 
                     // We need to add the contact and company update here too and add the company to the
                     // database
@@ -218,7 +221,21 @@ public class EnterPositionFragment extends Fragment {
 
     // TODO ////////
     private boolean inputsAreValid() {
-        return true;
+//        private EditText positionTitleEditText;
+//        private RadioGroup statusRadioGroup;
+//        private EditText locationEditText;
+//        private EditText descriptionEditText;
+//        private RadioGroup favoriteRadioGroup;
+//        private Spinner positionTypeSpinner;
+//        private EditText contactEditText;
+//        private EditText companyEditText;
+
+        if (positionTitleEditText.getText().toString().length() > 0 &&
+                locationEditText.getText().toString().length() > 0) {
+            return true;
+        }
+
+        return false;
 //                summaryEditText.getText().toString().length() > 0 &&
 //                acceptanceCriteriaEditText.getText().toString().length() > 0 &&
 //                storyPointsEditText.getText().toString().length() > 0 &&
