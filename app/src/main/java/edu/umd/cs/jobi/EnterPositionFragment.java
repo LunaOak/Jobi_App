@@ -199,8 +199,6 @@ public class EnterPositionFragment extends Fragment {
                     data.putExtra(POSITION_CREATED, position);
                     getActivity().setResult(RESULT_OK, data);
                     getActivity().finish();
-                } else {
-
                 }
             }
         });
