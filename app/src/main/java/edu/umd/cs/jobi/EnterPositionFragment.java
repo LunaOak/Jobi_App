@@ -199,6 +199,8 @@ public class EnterPositionFragment extends Fragment {
                     data.putExtra(POSITION_CREATED, position);
                     getActivity().setResult(RESULT_OK, data);
                     getActivity().finish();
+                } else {
+
                 }
             }
         });
@@ -221,6 +223,7 @@ public class EnterPositionFragment extends Fragment {
 
     // TODO ////////
     private boolean inputsAreValid() {
+        // For reference
 //        private EditText positionTitleEditText;
 //        private RadioGroup statusRadioGroup;
 //        private EditText locationEditText;
@@ -230,15 +233,17 @@ public class EnterPositionFragment extends Fragment {
 //        private EditText contactEditText;
 //        private EditText companyEditText;
 
-        if (positionTitleEditText.getText().toString().length() > 0 &&
-                locationEditText.getText().toString().length() > 0) {
-            return true;
+        if (positionTitleEditText.getText().toString().length() < 0) {
+            // Error message
+            positionTitleEditText.setError("You must enter a position title");
+            return false;
+        }
+        if (locationEditText.getText().toString().length() < 0) {
+            // Error message
+            locationEditText.setError("You must enter a location");
+            return false;
         }
 
-        return false;
-//                summaryEditText.getText().toString().length() > 0 &&
-//                acceptanceCriteriaEditText.getText().toString().length() > 0 &&
-//                storyPointsEditText.getText().toString().length() > 0 &&
-//                statusSpinner.getSelectedItemPosition() >= 0;
+        return true;
     }
 }
