@@ -80,5 +80,6 @@
     <string name="all_companies">All</string>
     <string name="current_companies">Current</string>
     <string name="position_list_label">Positions</string>
+    <string name="add_new_button">Add new</string>
 
 </resources>
