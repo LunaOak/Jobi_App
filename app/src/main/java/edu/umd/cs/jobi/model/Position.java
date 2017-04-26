@@ -34,6 +34,10 @@ public class Position implements Serializable{
         id = UUID.randomUUID().toString();
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -73,10 +77,6 @@ public class Position implements Serializable{
     public void setFavorite(Favorite favorite) {
         this.favorite = favorite;
     }
-
-//    public void unsetFavorite() {
-//        this.favorite = false;
-//    }
 
     public Type getType() {
         return type;

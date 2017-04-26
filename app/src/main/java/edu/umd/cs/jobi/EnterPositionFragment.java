@@ -33,10 +33,7 @@ public class EnterPositionFragment extends Fragment {
     private RadioGroup statusRadioGroup;
     private EditText locationEditText;
     private EditText descriptionEditText;
-    private RadioGroup favoriteRadioGroup;
     private Spinner positionTypeSpinner;
-    private EditText contactEditText;
-    private EditText companyEditText;
 
     // Buttons //
     private Button saveButton;
@@ -104,24 +101,6 @@ public class EnterPositionFragment extends Fragment {
             descriptionEditText.setText(position.getDescription());
         }
 
-        // Position Status //
-        favoriteRadioGroup = (RadioGroup)view.findViewById(R.id.position_favorite);
-        if (position != null) {
-            switch (position.getFavorite()) {
-                case YES:
-                    favoriteRadioGroup.check(R.id.position_favorite_yes);
-                    break;
-                case NO:
-                    favoriteRadioGroup.check(R.id.position_favorite_no);
-                    break;
-                default:
-                    favoriteRadioGroup.check(R.id.position_favorite_no);
-                    break;
-            }
-        } else {
-            favoriteRadioGroup.check(R.id.position_favorite_no);
-        }
-
         // Position Type //
         positionTypeSpinner = (Spinner)view.findViewById(R.id.position_type_spinner);
         ArrayAdapter<CharSequence> statusAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.position_type_array, android.R.layout.simple_spinner_item);
@@ -177,19 +156,6 @@ public class EnterPositionFragment extends Fragment {
                     position.setLocation(locationEditText.getText().toString());
                     position.setDescription(descriptionEditText.getText().toString());
 
-                    int favoriteId = favoriteRadioGroup.getCheckedRadioButtonId();
-                    switch (favoriteId) {
-                        case R.id.position_favorite_yes:
-                            position.setFavorite(Position.Favorite.YES);
-                            break;
-                        case R.id.position_favorite_no:
-                            position.setFavorite(Position.Favorite.NO);
-                            break;
-                        default:
-                            position.setFavorite(Position.Favorite.NO);
-                            break;
-                    }
-
                     position.setType(positionTypeSpinner.getSelectedItemPosition());
 
                     // We need to add the contact and company update here too and add the company to the
@@ -226,7 +192,6 @@ public class EnterPositionFragment extends Fragment {
 //        private RadioGroup statusRadioGroup;
 //        private EditText locationEditText;
 //        private EditText descriptionEditText;
-//        private RadioGroup favoriteRadioGroup;
 //        private Spinner positionTypeSpinner;
 //        private EditText contactEditText;
 //        private EditText companyEditText;
