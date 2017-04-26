@@ -15,15 +15,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
 
-import edu.umd.cs.jobi.R;
 import edu.umd.cs.jobi.model.Story;
 import edu.umd.cs.jobi.service.StoryService;
-
-import edu.umd.cs.jobi.model.Home;
 
 public class HomeFragment extends Fragment {
     private final String TAG = getClass().getSimpleName();
@@ -33,6 +31,10 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView storyRecyclerView;
     private StoryAdapter adapter;
+
+    // Companies and Positions List field members
+    private Button companyListButton;
+    private Button positionListButton;
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -55,6 +57,25 @@ public class HomeFragment extends Fragment {
 
         storyRecyclerView = (RecyclerView)view.findViewById(R.id.story_recycler_view);
         storyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        companyListButton = (Button)view.findViewById(R.id.company_list_button);
+        companyListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent companyListIntent = new Intent(getActivity(),
+                        CompanyActivity.class);
+                startActivity(companyListIntent);
+            }
+        });
+        positionListButton = (Button)view.findViewById(R.id.position_list_button);
+        positionListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent positionListIntent = new Intent(getActivity(),
+                        PositionActivity.class);
+                startActivity(positionListIntent);
+            }
+        });
 
         updateUI();
 

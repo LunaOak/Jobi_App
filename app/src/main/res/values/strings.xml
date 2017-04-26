@@ -56,4 +56,10 @@
     <string name="position_company_label">Company</string>
     <string name="position_company_hint">Enter Company</string>
 
+    <!-- List of Companies and Positions strings -->
+    <string name="company_list_label">Companies</string>
+    <string name="all_companies">All</string>
+    <string name="current_companies">Current</string>
+    <string name="position_list_label">Positions</string>
+
 </resources>
