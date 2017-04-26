@@ -20,11 +20,12 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/imageButton"
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/btn_star_big_off" />
+                android:id="@+id/favorite_button"
+                android:textOn=""
+                android:textOff=""/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -35,18 +36,20 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
+                    android:textSize="24dp"
                     android:text=""/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="18dp"
                     android:text=""/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
+                    android:textSize="18dp"
                     android:text=""/>
 
                 <TextView
@@ -62,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@android:drawable/ic_menu_edit" />
+                android:src="@android:drawable/ic_menu_edit" />
 
         </LinearLayout>
 
@@ -106,29 +109,6 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@android:drawable/ic_menu_add"
             android:text="@string/add_new_event_button"/>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="15dp"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/save_story_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/save_button"/>
-
-            <Button
-                android:id="@+id/cancel_story_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/cancel_button"/>
-
-        </LinearLayout>
 
     </LinearLayout>
 
