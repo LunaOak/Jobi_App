@@ -1,4 +1,5 @@
 package edu.umd.cs.jobi;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -6,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -13,6 +15,7 @@ public class CompanyListFragment extends Fragment {
 
     private TabLayout tabLayout;
     private TextView companyList;
+    private Button newCompanyButton;
 
     public static CompanyListFragment newInstance() {
         CompanyListFragment fragment = new CompanyListFragment();

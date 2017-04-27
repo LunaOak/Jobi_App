@@ -7,9 +7,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import edu.umd.cs.jobi.model.Position;
 
@@ -26,16 +29,16 @@ public class PositionFragment extends Fragment {
 
     private Position position;
 
-    private EditText titleEditText;
+    private TextView title;
+
+    // Interactive Elements //
+    private EditText positionTitleEditText;
     private RadioGroup statusRadioGroup;
     private EditText locationEditText;
     private EditText descriptionEditText;
-    private RadioGroup favoriteRadioGroup;
-    private EditText typeEditText;
-    private EditText contactEditText;
-    private EditText companyEditText;
+    private Spinner positionTypeSpinner;
 
-
+    // Buttons //
     private Button saveButton;
     private Button cancelButton;
 
@@ -62,10 +65,41 @@ public class PositionFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_position, container, false);
 
+        // Title of the page //
+        title = (TextView)view.findViewById(R.id.edit_position_title);
+        if (position == null) {
+            title.setText(R.string.create_new_position_title);
+        } else {
+            title.setText(R.string.edit_position_title);
+        }
+
         // Position Title //
-        titleEditText = (EditText)view.findViewById(R.id.position);
+        positionTitleEditText = (EditText)view.findViewById(R.id.position);
         if (position != null) {
-            titleEditText.setText(position.getTitle());
+            positionTitleEditText.setText(position.getTitle());
+        }
+
+        // TODO ///////
+
+        // Position Company //
+//        companyEditText = (EditText)view.findViewById(R.id.position_company);
+//        if (position != null) {
+//            companyEditText.setText(position.getCompany());
+//        }
+
+        // Position Location //
+        locationEditText = (EditText)view.findViewById(R.id.position_location);
+        if (position != null) {
+            locationEditText.setText(position.getLocation());
+        }
+
+        // Position Type //
+        positionTypeSpinner = (Spinner)view.findViewById(R.id.position_type_spinner);
+        ArrayAdapter<CharSequence> statusAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.position_type_array, android.R.layout.simple_spinner_item);
+        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        positionTypeSpinner.setAdapter(statusAdapter);
+        if (position != null) {
+            positionTypeSpinner.setSelection(position.getPositionType());
         }
 
         // Position Status //
@@ -89,40 +123,10 @@ public class PositionFragment extends Fragment {
             statusRadioGroup.check(R.id.position_todo);
         }
 
-        // Position Location //
-        locationEditText = (EditText)view.findViewById(R.id.position_location);
-        if (position != null) {
-            locationEditText.setText(position.getLocation());
-        }
-
         // Position Description //
         descriptionEditText = (EditText)view.findViewById(R.id.position_description);
         if (position != null) {
             descriptionEditText.setText(position.getDescription());
-        }
-
-        // Position Status //
-        favoriteRadioGroup = (RadioGroup)view.findViewById(R.id.position_favorite);
-        if (position != null) {
-            switch (position.getFavorite()) {
-                case YES:
-                    favoriteRadioGroup.check(R.id.position_favorite_yes);
-                    break;
-                case NO:
-                    favoriteRadioGroup.check(R.id.position_favorite_no);
-                    break;
-                default:
-                    favoriteRadioGroup.check(R.id.position_favorite_no);
-                    break;
-            }
-        } else {
-            favoriteRadioGroup.check(R.id.position_favorite_no);
-        }
-
-        // Position Type //
-        typeEditText = (EditText)view.findViewById(R.id.position_type);
-        if (position != null) {
-            typeEditText.setText(position.getType());
         }
 
         // TODO ///////
@@ -133,12 +137,6 @@ public class PositionFragment extends Fragment {
 //            typeEditText.setText(position.getType());
 //        }
 //
-//        // Position Company //
-//        companyEditText = (EditText)view.findViewById(R.id.position_company);
-//        if (position != null) {
-//            companyEditText.setText(position.getCompany());
-//        }
-
 
         saveButton = (Button)view.findViewById(R.id.save_story_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -150,7 +148,7 @@ public class PositionFragment extends Fragment {
                         position = new Position();
                     }
 
-                    position.setTitle(titleEditText.getText().toString());
+                    position.setTitle(positionTitleEditText.getText().toString());
                     
                     int statusId = statusRadioGroup.getCheckedRadioButtonId();
                     switch (statusId) {
@@ -171,20 +169,7 @@ public class PositionFragment extends Fragment {
                     position.setLocation(locationEditText.getText().toString());
                     position.setDescription(descriptionEditText.getText().toString());
 
-                    int favoriteId = favoriteRadioGroup.getCheckedRadioButtonId();
-                    switch (favoriteId) {
-                        case R.id.position_favorite_yes:
-                            position.setFavorite(Position.Favorite.YES);
-                            break;
-                        case R.id.position_favorite_no:
-                            position.setFavorite(Position.Favorite.NO);
-                            break;
-                        default:
-                            position.setFavorite(Position.Favorite.NO);
-                            break;
-                    }
-
-                    position.setType(typeEditText.getText().toString());
+                    position.setType(positionTypeSpinner.getSelectedItemPosition());
 
                     // We need to add the contact and company update here too and add the company to the
                     // database
@@ -215,10 +200,24 @@ public class PositionFragment extends Fragment {
 
     // TODO ////////
     private boolean inputsAreValid() {
+        // For reference
+//        private EditText positionTitleEditText;
+//        private RadioGroup statusRadioGroup;
+//        private EditText locationEditText;
+//        private EditText descriptionEditText;
+//        private Spinner positionTypeSpinner;
+
+        if (positionTitleEditText.getText().toString().length() < 0) {
+            // Error message
+            positionTitleEditText.setError("You must enter a position title");
+            return false;
+        }
+        if (locationEditText.getText().toString().length() < 0) {
+            // Error message
+            locationEditText.setError("You must enter a location");
+            return false;
+        }
+
         return true;
-//                summaryEditText.getText().toString().length() > 0 &&
-//                acceptanceCriteriaEditText.getText().toString().length() > 0 &&
-//                storyPointsEditText.getText().toString().length() > 0 &&
-//                statusSpinner.getSelectedItemPosition() >= 0;
     }
 }
