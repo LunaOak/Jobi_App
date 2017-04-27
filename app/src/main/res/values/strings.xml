@@ -83,10 +83,9 @@
 
     <string name="position_list_label">Positions</string>
     <string name="positions_todo">To Do</string>
-    <string name="positions_inprogress">In Progress</string>
+    <string name="positions_ongoing">Ongoing</string>
     <string name="positions_done">Done</string>
-=======
+
     <string name="add_new_button">Add new</string>
->>>>>>> d54f54de904dca63913f36ff8f2af213785895b1
 
 </resources>

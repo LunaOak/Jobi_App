@@ -45,7 +45,7 @@ public class PositionListFragment extends Fragment {
                     positionList.setText("All positions!");
                 } else if (tabText.equals(getString(R.string.positions_todo))) {
                     positionList.setText("Need to do these applications");
-                } else if (tabText.equals(getString(R.string.positions_inprogress))) {
+                } else if (tabText.equals(getString(R.string.positions_ongoing))) {
                     positionList.setText("These are in progress");
                 } else {
                     // R.string.positions_done
