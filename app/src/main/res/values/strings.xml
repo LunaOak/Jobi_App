@@ -57,9 +57,14 @@
     <string name="position_company_hint">Enter Company</string>
 
     <!-- List of Companies and Positions strings -->
+    <string name="list_all">All</string>
+
     <string name="company_list_label">Companies</string>
-    <string name="all_companies">All</string>
     <string name="current_companies">Current</string>
+
     <string name="position_list_label">Positions</string>
+    <string name="positions_todo">To Do</string>
+    <string name="positions_inprogress">In Progress</string>
+    <string name="positions_done">Done</string>
 
 </resources>

@@ -9,13 +9,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
-public class CompanyFragment extends Fragment {
+public class CompanyListFragment extends Fragment {
 
     private TabLayout tabLayout;
     private TextView companyList;
 
-    public static CompanyFragment newInstance() {
-        CompanyFragment fragment = new CompanyFragment();
+    public static CompanyListFragment newInstance() {
+        CompanyListFragment fragment = new CompanyListFragment();
         return fragment;
     }
 
@@ -30,7 +30,7 @@ public class CompanyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_company, container, false);
+        View view = inflater.inflate(R.layout.fragment_companylist, container, false);
 
         tabLayout = (TabLayout)view.findViewById(R.id.company_tab_layout);
         companyList = (TextView)view.findViewById(R.id.company_list);
@@ -39,7 +39,7 @@ public class CompanyFragment extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getText().equals(getString(R.string.all_companies))) {
+                if (tab.getText().equals(getString(R.string.list_all))) {
                     companyList.setText("All Companies!");
                 } else {
                     companyList.setText("Current Companies");

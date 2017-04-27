@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent companyListIntent = new Intent(getActivity(),
-                        CompanyActivity.class);
+                        CompanyListActivity.class);
                 startActivity(companyListIntent);
             }
         });
@@ -72,7 +72,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent positionListIntent = new Intent(getActivity(),
-                        PositionActivity.class);
+                        PositionListActivity.class);
                 startActivity(positionListIntent);
             }
         });
