@@ -20,12 +20,12 @@
     <string name="radio_next">Next</string>
     <string name="radio_later">Later</string>
 
-    <string name="status_label">Status</string>
+  <!--  <string name="status_label">Status</string>
     <string-array name="status_array">
         <item>To Do</item>
         <item>In Progress</item>
         <item>Done</item>
-    </string-array>
+    </string-array>-->
 
     <string name="todo_label">To Do</string>
     <string name="inprogress_label">In Progress</string>
@@ -61,5 +61,9 @@
     <string name="all_companies">All</string>
     <string name="current_companies">Current</string>
     <string name="position_list_label">Positions</string>
+    <string name="create_position_label">Create New Position</string>
+    <string name="manage_label">Manage</string>
+    <string name="status_label">Status</string>
+    <string name="coming_up_label">Coming Up</string>
 
 </resources>

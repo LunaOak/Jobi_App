@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import java.util.*;
+import java.text.*;
 
 import java.util.List;
 
@@ -24,21 +26,29 @@ import edu.umd.cs.jobi.model.Story;
 import edu.umd.cs.jobi.service.StoryService;
 
 public class HomeFragment extends Fragment {
+
     private final String TAG = getClass().getSimpleName();
     private static final int REQUEST_CODE_CREATE_STORY = 0;
 
     private StoryService storyService;
 
-    private RecyclerView storyRecyclerView;
-    private StoryAdapter adapter;
+    //private RecyclerView storyRecyclerView;
+   // private StoryAdapter adapter;
+
+
+    // Labels and Date
+    private TextView day;
+    private TextView month;
+    private TextView date;
+    private TextView year;
 
     // Companies and Positions List field members
     private Button companyListButton;
     private Button positionListButton;
+    private Button createPositionButton;
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
-
         return fragment;
     }
 
@@ -47,16 +57,31 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        storyService = DependencyFactory.getStoryService(getActivity().getApplicationContext());
+        //storyService = DependencyFactory.getStoryService(getActivity().getApplicationContext());
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_backlog, container, false);
 
-        storyRecyclerView = (RecyclerView)view.findViewById(R.id.story_recycler_view);
-        storyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        storyRecyclerView = (RecyclerView)view.findViewById(R.id.story_recycler_view);
+//        storyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        day = (TextView) view.findViewById(R.id.day);
+        month = (TextView) view.findViewById(R.id.month);
+        date = (TextView) view.findViewById(R.id.date);
+        year = (TextView) view.findViewById(R.id.year);
+
+        final Calendar c = Calendar.getInstance();
+        SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
+
+        day.setText(new StringBuilder().append(dayFormat.format(c.getTime())));
+        month.setText(new StringBuilder().append(getMonthShortName(c.get(Calendar.MONTH))).append(" "));
+        date.setText(new StringBuilder().append(c.get(Calendar.DATE)).append(" "));
+        year.setText(new StringBuilder().append(c.get(Calendar.YEAR)));
+
 
         companyListButton = (Button)view.findViewById(R.id.company_list_button);
         companyListButton.setOnClickListener(new View.OnClickListener() {
@@ -77,41 +102,41 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        updateUI();
+        //updateUI();
 
         return view;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK) {
-            return;
-        }
-
-        if (requestCode == REQUEST_CODE_CREATE_STORY) {
-            if (data == null) {
-                return;
-            }
-
-            Story storyCreated = StoryActivity.getStoryCreated(data);
-            storyService.addStoryToBacklog(storyCreated);
-            updateUI();
-        }
+//        if (resultCode != Activity.RESULT_OK) {
+//            return;
+//        }
+//
+//        if (requestCode == REQUEST_CODE_CREATE_STORY) {
+//            if (data == null) {
+//                return;
+//            }
+//
+//            Story storyCreated = StoryActivity.getStoryCreated(data);
+//            storyService.addStoryToBacklog(storyCreated);
+//            updateUI();
+//        }
     }
-
-    private void updateUI() {
-        Log.d(TAG, "updating UI all stories");
-
-        List<Story> stories = storyService.getAllStories();
-
-        if (adapter == null) {
-            adapter = new StoryAdapter(stories);
-            storyRecyclerView.setAdapter(adapter);
-        } else {
-            adapter.setStories(stories);
-            adapter.notifyDataSetChanged();
-        }
-    }
+//
+//    private void updateUI() {
+//        Log.d(TAG, "updating UI all stories");
+//
+//        List<Story> stories = storyService.getAllStories();
+//
+//        if (adapter == null) {
+//            adapter = new StoryAdapter(stories);
+//            storyRecyclerView.setAdapter(adapter);
+//        } else {
+//            adapter.setStories(stories);
+//            adapter.notifyDataSetChanged();
+//        }
+//    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -135,68 +160,90 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private class StoryHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView summaryTextView;
-        private TextView criteria;
-        private TextView priorityTextView;
-        private TextView pointsTextView;
+//    private class StoryHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+//        private TextView summaryTextView;
+//        private TextView criteria;
+//        private TextView priorityTextView;
+//        private TextView pointsTextView;
+//
+//        private Story story;
+//
+//        public StoryHolder(View itemView) {
+//            super(itemView);
+//            itemView.setOnClickListener(this);
+//
+//            summaryTextView = (TextView)itemView.findViewById(R.id.list_item_story_summary);
+//            criteria = (TextView)itemView.findViewById(R.id.list_item_story_criteria);
+//            priorityTextView = (TextView)itemView.findViewById(R.id.list_item_story_priority);
+//            pointsTextView = (TextView)itemView.findViewById(R.id.list_item_story_points);
+//        }
+//
+//        public void bindStory(Story story) {
+//            this.story = story;
+//
+//            summaryTextView.setText(story.getSummary());
+//            criteria.setText(story.getAcceptanceCriteria());
+//            priorityTextView.setText(story.getPriority().toString());
+//            pointsTextView.setText("" + story.getStoryPoints());
+//        }
+//
+//        @Override
+//        public void onClick(View view) {
+//            Intent intent = StoryActivity.newIntent(getActivity(), story.getId());
+//
+//            startActivityForResult(intent, REQUEST_CODE_CREATE_STORY);
+//        }
+//    }
 
-        private Story story;
+//    private class StoryAdapter extends RecyclerView.Adapter<StoryHolder> {
+//        private List<Story> stories;
+//
+//        public StoryAdapter(List<Story> stories) {
+//            this.stories = stories;
+//        }
+//
+//        public void setStories(List<Story> stories) {
+//            this.stories = stories;
+//        }
+//
+//        @Override
+//        public StoryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+//            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+//            View view = layoutInflater.inflate(R.layout.list_item_story, parent, false);
+//            return new StoryHolder(view);
+//        }
+//
+//        @Override
+//        public void onBindViewHolder(StoryHolder holder, int position) {
+//            Story story = stories.get(position);
+//            holder.bindStory(story);
+//        }
+//
+//        @Override
+//        public int getItemCount() {
+//            return stories.size();
+//        }
+//    }
 
-        public StoryHolder(View itemView) {
-            super(itemView);
-            itemView.setOnClickListener(this);
 
-            summaryTextView = (TextView)itemView.findViewById(R.id.list_item_story_summary);
-            criteria = (TextView)itemView.findViewById(R.id.list_item_story_criteria);
-            priorityTextView = (TextView)itemView.findViewById(R.id.list_item_story_priority);
-            pointsTextView = (TextView)itemView.findViewById(R.id.list_item_story_points);
-        }
+    public static String getMonthShortName(int monthNumber) {
+        String monthName="";
 
-        public void bindStory(Story story) {
-            this.story = story;
+        if(monthNumber>=0 && monthNumber<12)
+            try
+            {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.MONTH, monthNumber);
 
-            summaryTextView.setText(story.getSummary());
-            criteria.setText(story.getAcceptanceCriteria());
-            priorityTextView.setText(story.getPriority().toString());
-            pointsTextView.setText("" + story.getStoryPoints());
-        }
-
-        @Override
-        public void onClick(View view) {
-            Intent intent = StoryActivity.newIntent(getActivity(), story.getId());
-
-            startActivityForResult(intent, REQUEST_CODE_CREATE_STORY);
-        }
-    }
-
-    private class StoryAdapter extends RecyclerView.Adapter<StoryHolder> {
-        private List<Story> stories;
-
-        public StoryAdapter(List<Story> stories) {
-            this.stories = stories;
-        }
-
-        public void setStories(List<Story> stories) {
-            this.stories = stories;
-        }
-
-        @Override
-        public StoryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            View view = layoutInflater.inflate(R.layout.list_item_story, parent, false);
-            return new StoryHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(StoryHolder holder, int position) {
-            Story story = stories.get(position);
-            holder.bindStory(story);
-        }
-
-        @Override
-        public int getItemCount() {
-            return stories.size();
-        }
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM");
+                simpleDateFormat.setCalendar(calendar);
+                monthName = simpleDateFormat.format(calendar.getTime());
+            }
+            catch (Exception e)
+            {
+                if(e!=null)
+                    e.printStackTrace();
+            }
+        return monthName;
     }
 }
