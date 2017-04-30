@@ -23,6 +23,10 @@ public class Event {
         reminders = new ArrayList<Reminder>();
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }
