@@ -8,7 +8,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="top"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -36,20 +36,20 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="24dp"
+                    android:textSize="24sp"
                     android:text=""/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:text=""/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:text=""/>
 
                 <TextView
@@ -65,6 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:contentDescription="@string/edit_position_title"
                 android:src="@android:drawable/ic_menu_edit" />
 
         </LinearLayout>
@@ -73,21 +74,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:text="@string/position_status_text"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:text="@string/position_description_label"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="20dp"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:text="@string/position_recruiters_text"/>
 
         <View
@@ -100,7 +101,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:paddingBottom="15dp"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:text="@string/position_next_steps_label"/>
 
         <Button
