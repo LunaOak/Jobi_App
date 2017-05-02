@@ -22,18 +22,18 @@ import java.text.*;
 
 import java.util.List;
 
-import edu.umd.cs.jobi.model.Story;
+import edu.umd.cs.jobi.model.Event;
 import edu.umd.cs.jobi.service.StoryService;
 
 public class HomeFragment extends Fragment {
 
     private final String TAG = getClass().getSimpleName();
-    private static final int REQUEST_CODE_CREATE_STORY = 0;
+    private static final int REQUEST_CODE_CREATE_EVENT = 0;
 
     private StoryService storyService;
 
-    //private RecyclerView storyRecyclerView;
-   // private StoryAdapter adapter;
+    private RecyclerView eventRecyclerView;
+    private EventAdapter adapter;
 
 
     // Labels and Date
@@ -66,8 +66,8 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_backlog, container, false);
 
-//        storyRecyclerView = (RecyclerView)view.findViewById(R.id.story_recycler_view);
-//        storyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        eventRecyclerView = (RecyclerView)view.findViewById(R.id.story_recycler_view);
+        eventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         day = (TextView) view.findViewById(R.id.day);
         month = (TextView) view.findViewById(R.id.month);
@@ -109,34 +109,34 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (resultCode != Activity.RESULT_OK) {
-//            return;
-//        }
-//
-//        if (requestCode == REQUEST_CODE_CREATE_STORY) {
-//            if (data == null) {
-//                return;
-//            }
-//
-//            Story storyCreated = StoryActivity.getStoryCreated(data);
-//            storyService.addStoryToBacklog(storyCreated);
-//            updateUI();
-//        }
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+
+        if (requestCode == REQUEST_CODE_CREATE_EVENT) {
+            if (data == null) {
+                return;
+            }
+
+            //Event eventCreated = EventActivity.getEventCreated(data);
+            //storyService.addStoryToBacklog(eventCreated);
+            updateUI();
+        }
     }
-//
-//    private void updateUI() {
-//        Log.d(TAG, "updating UI all stories");
-//
-//        List<Story> stories = storyService.getAllStories();
-//
-//        if (adapter == null) {
-//            adapter = new StoryAdapter(stories);
-//            storyRecyclerView.setAdapter(adapter);
-//        } else {
-//            adapter.setStories(stories);
-//            adapter.notifyDataSetChanged();
-//        }
-//    }
+
+    private void updateUI() {
+        Log.d(TAG, "updating UI all stories");
+
+        //List<Event> events = eventService.getAllStories();
+
+        if (adapter == null) {
+            //adapter = new EventAdapter(events);
+            eventRecyclerView.setAdapter(adapter);
+        } else {
+            //adapter.setEvents(events);
+            adapter.notifyDataSetChanged();
+        }
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -149,7 +149,7 @@ public class HomeFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_item_create_story:
                 Intent createStoryIntent = new Intent(getActivity(), StoryActivity.class);
-                startActivityForResult(createStoryIntent, REQUEST_CODE_CREATE_STORY);
+                startActivityForResult(createStoryIntent, REQUEST_CODE_CREATE_EVENT);
                 return true;
             case R.id.menu_item_active_sprint:
                 Intent activeSprintIntent = new Intent(getActivity(), SprintActivity.class);
@@ -160,70 +160,69 @@ public class HomeFragment extends Fragment {
         }
     }
 
-//    private class StoryHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-//        private TextView summaryTextView;
-//        private TextView criteria;
-//        private TextView priorityTextView;
-//        private TextView pointsTextView;
-//
-//        private Story story;
-//
-//        public StoryHolder(View itemView) {
-//            super(itemView);
-//            itemView.setOnClickListener(this);
-//
+    private class EventHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private TextView summaryTextView;
+        private TextView criteria;
+        private TextView priorityTextView;
+        private TextView pointsTextView;
+
+        private Event event;
+
+        public EventHolder(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+
 //            summaryTextView = (TextView)itemView.findViewById(R.id.list_item_story_summary);
 //            criteria = (TextView)itemView.findViewById(R.id.list_item_story_criteria);
 //            priorityTextView = (TextView)itemView.findViewById(R.id.list_item_story_priority);
 //            pointsTextView = (TextView)itemView.findViewById(R.id.list_item_story_points);
-//        }
-//
-//        public void bindStory(Story story) {
-//            this.story = story;
-//
+        }
+
+        public void bindEvent(Event event) {
+            this.event = event;
+
 //            summaryTextView.setText(story.getSummary());
 //            criteria.setText(story.getAcceptanceCriteria());
 //            priorityTextView.setText(story.getPriority().toString());
 //            pointsTextView.setText("" + story.getStoryPoints());
-//        }
-//
-//        @Override
-//        public void onClick(View view) {
-//            Intent intent = StoryActivity.newIntent(getActivity(), story.getId());
-//
-//            startActivityForResult(intent, REQUEST_CODE_CREATE_STORY);
-//        }
-//    }
+        }
 
-//    private class StoryAdapter extends RecyclerView.Adapter<StoryHolder> {
-//        private List<Story> stories;
-//
-//        public StoryAdapter(List<Story> stories) {
-//            this.stories = stories;
-//        }
-//
-//        public void setStories(List<Story> stories) {
-//            this.stories = stories;
-//        }
-//
-//        @Override
-//        public StoryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-//            View view = layoutInflater.inflate(R.layout.list_item_story, parent, false);
-//            return new StoryHolder(view);
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(StoryHolder holder, int position) {
-//            Story story = stories.get(position);
-//            holder.bindStory(story);
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            return stories.size();
-//        }
-//    }
+        @Override
+        public void onClick(View view) {
+            //Intent intent = EventActivity.newIntent(getActivity(), event.getId());
+            //startActivityForResult(intent, REQUEST_CODE_CREATE_EVENT);
+        }
+    }
+ 
+    private class EventAdapter extends RecyclerView.Adapter<EventHolder> {
+        private List<Event> events;
+
+        public EventAdapter(List<Event> events) {
+            this.events = events;
+        }
+
+        public void setEvents(List<Event> events) {
+            this.events = events;
+        }
+
+        @Override
+        public EventHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            View view = layoutInflater.inflate(R.layout.list_item_story, parent, false);
+            return new EventHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(EventHolder holder, int position) {
+            Event event = events.get(position);
+            holder.bindEvent(event);
+        }
+
+        @Override
+        public int getItemCount() {
+            return events.size();
+        }
+    }
 
 
     public static String getMonthShortName(int monthNumber) {
