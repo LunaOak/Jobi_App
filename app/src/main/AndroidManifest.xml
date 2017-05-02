@@ -27,6 +27,9 @@
         <activity android:name="edu.umd.cs.jobi.PositionListActivity">
         </activity>
 
+        <activity android:name="edu.umd.cs.jobi.EventListActivity">
+        </activity>
+
         <activity android:name="edu.umd.cs.jobi.PositionActivity">
         </activity>
 

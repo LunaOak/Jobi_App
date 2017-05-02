@@ -32,9 +32,10 @@ public class HomeFragment extends Fragment {
     private RecyclerView storyRecyclerView;
     private StoryAdapter adapter;
 
-    // Companies and Positions List field members
+    // Companies/Positions/Events List field members
     private Button companyListButton;
     private Button positionListButton;
+    private Button eventListButton;
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -74,6 +75,16 @@ public class HomeFragment extends Fragment {
                 Intent positionListIntent = new Intent(getActivity(),
                         PositionListActivity.class);
                 startActivity(positionListIntent);
+            }
+        });
+
+        eventListButton = (Button)view.findViewById(R.id.event_list_button);
+        eventListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent eventListIntent = new Intent(getActivity(),
+                        EventListActivity.class);
+                startActivity(eventListIntent);
             }
         });
 

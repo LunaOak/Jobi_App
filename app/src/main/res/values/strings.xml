@@ -75,7 +75,7 @@
     <string name="edit_position_title">Edit Position</string>
 
 
-    <!-- List of Companies and Positions strings -->
+    <!-- List of Companies/Positions/Events strings -->
     <string name="list_all">All</string>
 
     <string name="company_list_label">Companies</string>
@@ -85,6 +85,8 @@
     <string name="positions_todo">To Do</string>
     <string name="positions_ongoing">Ongoing</string>
     <string name="positions_done">Done</string>
+
+    <string name="event_list_label">Events</string>
 
     <string name="add_new_button">Add new</string>
 

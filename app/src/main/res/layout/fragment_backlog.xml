@@ -23,4 +23,10 @@
         android:layout_height="wrap_content"
         android:text="@string/position_list_label"/>
 
+    <Button
+        android:id="@+id/event_list_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/event_list_label"/>
+
 </LinearLayout>
