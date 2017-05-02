@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="15dp"
             android:textSize="28dp"
-            android:text="@string/create_new_position_title"/>
+            android:text="@string/position_title"/>
 
         <TextView
             android:layout_width="match_parent"
