@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_backlog, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         eventRecyclerView = (RecyclerView)view.findViewById(R.id.story_recycler_view);
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

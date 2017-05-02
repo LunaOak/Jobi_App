@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <!--Current Status-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/status_label"/>
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/radio_current"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_current"/>
+        <RadioButton
+            android:id="@+id/radio_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_next"/>
+        <RadioButton
+            android:id="@+id/radio_later"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_later"/>
+    </RadioGroup>
+
+    <!--Notifications ON/OFF-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/notifications_label"/>
+
+        <SeekBar
+            android:id="@+id/notifications"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:max="100"
+            android:progressDrawable="@android:color/transparent" />
+
+    </LinearLayout>
+
+    <!--Type of Notifications-->
+    <CheckBox android:id="@+id/interviews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/interviews_label"
+        android:onClick="onCheckboxClicked"/>
+    <CheckBox android:id="@+id/emails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/emails_label"
+        android:onClick="onCheckboxClicked"/>
+    <CheckBox android:id="@+id/deadlines"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/deadline_label"
+        android:onClick="onCheckboxClicked"/>
+
+
+
+</LinearLayout>

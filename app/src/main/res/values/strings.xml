@@ -65,5 +65,9 @@
     <string name="manage_label">Manage</string>
     <string name="status_label">Status</string>
     <string name="coming_up_label">Coming Up</string>
+    <string name="notifications_label">Notifications</string>
+    <string name="interviews_label">Upcoming Interviews</string>
+    <string name="emails_label">Pending Emails</string>
+    <string name="deadline_label">Deadlines</string>
 
 </resources>
