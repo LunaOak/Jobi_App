@@ -30,6 +30,9 @@
         <activity android:name="edu.umd.cs.jobi.EnterPositionActivity">
         </activity>
 
+        <activity android:name="edu.umd.cs.jobi.SettingsActivity">
+        </activity>
+
         <activity android:name="edu.umd.cs.jobi.StoryActivity">
         </activity>
 

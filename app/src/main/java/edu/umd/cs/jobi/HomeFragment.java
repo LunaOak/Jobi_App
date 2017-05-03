@@ -141,19 +141,23 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_backlog, menu);
+        inflater.inflate(R.menu.fragment_home, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_item_create_story:
-                Intent createStoryIntent = new Intent(getActivity(), StoryActivity.class);
-                startActivityForResult(createStoryIntent, REQUEST_CODE_CREATE_EVENT);
-                return true;
-            case R.id.menu_item_active_sprint:
-                Intent activeSprintIntent = new Intent(getActivity(), SprintActivity.class);
-                startActivity(activeSprintIntent);
+//            case R.id.menu_item_create_story:
+//                Intent createStoryIntent = new Intent(getActivity(), StoryActivity.class);
+//                startActivityForResult(createStoryIntent, REQUEST_CODE_CREATE_EVENT);
+//                return true;
+//            case R.id.menu_item_active_sprint:
+//                Intent activeSprintIntent = new Intent(getActivity(), SprintActivity.class);
+//                startActivity(activeSprintIntent);
+//                return true;
+            case R.id.menu_item_settings:
+                Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(settingsIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

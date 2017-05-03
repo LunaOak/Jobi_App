@@ -69,5 +69,9 @@
     <string name="interviews_label">Upcoming Interviews</string>
     <string name="emails_label">Pending Emails</string>
     <string name="deadline_label">Deadlines</string>
+    <string name="settings_button">Settings</string>
+    <string name="status_interviewing">Interviewing</string>
+    <string name="status_searching">Searching</string>
+    <string name="status_not_searching">Not Searching</string>
 
 </resources>
