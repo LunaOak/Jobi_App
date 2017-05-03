@@ -66,7 +66,7 @@
     <!--Position Activity/Fragment Strings-->
     <string name="position_type_text">Position type: </string>
     <string name="position_status_text">Status: </string>
-    <string name="position_recruiters_text">Recruiters: </string>
+    <string name="position_contacts_text">Contacts: </string>
     <string name="position_next_steps_label">Next Steps</string>
     <string name="add_new_event_button">Add new event</string>
 
