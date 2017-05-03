@@ -113,9 +113,6 @@
     <string name="contact_phone_label">Phone</string>
     <string name="contact_phone_hint">Enter Phone Number</string>
 
-<<<<<<< HEAD
-    <!-- List of Companies/Positions/Events strings -->
-=======
     <!-- Reminder Activity/Fragment Strings -->
     <string name="reminder_title">Reminder</string>
 
@@ -125,9 +122,7 @@
         <item>1 hour before</item>
     </string-array>
 
-
     <!-- List of Companies and Positions Strings -->
->>>>>>> events
     <string name="list_all">All</string>
 
     <string name="company_list_label">Companies</string>
