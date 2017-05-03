@@ -22,6 +22,7 @@ public class JobiEventDbHelper extends SQLiteOpenHelper {
                 " _id integer primary key autoincrement, " +
                 JobiEventDbSchema.EventTable.Columns.ID + ", " +
                 JobiEventDbSchema.EventTable.Columns.TITLE + ", " +
+                JobiEventDbSchema.EventTable.Columns.COMPANY + ", " +
                 JobiEventDbSchema.EventTable.Columns.POSITION + ", " +
                 JobiEventDbSchema.EventTable.Columns.DATE + ", " +
                 JobiEventDbSchema.EventTable.Columns.ADDRESS + ", " +

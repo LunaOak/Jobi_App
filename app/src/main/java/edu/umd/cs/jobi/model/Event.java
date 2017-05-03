@@ -1,15 +1,17 @@
 package edu.umd.cs.jobi.model;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class Event {
+public class Event implements Serializable {
     private String id;
     private String title;
-    private Position position;
+    private String company;
+    private String position;
     private Date date;
     private String address;
     private String city;
@@ -25,6 +27,10 @@ public class Event {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -43,16 +49,20 @@ public class Event {
         this.date = date;
     }
 
-    public void setCompany(Position position) {
+    public void setPosition(String position) {
         this.position = position;
     }
 
-    public String getCompanyName() {
-        return position.getCompany().getName();
+    public String getPosition() {
+        return position;
     }
 
-    public String getPositionTitle() {
-        return position.getTitle();
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getCompany() {
+        return company;
     }
 
     public String getLocation() {

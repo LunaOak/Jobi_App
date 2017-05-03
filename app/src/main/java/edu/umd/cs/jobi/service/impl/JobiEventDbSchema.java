@@ -12,6 +12,7 @@ public class JobiEventDbSchema {
         static final class Columns {
             public static final String ID = "ID";
             public static final String TITLE = "TITLE";
+            public static final String COMPANY = "COMPANY";
             public static final String POSITION = "POSITION";
             public static final String DATE = "DATE";
             public static final String ADDRESS = "ADDRESS";
