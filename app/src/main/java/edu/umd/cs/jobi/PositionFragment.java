@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import edu.umd.cs.jobi.model.Position;
 
@@ -28,8 +27,6 @@ public class PositionFragment extends Fragment {
     private static final String POSITION_ID = "PositionId";
 
     private Position position;
-
-    private TextView title;
 
     // Interactive Elements //
     private EditText positionTitleEditText;
@@ -64,14 +61,6 @@ public class PositionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_position, container, false);
-
-        // Title of the page //
-        title = (TextView)view.findViewById(R.id.edit_position_title);
-        if (position == null) {
-            title.setText(R.string.create_new_position_title);
-        } else {
-            title.setText(R.string.edit_position_title);
-        }
 
         // Position Title //
         positionTitleEditText = (EditText)view.findViewById(R.id.position);

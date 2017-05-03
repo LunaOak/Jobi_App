@@ -36,7 +36,7 @@
 
 
     <!--EnterPosition Activity/Fragment Strings-->
-    <string name="create_new_position_title">Create New Position</string>
+    <string name="position_title">Position</string>
     <string name="position_label">Position Title</string>
     <string name="position_hint">Enter Position Title</string>
     <string name="position_company_label">Company</string>
@@ -62,7 +62,6 @@
     <string name="position_description_hint">Enter Description</string>
 
 
-
     <!--Position Activity/Fragment Strings-->
     <string name="position_type_text">Position type: </string>
     <string name="position_status_text">Status: </string>
@@ -71,11 +70,64 @@
     <string name="add_new_event_button">Add new event</string>
 
 
-    <!--Edit Position Activity/Fragment Strings-->
-    <string name="edit_position_title">Edit Position</string>
+    <!-- EnterEvents Activity/Fragment String -->
+    <string name="event_title">Event</string>
+    <string name="event_name_label">Event Name</string>
+    <string name="event_name_hint">Enter Event Name</string>
+    <string name="event_location_label">Location</string>
+    <string name="event_location_hint">Enter Location</string>
+    <string name="event_date_label">Date: </string>
+    <string name="event_date_hint">Enter Date</string>
+    <string name="event_time_label">Time: </string>
+    <string name="event_time_hint">Enter Time</string>
+
+    <string name="event_type_label">Type: </string>
+    <string-array name="event_type_array">
+        <item>Phone Interview</item>
+        <item>In-Person Interview</item>
+        <item>Email</item>
+        <item>Phone Call</item>
+        <item>Deadline</item>
+        <item>Other</item>
+    </string-array>
 
 
+
+    <!-- Events Activity/Fragment Strings -->
+    <string name="date_text">Date: </string>
+    <string name="time_text">Time: </string>
+    <string name="reminders_label">Reminders</string>
+    <string name="set_reminder_button">Set Reminder</string>
+    <string name="contacts_label">Contacts</string>
+    <string name="add_contact_button">Add a Contact</string>
+
+
+    <!-- Contact Activity/Fragment Strings -->
+    <string name="contact_title">Contact</string>
+    <string name="contact_name_label">Name</string>
+    <string name="contact_name_hint">Enter Name</string>
+    <string name="contact_email_label">Email</string>
+    <string name="contact_email_hint">Enter Email</string>
+    <string name="contact_jobtitle_label">Job Title</string>
+    <string name="contact_jobtitle_hint">Enter Job Title</string>
+    <string name="contact_phone_label">Phone</string>
+    <string name="contact_phone_hint">Enter Phone Number</string>
+
+<<<<<<< HEAD
     <!-- List of Companies/Positions/Events strings -->
+=======
+    <!-- Reminder Activity/Fragment Strings -->
+    <string name="reminder_title">Reminder</string>
+
+    <string-array name="reminder_array">
+        <item>10 minutes before</item>
+        <item>30 minutes before</item>
+        <item>1 hour before</item>
+    </string-array>
+
+
+    <!-- List of Companies and Positions Strings -->
+>>>>>>> events
     <string name="list_all">All</string>
 
     <string name="company_list_label">Companies</string>
@@ -89,5 +141,10 @@
     <string name="event_list_label">Events</string>
 
     <string name="add_new_button">Add new</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>
