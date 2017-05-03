@@ -20,7 +20,7 @@
             android:layout_weight="0.75" />
 
         <Button
-            android:id="@+id/add_new_company_button"
+            android:id="@+id/add_new_position_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"

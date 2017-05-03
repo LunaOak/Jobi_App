@@ -7,12 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class PositionListFragment extends Fragment {
 
     private TabLayout tabLayout;
     private TextView positionList;
+    private Button newPositionButton;
 
     public static PositionListFragment newInstance() {
         PositionListFragment fragment = new PositionListFragment();
@@ -35,6 +37,18 @@ public class PositionListFragment extends Fragment {
         tabLayout = (TabLayout)view.findViewById(R.id.position_tab_layout);
         positionList = (TextView)view.findViewById(R.id.position_list);
         positionList.setText("All Positions!"); //TODO change this to be the list of all companies
+
+        /*
+        newPositionButton = (Button)view.findViewById(R.id.add_new_position_button);
+        newPositionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent positionIntent = new Intent(getActivity(),
+                        PositionActivity.class);
+                startActivity(positionIntent);
+            }
+        });
+        */
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
