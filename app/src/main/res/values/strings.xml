@@ -100,6 +100,7 @@
     <string name="set_reminder_button">Set Reminder</string>
     <string name="contacts_label">Contacts</string>
     <string name="add_contact_button">Add a Contact</string>
+    <string name="edit_event_button">Edit Event</string>
 
 
     <!-- Contact Activity/Fragment Strings -->
