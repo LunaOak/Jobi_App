@@ -29,7 +29,7 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        storyService = DependencyFactory.getStoryService(getActivity().getApplicationContext());
+       // storyService = DependencyFactory.getStoryService(getActivity().getApplicationContext());
 
 //        LinearLayout todoColumn = (LinearLayout)view.findViewById(R.id.todo_column);
 //        LinearLayout inProgressColumn = (LinearLayout)view.findViewById(R.id.inprogress_column);
