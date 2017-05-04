@@ -25,7 +25,7 @@ public class SQLitePositionService implements PositionService {
 
     @Override
     public void addPositionToDb(Position position) {
-        
+
     }
 
     @Override

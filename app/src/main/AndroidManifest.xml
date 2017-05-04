@@ -33,6 +33,9 @@
         <activity android:name="edu.umd.cs.jobi.StoryActivity">
         </activity>
 
+        <activity android:name="edu.umd.cs.jobi.SettingsActivity">
+        </activity>
+
         <activity android:name="edu.umd.cs.jobi.SprintActivity">
         </activity>
 
