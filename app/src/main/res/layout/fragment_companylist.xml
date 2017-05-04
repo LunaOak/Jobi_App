@@ -26,8 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
-            android:drawableLeft="@android:drawable/ic_menu_add"/>
-            <!--android:text="@string/add_new_button"/>-->
+            android:drawableLeft="@android:drawable/ic_menu_add"
+            android:text="@string/add_new_button"/>
 
     </LinearLayout>
 
@@ -40,8 +40,8 @@
         <android.support.design.widget.TabItem
             android:id="@+id/all_companies_tab"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"/>
-            <!--android:text="@string/list_all" />-->
+            android:layout_width="wrap_content"
+            android:text="@string/list_all" />
 
         <android.support.design.widget.TabItem
             android:id="@+id/current_companies_tab"
