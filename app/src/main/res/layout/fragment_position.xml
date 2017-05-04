@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:contentDescription="@string/edit_position_title"
+                android:contentDescription="@string/position_title"
                 android:src="@android:drawable/ic_menu_edit" />
 
         </LinearLayout>
@@ -108,6 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@android:drawable/ic_menu_add"
+            android:drawableStart="@android:drawable/ic_menu_add"
             android:text="@string/add_new_event_button"/>
 
     </LinearLayout>

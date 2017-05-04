@@ -22,17 +22,12 @@
 
         <!-- All other subsequent Activities -->
         <activity android:name="edu.umd.cs.jobi.CompanyListActivity">
-
         </activity>
 
         <activity android:name="edu.umd.cs.jobi.PositionListActivity">
-
         </activity>
 
-        <activity android:name="edu.umd.cs.jobi.SettingsActivity"></activity>
-
         <activity android:name="edu.umd.cs.jobi.PositionActivity">
-
         </activity>
 
         <activity android:name="edu.umd.cs.jobi.StoryActivity">

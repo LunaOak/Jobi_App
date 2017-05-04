@@ -2,8 +2,10 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:padding="20dp">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,11 +18,11 @@
             android:layout_height="wrap_content"
             android:textSize="35dp"
             android:textColor="@color/colorPrimary"
-            android:text="@string/position_list_label"
+            android:text="@string/event_list_label"
             android:layout_weight="0.75" />
 
         <Button
-            android:id="@+id/add_new_position_button"
+            android:id="@+id/add_new_event_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
@@ -30,34 +32,22 @@
     </LinearLayout>
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/position_tab_layout"
+        android:id="@+id/company_tab_layout"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         app:tabIndicatorColor="@android:color/darker_gray">
 
         <android.support.design.widget.TabItem
-            android:id="@+id/all_positions_tab"
+            android:id="@+id/all_companies_tab"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/list_all" />
+            android:text="All Events" />
 
         <android.support.design.widget.TabItem
-            android:id="@+id/positions_todo_tab"
+            android:id="@+id/current_companies_tab"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/positions_todo" />
-
-        <android.support.design.widget.TabItem
-            android:id="@+id/positions_inprogress_tab"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/positions_ongoing" />
-
-        <android.support.design.widget.TabItem
-            android:id="@+id/positions_done_tab"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/positions_done" />
+            android:text="Interviews" />
 
     </android.support.design.widget.TabLayout>
 
@@ -68,7 +58,7 @@
         android:background="#E6E6E6">
 
         <TextView
-            android:id="@+id/position_list"
+            android:id="@+id/event_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text=""/>
