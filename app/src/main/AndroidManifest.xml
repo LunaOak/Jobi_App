@@ -22,22 +22,18 @@
 
         <!-- All other subsequent Activities -->
         <activity android:name="edu.umd.cs.jobi.CompanyListActivity">
-<<<<<<< HEAD
+
         </activity>
 
         <activity android:name="edu.umd.cs.jobi.PositionListActivity">
-=======
->>>>>>> origin/br-development
+
         </activity>
 
-        <activity android:name="edu.umd.cs.jobi.PositionListActivity">
-        </activity>
 
-<<<<<<< HEAD
-        <activity android:name="edu.umd.cs.jobi.SettingsActivity">
-=======
+        <activity android:name="edu.umd.cs.jobi.SettingsActivity"></activity>
+
         <activity android:name="edu.umd.cs.jobi.PositionActivity">
->>>>>>> origin/br-development
+
         </activity>
 
         <activity android:name="edu.umd.cs.jobi.StoryActivity">
