@@ -4,4 +4,11 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorAccent2">#3a165e</color>
+    <color name="colorWhite">#ffffff</color>
+
+    <color name="interviewing">#8ed15b</color>
+    <color name="searching">#ffcf55</color>
+    <color name="not_searching">#d75454</color>
+
+    <color name="home_date">#ba4c4c</color>
 </resources>
