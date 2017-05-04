@@ -137,6 +137,10 @@
     <string name="status_label">Status</string>
     <string name="coming_up_label">Coming Up</string>
 
+    <!--Global Menu Buttons-->
+    <string name="settings_button">Settings</string>
+    <string name="home_button">Home</string>
+
     <!---Settings Activity/Fragment Strings-->
     <string name="settings_title">Settings</string>
     <string name="notifications_label">Notifications</string>
@@ -144,7 +148,6 @@
     <string name="interviews_label">Upcoming Interviews</string>
     <string name="emails_label">Pending Emails</string>
     <string name="deadline_label">Deadlines</string>
-    <string name="settings_button">Settings</string>
     <string name="status_interviewing">Interviewing</string>
     <string name="status_searching">Searching</string>
     <string name="status_not_searching">Not Searching</string>

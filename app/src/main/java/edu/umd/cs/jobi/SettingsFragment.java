@@ -1,10 +1,14 @@
 package edu.umd.cs.jobi;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -18,10 +22,15 @@ import edu.umd.cs.jobi.service.StoryService;
 
 public class SettingsFragment extends Fragment {
 
-    private StoryService storyService;
-
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
+    }
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -56,5 +65,31 @@ public class SettingsFragment extends Fragment {
 //        }
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_home, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+//            case R.id.menu_item_create_story:
+//                Intent createStoryIntent = new Intent(getActivity(), StoryActivity.class);
+//                startActivityForResult(createStoryIntent, REQUEST_CODE_CREATE_EVENT);
+//                return true;
+            case R.id.menu_item_home:
+                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                startActivity(homeIntent);
+                return true;
+            case R.id.menu_item_settings:
+//                Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+//                startActivity(settingsIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

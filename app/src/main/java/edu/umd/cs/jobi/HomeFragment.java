@@ -151,10 +151,10 @@ public class HomeFragment extends Fragment {
 //                Intent createStoryIntent = new Intent(getActivity(), StoryActivity.class);
 //                startActivityForResult(createStoryIntent, REQUEST_CODE_CREATE_EVENT);
 //                return true;
-//            case R.id.menu_item_active_sprint:
-//                Intent activeSprintIntent = new Intent(getActivity(), SprintActivity.class);
-//                startActivity(activeSprintIntent);
-//                return true;
+            case R.id.menu_item_home:
+//                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+//                startActivity(homeIntent);
+                return true;
             case R.id.menu_item_settings:
                 Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(settingsIntent);
