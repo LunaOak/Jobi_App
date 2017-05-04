@@ -2,35 +2,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:layout_margin="10dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_title"
+        android:textSize="40dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginBottom="10dp"/>
 
     <!--Current Status-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/status_label"/>
+        android:text="@string/status_label"
+        android:textSize="20dp"
+        android:textColor="@color/colorAccent2"/>
 
     <RadioGroup
-        android:id="@+id/radio_group"
+        android:id="@+id/settings_status_radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
 
         <RadioButton
-            android:id="@+id/radio_current"
+            android:id="@+id/settings_status_interviewing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/radio_current"/>
+            android:text="@string/status_interviewing"
+            android:checked="true"/>
         <RadioButton
-            android:id="@+id/radio_next"
+            android:id="@+id/settings_status_searching"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/radio_next"/>
+            android:text="@string/status_searching"/>
         <RadioButton
-            android:id="@+id/radio_later"
+            android:id="@+id/settings_status_not_searching"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/radio_later"/>
+            android:text="@string/status_not_searching"/>
     </RadioGroup>
 
     <!--Notifications ON/OFF-->
@@ -42,13 +55,21 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/notifications_label"/>
+            android:text="@string/notifications_label"
+            android:textSize="20dp"
+            android:textColor="@color/colorAccent2"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/notifications_onOff_label"
+            android:layout_marginLeft="140dp"/>
 
         <Switch
-            android:id="@+id/switch_btn"
+            android:id="@+id/settings_notification_switch"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:checked="true"/>
+            android:checked="true" />
 
     </LinearLayout>
 
