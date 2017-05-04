@@ -1,4 +1,5 @@
 package edu.umd.cs.jobi;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -6,16 +7,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 
-public class CompanyFragment extends Fragment {
+public class CompanyListFragment extends Fragment {
 
     private TabLayout tabLayout;
     private TextView companyList;
+    private Button newCompanyButton;
 
-    public static CompanyFragment newInstance() {
-        CompanyFragment fragment = new CompanyFragment();
+    public static CompanyListFragment newInstance() {
+        CompanyListFragment fragment = new CompanyListFragment();
         return fragment;
     }
 
@@ -39,7 +42,7 @@ public class CompanyFragment extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getText().equals(getString(R.string.all_companies))) {
+                if (tab.getText().equals(getString(R.string.list_all))) {
                     companyList.setText("All Companies!");
                 } else {
                     companyList.setText("Current Companies");

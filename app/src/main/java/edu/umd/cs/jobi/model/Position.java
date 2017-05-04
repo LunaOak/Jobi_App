@@ -1,10 +1,9 @@
 package edu.umd.cs.jobi.model;
 
-import java.util.*;
-
-import edu.umd.cs.jobi.model.Company;
-import edu.umd.cs.jobi.model.Contact;
 import java.io.Serializable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
 
 public class Position implements Serializable{
 
@@ -14,7 +13,7 @@ public class Position implements Serializable{
     private String location;
     private String description;
     private Favorite favorite = Favorite.NO;
-    private String type;
+    private Type type;
     private List<Contact> contacts;
     private Company company;
 
@@ -33,6 +32,10 @@ public class Position implements Serializable{
 
     public Position() {
         id = UUID.randomUUID().toString();
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -75,16 +78,47 @@ public class Position implements Serializable{
         this.favorite = favorite;
     }
 
-//    public void unsetFavorite() {
-//        this.favorite = false;
-//    }
-
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public int getPositionType() {
+        switch (type) {
+            case FULL_TIME:
+                return 0;
+            case PART_TIME:
+                return 1;
+            case INTERNSHIP:
+                return 2;
+            case VOLUNTEER:
+                return 3;
+            default:
+                return 0;
+        }
+    }
+
+    public void setType(Type type) {
         this.type = type;
+    }
+
+    public void setType(int position) {
+        switch (position) {
+            case 0:
+                this.type = Type.FULL_TIME;
+                break;
+            case 1:
+                this.type = Type.PART_TIME;
+                break;
+            case 2:
+                this.type = Type.INTERNSHIP;
+                break;
+            case 3:
+                this.type = Type.VOLUNTEER;
+                break;
+            default:
+                this.status = Status.TODO;
+                break;
+        }
     }
 
     public List<Contact> getContacts() {
@@ -128,5 +162,9 @@ public class Position implements Serializable{
 
     public enum Favorite {
         YES, NO;
+    }
+
+    public enum Type {
+        FULL_TIME, PART_TIME, INTERNSHIP, VOLUNTEER;
     }
 }

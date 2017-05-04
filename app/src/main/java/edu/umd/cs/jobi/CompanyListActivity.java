@@ -3,11 +3,11 @@ package edu.umd.cs.jobi;
 
 import android.support.v4.app.Fragment;
 
-public class CompanyActivity extends SingleFragmentActivity {
+public class CompanyListActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return CompanyFragment.newInstance();
+       return CompanyListFragment.newInstance();
     }
 
 }

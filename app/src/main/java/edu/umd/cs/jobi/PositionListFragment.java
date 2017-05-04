@@ -1,4 +1,5 @@
 package edu.umd.cs.jobi;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -8,14 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
-public class CompanyFragment extends Fragment {
+public class PositionListFragment extends Fragment {
 
     private TabLayout tabLayout;
-    private TextView companyList;
+    private TextView positionList;
 
-    public static CompanyFragment newInstance() {
-        CompanyFragment fragment = new CompanyFragment();
+    public static PositionListFragment newInstance() {
+        PositionListFragment fragment = new PositionListFragment();
         return fragment;
     }
 
@@ -30,20 +30,28 @@ public class CompanyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_companylist, container, false);
+        View view = inflater.inflate(R.layout.fragment_positionlist, container, false);
 
-        tabLayout = (TabLayout)view.findViewById(R.id.company_tab_layout);
-        companyList = (TextView)view.findViewById(R.id.company_list);
-        companyList.setText("All Companies!"); //TODO change this to be the list of all companies
+        tabLayout = (TabLayout)view.findViewById(R.id.position_tab_layout);
+        positionList = (TextView)view.findViewById(R.id.position_list);
+        positionList.setText("All Positions!"); //TODO change this to be the list of all companies
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getText().equals(getString(R.string.all_companies))) {
-                    companyList.setText("All Companies!");
+                String tabText = tab.getText().toString();
+
+                if (tabText.equals(getString(R.string.list_all))) {
+                    positionList.setText("All positions!");
+                } else if (tabText.equals(getString(R.string.positions_todo))) {
+                    positionList.setText("Need to do these applications");
+                } else if (tabText.equals(getString(R.string.positions_ongoing))) {
+                    positionList.setText("These are in progress");
                 } else {
-                    companyList.setText("Current Companies");
+                    // R.string.positions_done
+                    positionList.setText("These are all done!");
                 }
+
             }
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
@@ -55,4 +63,7 @@ public class CompanyFragment extends Fragment {
             }
         });
         return view;
-    } }
+    }
+
+}
+

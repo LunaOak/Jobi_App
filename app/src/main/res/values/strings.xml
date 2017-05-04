@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">Jobi</string>
 
     <string name="create_story_button">Create Story</string>
@@ -20,12 +21,12 @@
     <string name="radio_next">Next</string>
     <string name="radio_later">Later</string>
 
-  <!--  <string name="status_label">Status</string>
-    <string-array name="status_array">
-        <item>To Do</item>
-        <item>In Progress</item>
-        <item>Done</item>
-    </string-array>-->
+    <!--  <string name="status_label">Status</string>
+      <string-array name="status_array">
+          <item>To Do</item>
+          <item>In Progress</item>
+          <item>Done</item>
+      </string-array>-->
 
     <string name="todo_label">To Do</string>
     <string name="inprogress_label">In Progress</string>
