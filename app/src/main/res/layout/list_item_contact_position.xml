@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/position_contact_list">
+
+    <TextView
+        android:id="@+id/list_item_contact_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:padding="4dp"
+        tools:text="Contact Name"/>
+
+    <ImageButton
+        android:id="@+id/list_item_contact_"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/list_item_contact_name"
+        android:padding="4dp"
+        android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
+        android:drawableStart="@android:drawable/ic_menu_close_clear_cancel"
+        tools:text="" />
+
+    <TextView
+        android:id="@+id/list_item_contact_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/list_item_story_priority"
+        android:layout_below="@id/list_item_contact_name"
+        android:padding="4dp"
+        tools:text="Email: email@email.com" />
+
+    <TextView
+        android:id="@+id/list_item_contact_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/list_item_contact_email"
+        android:padding="4dp"
+        tools:text="Tel:(202)123-1234" />
+
+
+
+</RelativeLayout>
