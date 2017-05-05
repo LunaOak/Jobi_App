@@ -4,13 +4,13 @@
 
     <item
         android:id="@+id/menu_item_home"
-        android:icon="@android:drawable/ic_popup_sync"
+        android:icon="@drawable/ic_menu_home"
         android:title="@string/settings_button"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_item_settings"
-        android:icon="@android:drawable/ic_menu_preferences"
+        android:icon="@drawable/ic_settings"
         android:title="@string/settings_button"
         app:showAsAction="always" />
 </menu>
