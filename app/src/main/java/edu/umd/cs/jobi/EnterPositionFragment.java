@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import edu.umd.cs.jobi.model.Position;
 
@@ -29,11 +28,10 @@ public class EnterPositionFragment extends Fragment {
 
     private Position position;
 
-    private TextView title;
-
     // Interactive Elements //
     private EditText positionTitleEditText;
     private RadioGroup statusRadioGroup;
+    private EditText companyEditText;
     private EditText locationEditText;
     private EditText descriptionEditText;
     private Spinner positionTypeSpinner;
@@ -63,7 +61,7 @@ public class EnterPositionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_position, container, false);
+        View view = inflater.inflate(R.layout.fragment_position_enter, container, false);
 
         // Position Title //
         positionTitleEditText = (EditText)view.findViewById(R.id.position);
@@ -71,13 +69,11 @@ public class EnterPositionFragment extends Fragment {
             positionTitleEditText.setText(position.getTitle());
         }
 
-        // TODO ///////
-
         // Position Company //
-//        companyEditText = (EditText)view.findViewById(R.id.position_company);
-//        if (position != null) {
-//            companyEditText.setText(position.getCompany());
-//        }
+        companyEditText = (EditText)view.findViewById(R.id.position_company);
+        if (position != null) {
+            companyEditText.setText(position.getCompany());
+        }
 
         // Position Location //
         locationEditText = (EditText)view.findViewById(R.id.position_location);
@@ -121,15 +117,6 @@ public class EnterPositionFragment extends Fragment {
             descriptionEditText.setText(position.getDescription());
         }
 
-        // TODO ///////
-
-//        // Position Contact //
-//        typeEditText = (EditText)view.findViewById(R.id.position_type);
-//        if (position != null) {
-//            typeEditText.setText(position.getType());
-//        }
-//
-
         saveButton = (Button)view.findViewById(R.id.save_story_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
 
@@ -157,13 +144,12 @@ public class EnterPositionFragment extends Fragment {
                             position.setStatus(Position.Status.TODO);
                             break;
                     }
-
+                    position.setCompany(companyEditText.getText().toString());
                     position.setLocation(locationEditText.getText().toString());
                     position.setDescription(descriptionEditText.getText().toString());
-
                     position.setType(positionTypeSpinner.getSelectedItemPosition());
 
-                    // We need to add the contact and company update here too and add the company to the
+                    // We need to add the company update here too and add the company to the
                     // database
 
                     Intent data = new Intent();
@@ -190,18 +176,16 @@ public class EnterPositionFragment extends Fragment {
         return (Position) data.getSerializableExtra(POSITION_CREATED);
     }
 
-    // TODO ////////
+    // ToDo: Check that the error messages work
     private boolean inputsAreValid() {
-        // For reference
-//        private EditText positionTitleEditText;
-//        private RadioGroup statusRadioGroup;
-//        private EditText locationEditText;
-//        private EditText descriptionEditText;
-//        private Spinner positionTypeSpinner;
-
         if (positionTitleEditText.getText().toString().length() < 0) {
             // Error message
             positionTitleEditText.setError("You must enter a position title");
+            return false;
+        }
+        if (companyEditText.getText().toString().length() < 0) {
+            // Error message
+            companyEditText.setError("You must enter a company");
             return false;
         }
         if (locationEditText.getText().toString().length() < 0) {
@@ -209,7 +193,6 @@ public class EnterPositionFragment extends Fragment {
             locationEditText.setError("You must enter a location");
             return false;
         }
-
         return true;
     }
 }
