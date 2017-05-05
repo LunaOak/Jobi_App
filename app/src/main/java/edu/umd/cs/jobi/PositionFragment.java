@@ -4,40 +4,45 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import edu.umd.cs.jobi.model.Position;
 
-import static android.app.Activity.RESULT_CANCELED;
-import static android.app.Activity.RESULT_OK;
+import static android.R.drawable.btn_star_big_off;
+import static android.R.drawable.btn_star_big_on;
 
 
 public class PositionFragment extends Fragment {
 
     private final String TAG = getClass().getSimpleName();
 
-    private static final String POSITION_CREATED = "PositionCreated";
     private static final String POSITION_ID = "PositionId";
+    private static final int REQUEST_CODE_EDIT_POSITION = 0;
+    private static final int REQUEST_CODE_ADD_NEW_EVENT = 1;
 
     private Position position;
 
-    // Interactive Elements //
-    private EditText positionTitleEditText;
-    private RadioGroup statusRadioGroup;
-    private EditText locationEditText;
-    private EditText descriptionEditText;
-    private Spinner positionTypeSpinner;
+    // TextViews //
+    private TextView positionTitle;
+    private TextView companyName;
+    private TextView companyLocation;
+    private TextView positionType;
+    private TextView positionStatus;
+    private TextView positionDescription;
 
     // Buttons //
-    private Button saveButton;
-    private Button cancelButton;
+    private ToggleButton favoriteButton;
+    private ImageButton editPositionButton;
+    private Button addNewEventButton;
+
 
     public static PositionFragment newInstance(String positionId) {
         Bundle args = new Bundle();
@@ -63,150 +68,76 @@ public class PositionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_position, container, false);
 
         // Position Title //
-        positionTitleEditText = (EditText)view.findViewById(R.id.position);
-        if (position != null) {
-            positionTitleEditText.setText(position.getTitle());
-        }
-
-        // TODO ///////
+        positionTitle = (TextView) view.findViewById(R.id.positionTitle);
+        positionTitle.setText(position.getTitle());
 
         // Position Company //
-//        companyEditText = (EditText)view.findViewById(R.id.position_company);
-//        if (position != null) {
-//            companyEditText.setText(position.getCompany());
-//        }
+        companyName = (TextView) view.findViewById(R.id.companyName);
+        companyName.setText(position.getCompany());
 
         // Position Location //
-        locationEditText = (EditText)view.findViewById(R.id.position_location);
-        if (position != null) {
-            locationEditText.setText(position.getLocation());
-        }
+        companyLocation = (TextView) view.findViewById(R.id.companyLocation);
+        companyLocation.setText(position.getLocation());
 
         // Position Type //
-        positionTypeSpinner = (Spinner)view.findViewById(R.id.position_type_spinner);
-        ArrayAdapter<CharSequence> statusAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.position_type_array, android.R.layout.simple_spinner_item);
-        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        positionTypeSpinner.setAdapter(statusAdapter);
-        if (position != null) {
-            positionTypeSpinner.setSelection(position.getPositionType());
-        }
+        positionType = (TextView) view.findViewById(R.id.positionType);
+        positionType.append(position.getType().name());
 
         // Position Status //
-        statusRadioGroup = (RadioGroup)view.findViewById(R.id.position_radio_group);
-        if (position != null) {
-            switch (position.getStatus()) {
-                case TODO:
-                    statusRadioGroup.check(R.id.position_todo);
-                    break;
-                case IN_PROGRESS:
-                    statusRadioGroup.check(R.id.position_inProgress);
-                    break;
-                case DONE:
-                    statusRadioGroup.check(R.id.position_done);
-                    break;
-                default:
-                    statusRadioGroup.check(R.id.position_todo);
-                    break;
-            }
-        } else {
-            statusRadioGroup.check(R.id.position_todo);
-        }
+        positionStatus = (TextView) view.findViewById(R.id.positionStatus);
+        positionStatus.append(position.getStatus().name());
 
         // Position Description //
-        descriptionEditText = (EditText)view.findViewById(R.id.position_description);
-        if (position != null) {
-            descriptionEditText.setText(position.getDescription());
-        }
+        positionDescription = (TextView) view.findViewById(R.id.positionDescription);
+        positionDescription.setText(position.getDescription());
 
-        // TODO ///////
 
-//        // Position Contact //
-//        typeEditText = (EditText)view.findViewById(R.id.position_type);
-//        if (position != null) {
-//            typeEditText.setText(position.getType());
-//        }
-//
+        //// Button Actions
 
-        saveButton = (Button)view.findViewById(R.id.save_story_button);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-
+        // Edit Position Button //
+        editPositionButton = (ImageButton)view.findViewById(R.id.edit_position_button);
+        editPositionButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
-                if (inputsAreValid()) {
-                    if (position == null) {
-                        position = new Position();
-                    }
-
-                    position.setTitle(positionTitleEditText.getText().toString());
-                    
-                    int statusId = statusRadioGroup.getCheckedRadioButtonId();
-                    switch (statusId) {
-                        case R.id.position_todo:
-                            position.setStatus(Position.Status.TODO);
-                            break;
-                        case R.id.position_inProgress:
-                            position.setStatus(Position.Status.IN_PROGRESS);
-                            break;
-                        case R.id.position_done:
-                            position.setStatus(Position.Status.DONE);
-                            break;
-                        default:
-                            position.setStatus(Position.Status.TODO);
-                            break;
-                    }
-                    
-                    position.setLocation(locationEditText.getText().toString());
-                    position.setDescription(descriptionEditText.getText().toString());
-
-                    position.setType(positionTypeSpinner.getSelectedItemPosition());
-
-                    // We need to add the contact and company update here too and add the company to the
-                    // database
-
-                    Intent data = new Intent();
-                    data.putExtra(POSITION_CREATED, position);
-                    getActivity().setResult(RESULT_OK, data);
-                    getActivity().finish();
-                }
+            public void onClick(View view){
+                Intent intent = EnterPositionActivity.newIntent(getActivity(), position.getId());
+                startActivityForResult(intent, REQUEST_CODE_EDIT_POSITION);
             }
         });
 
-        cancelButton = (Button)view.findViewById(R.id.cancel_story_button);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
+        // Favorite Button //
+        favoriteButton = (ToggleButton)view.findViewById(R.id.favorite_button);
+
+        if (position.getFavorite() == Position.Favorite.YES) {
+            favoriteButton.setChecked(true);
+            favoriteButton.setBackgroundDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(), btn_star_big_on));
+        } else {
+            favoriteButton.setChecked(false);
+            favoriteButton.setBackgroundDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(), btn_star_big_off));
+        }
+        favoriteButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                getActivity().setResult(RESULT_CANCELED);
-                getActivity().finish();
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    favoriteButton.setBackgroundDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(), btn_star_big_on));
+                    position.setFavorite(Position.Favorite.YES);
+                } else {
+                    favoriteButton.setBackgroundDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(), btn_star_big_off));
+                    position.setFavorite(Position.Favorite.NO);
+                }
+            }
+
+        });
+
+        // Add New Event Button //
+        addNewEventButton = (Button)view.findViewById(R.id.add_new_event_button);
+        addNewEventButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = EventActivity.newIntent(getActivity()); //ToDo: Ask Juan
+                startActivityForResult(intent, REQUEST_CODE_EDIT_POSITION);
             }
         });
 
         return view;
-    }
-
-    public static Position getPositionCreated(Intent data) {
-        return (Position) data.getSerializableExtra(POSITION_CREATED);
-    }
-
-    // TODO ////////
-    private boolean inputsAreValid() {
-        // For reference
-//        private EditText positionTitleEditText;
-//        private RadioGroup statusRadioGroup;
-//        private EditText locationEditText;
-//        private EditText descriptionEditText;
-//        private Spinner positionTypeSpinner;
-
-        if (positionTitleEditText.getText().toString().length() < 0) {
-            // Error message
-            positionTitleEditText.setError("You must enter a position title");
-            return false;
-        }
-        if (locationEditText.getText().toString().length() < 0) {
-            // Error message
-            locationEditText.setError("You must enter a location");
-            return false;
-        }
-
-        return true;
     }
 }
