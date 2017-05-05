@@ -75,19 +75,19 @@
     </LinearLayout>
 
     <!--Type of Notifications-->
-    <CheckBox android:id="@+id/interviews"
+    <CheckBox android:id="@+id/settings_up_interviews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/interviews_label"
         android:checked="true"/>
 
-    <CheckBox android:id="@+id/emails"
+    <CheckBox android:id="@+id/settings_emails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/emails_label"
         android:checked="true"/>
 
-    <CheckBox android:id="@+id/deadlines"
+    <CheckBox android:id="@+id/settings_deadlines"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/deadline_label"
