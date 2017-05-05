@@ -91,7 +91,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/deadline_label"
-        android:checked="true"/>
+        android:checked="true"
+        android:layout_marginBottom="10dp"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/settings_save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save_button"
+            android:background="@color/colorWhite"
+            android:textColor="@color/colorAccent" />
+
+        <Button
+            android:id="@+id/settings_cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel_button"
+            android:background="@color/colorWhite"
+            android:textColor="@color/colorAccent"/>
+
+    </LinearLayout>
 
 
 

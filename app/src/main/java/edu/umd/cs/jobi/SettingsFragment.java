@@ -12,61 +12,119 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Button;
+import android.widget.Switch;
 
 import java.util.List;
 
-import edu.umd.cs.jobi.model.Story;
-import edu.umd.cs.jobi.service.StoryService;
+import edu.umd.cs.jobi.model.Settings;
 
 public class SettingsFragment extends Fragment {
+
+    // Fields //
+    private Settings settings;
+    private RadioGroup statusRadioGroup;
+    private Button saveButton;
+    private Button cancelButton;
+    private Switch notificationsSwitch;
 
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
     }
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings();
         setHasOptionsMenu(true);
     }
 
+    // View Management //
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-       // storyService = DependencyFactory.getStoryService(getActivity().getApplicationContext());
+        // Status Radio Group //
+        statusRadioGroup = (RadioGroup)view.findViewById(R.id.settings_status_radio_group);
 
-//        LinearLayout todoColumn = (LinearLayout)view.findViewById(R.id.todo_column);
-//        LinearLayout inProgressColumn = (LinearLayout)view.findViewById(R.id.inprogress_column);
-//        LinearLayout doneColumn = (LinearLayout)view.findViewById(R.id.done_column);
-//
-//        List<Story> stories = storyService.getCurrentSprintStories();
-//        for (final Story story : stories) {
-//            TextView textView = new TextView(getActivity());
-//            textView.setText(story.getSummary());
-//            textView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Toast.makeText(getActivity(), story.toString(), Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//
-//            if (story.getStatus().equals(Story.Status.TODO)) {
-//                todoColumn.addView(textView);
-//            } else if (story.getStatus().equals(Story.Status.IN_PROGRESS)) {
-//                inProgressColumn.addView(textView);
-//            } else {
-//                doneColumn.addView(textView);
-//            }
-//        }
+        if (settings != null) {
+            switch (settings.getStatus()) {
+                case INTERVIEWING:
+                    statusRadioGroup.check(R.id.settings_status_interviewing);
+                    break;
+                case SEARCHING:
+                    statusRadioGroup.check(R.id.settings_status_searching);
+                    break;
+                case NOT_SEARCHING:
+                    statusRadioGroup.check(R.id.settings_status_not_searching);
+                    break;
+                default:
+                    statusRadioGroup.check(R.id.settings_status_interviewing);
+                    break;
+            }
+        } else {
+            statusRadioGroup.check(R.id.settings_status_interviewing);
+        }
+
+        // Notifications Switch //
+        notificationsSwitch = (Switch) view.findViewById(R.id.settings_notification_switch);
+        notificationsSwitch.setChecked(true);
+
+
+        saveButton = (Button)view.findViewById(R.id.settings_save_button);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                if (settings == null) {
+                    settings = new Settings();
+                }
+
+                int statusId = statusRadioGroup.getCheckedRadioButtonId();
+                switch (statusId) {
+                    case R.id.settings_status_interviewing:
+                        settings.setStatus(Settings.Status.INTERVIEWING);
+                        break;
+                    case R.id.settings_status_searching:
+                        settings.setStatus(Settings.Status.SEARCHING);
+                        break;
+                    case R.id.settings_status_not_searching:
+                        settings.setStatus(Settings.Status.NOT_SEARCHING);
+                        break;
+                    default:
+                        settings.setStatus(Settings.Status.INTERVIEWING);
+                        break;
+                }
+
+
+
+//                settings.setStatus(statusSpinner.getSelectedItemPosition());
+
+//                Intent data = new Intent();
+//                data.putExtra(EXTRA_STORY_CREATED, settings);
+//                getActivity().setResult(RESULT_OK, data);
+                getActivity().finish();
+            }
+
+        });
+
+        cancelButton = (Button)view.findViewById(R.id.settings_cancel_button);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+            }
+        });
 
         return view;
     }
 
+    // Menu Bar Management //
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -76,17 +134,12 @@ public class SettingsFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-//            case R.id.menu_item_create_story:
-//                Intent createStoryIntent = new Intent(getActivity(), StoryActivity.class);
-//                startActivityForResult(createStoryIntent, REQUEST_CODE_CREATE_EVENT);
-//                return true;
             case R.id.menu_item_home:
                 Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
                 startActivity(homeIntent);
                 return true;
             case R.id.menu_item_settings:
-//                Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
-//                startActivity(settingsIntent);
+//                Don't do anything, you're already in this activity!
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
