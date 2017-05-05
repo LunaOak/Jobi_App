@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import android.widget.Button;
 import android.widget.Switch;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.umd.cs.jobi.model.Settings;
@@ -30,6 +32,10 @@ public class SettingsFragment extends Fragment {
     private Button saveButton;
     private Button cancelButton;
     private Switch notificationsSwitch;
+    private CheckBox notificationsInterviews;
+    private CheckBox notificationsEmails;
+    private CheckBox notificationsDeadlines;
+    private List<Settings.Notifications> notificationsList;
 
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
@@ -52,7 +58,19 @@ public class SettingsFragment extends Fragment {
         // Status Radio Group //
         statusRadioGroup = (RadioGroup)view.findViewById(R.id.settings_status_radio_group);
 
+        // Notifications Switch //
+        notificationsSwitch = (Switch) view.findViewById(R.id.settings_notification_switch);
+
+        // Notifications List //
+        notificationsInterviews = (CheckBox) view.findViewById(R.id.settings_up_interviews);
+        notificationsEmails = (CheckBox) view.findViewById(R.id.settings_emails);
+        notificationsDeadlines = (CheckBox) view.findViewById(R.id.settings_deadlines);
+
+        notificationsList = new ArrayList<>();
+
         if (settings != null) {
+
+            // Status //
             switch (settings.getStatus()) {
                 case INTERVIEWING:
                     statusRadioGroup.check(R.id.settings_status_interviewing);
@@ -67,15 +85,48 @@ public class SettingsFragment extends Fragment {
                     statusRadioGroup.check(R.id.settings_status_interviewing);
                     break;
             }
+
+            // Notifications Switch //
+            switch (settings.getSwitch()) {
+                case ON:
+                    notificationsSwitch.setChecked(true);
+                    break;
+                case OFF:
+                    notificationsSwitch.setChecked(false);
+                    break;
+                default:
+                    notificationsSwitch.setChecked(true);
+                    break;
+            }
+
+
+            notificationsInterviews.setChecked(false);
+            notificationsEmails.setChecked(false);
+            notificationsDeadlines.setChecked(false);
+
+            // Notifications List //
+            for (Settings.Notifications notif : settings.getNotifications()) {
+
+                if (notif.equals(Settings.Notifications.INTERVIEWS)) {
+                    notificationsInterviews.setChecked(true);
+                } else if (notif.equals(Settings.Notifications.EMAILS)) {
+                    notificationsEmails.setChecked(true);
+                } else if (notif.equals(Settings.Notifications.DEADLINES)) {
+                    notificationsDeadlines.setChecked(true);
+                }
+
+            }
+
         } else {
             statusRadioGroup.check(R.id.settings_status_interviewing);
+            notificationsSwitch.setChecked(true);
+            notificationsInterviews.setChecked(true);
+            notificationsEmails.setChecked(true);
+            notificationsDeadlines.setChecked(true);
         }
 
-        // Notifications Switch //
-        notificationsSwitch = (Switch) view.findViewById(R.id.settings_notification_switch);
-        notificationsSwitch.setChecked(true);
 
-
+        // Save Button //
         saveButton = (Button)view.findViewById(R.id.settings_save_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
 
@@ -85,6 +136,7 @@ public class SettingsFragment extends Fragment {
                     settings = new Settings();
                 }
 
+                // Status //
                 int statusId = statusRadioGroup.getCheckedRadioButtonId();
                 switch (statusId) {
                     case R.id.settings_status_interviewing:
@@ -101,18 +153,35 @@ public class SettingsFragment extends Fragment {
                         break;
                 }
 
+                // Notifications Switch //
+                if(notificationsSwitch.isChecked()){
+                    settings.setSwitch(Settings.NotificationSwitch.ON);
+                }
+                else {
+                    settings.setSwitch(Settings.NotificationSwitch.OFF);
+                }
 
+                // Notifications CheckList //
+                if (notificationsInterviews.isChecked()) {
+                    notificationsList.add(Settings.Notifications.INTERVIEWS);
+                }
 
-//                settings.setStatus(statusSpinner.getSelectedItemPosition());
+                if (notificationsEmails.isChecked()) {
+                    notificationsList.add(Settings.Notifications.EMAILS);
+                }
 
-//                Intent data = new Intent();
-//                data.putExtra(EXTRA_STORY_CREATED, settings);
-//                getActivity().setResult(RESULT_OK, data);
+                if (notificationsDeadlines.isChecked()) {
+                    notificationsList.add(Settings.Notifications.DEADLINES);
+                }
+
+                settings.setNotifications(notificationsList);
+
                 getActivity().finish();
             }
 
         });
 
+        // Cancel Button //
         cancelButton = (Button)view.findViewById(R.id.settings_cancel_button);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
