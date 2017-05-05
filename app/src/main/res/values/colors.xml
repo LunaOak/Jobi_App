@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
+    <color name="newColorPrimary">#48c7c4</color>
     <color name="colorPrimaryDark">#303F9F</color>
+    <color name="newColorPrimaryDark">#1b6d79</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorAccent2">#3a165e</color>
+    <color name="colorWhite">#ffffff</color>
+
+    <color name="interviewing">#8ed15b</color>
+    <color name="searching">#ffcf55</color>
+    <color name="not_searching">#d75454</color>
+
+    <color name="home_date">#ba4c4c</color>
 </resources>

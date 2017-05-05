@@ -75,23 +75,48 @@
     </LinearLayout>
 
     <!--Type of Notifications-->
-    <CheckBox android:id="@+id/interviews"
+    <CheckBox android:id="@+id/settings_up_interviews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/interviews_label"
         android:checked="true"/>
 
-    <CheckBox android:id="@+id/emails"
+    <CheckBox android:id="@+id/settings_emails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/emails_label"
         android:checked="true"/>
 
-    <CheckBox android:id="@+id/deadlines"
+    <CheckBox android:id="@+id/settings_deadlines"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/deadline_label"
-        android:checked="true"/>
+        android:checked="true"
+        android:layout_marginBottom="10dp"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/settings_save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save_button"
+            android:background="@color/colorWhite"
+            android:textColor="@color/colorAccent" />
+
+        <Button
+            android:id="@+id/settings_cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel_button"
+            android:background="@color/colorWhite"
+            android:textColor="@color/colorAccent"/>
+
+    </LinearLayout>
 
 
 

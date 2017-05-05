@@ -132,6 +132,9 @@
 
     <string name="position_list_label">Positions</string>
 
+
+    <!--Home Activity Strings-->
+    <string name="home_title">Welcome!</string>
     <string name="create_position_label">Create New Position</string>
     <string name="manage_label">Manage</string>
     <string name="status_label">Status</string>
