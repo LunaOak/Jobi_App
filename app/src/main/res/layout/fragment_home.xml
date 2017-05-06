@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp">
+
+    <!--<android.support.v7.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/story_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.RecyclerView>-->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/home_title"
+        android:textSize="23dp"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginBottom="10dp"/>
+
+    <!--Day-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/day"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
+        <!--Month-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/month"
+            android:textColor="@color/home_date"
+            android:textSize="25dp"/>
+
+        <!--Date-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/date"
+            android:textColor="@color/home_date"
+            android:textSize="25dp"/>
+
+        <!--Year-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/year"
+            android:textColor="@color/home_date"
+            android:textSize="25dp"/>
+
+
+    </LinearLayout>
+
+    <!--List of upcoming events-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/coming_up_label"
+        android:textSize="20dp"
+        android:textColor="@color/colorAccent2"/>
+
+    <android.support.v7.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/story_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
+    </android.support.v7.widget.RecyclerView>
+
+
+    <!--Current Status-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/status_label"
+        android:textSize="20dp"
+        android:textColor="@color/colorAccent2"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
+
+        <ImageView
+            android:id="@+id/status_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/status_interviewing"
+            android:textSize="15dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"/>
+
+    </LinearLayout>
+
+
+    <!--Selection-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/manage_label"
+        android:textSize="20dp"
+        android:textColor="@color/colorAccent2"/>
+
+    <Button
+        android:id="@+id/company_list_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/company_list_label"
+        android:background="@color/colorWhite"
+        android:textColor="@color/colorAccent"
+        android:textAlignment="viewStart"/>
+
+    <Button android:id="@+id/position_list_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/position_list_label"
+        android:background="@color/colorWhite"
+        android:textColor="@color/colorAccent"
+        android:textAlignment="viewStart"/>
+
+    <Button android:id="@+id/create_position_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_position_label"
+        android:background="@color/colorWhite"
+        android:textColor="@color/colorAccent"
+        android:textAlignment="viewStart"/>
+
+</LinearLayout>

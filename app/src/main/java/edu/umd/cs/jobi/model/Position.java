@@ -1,6 +1,7 @@
 package edu.umd.cs.jobi.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -15,27 +16,19 @@ public class Position implements Serializable{
     private Favorite favorite = Favorite.NO;
     private Type type;
     private List<Contact> contacts;
-    private Company company;
-
-//    public Position(String title, Status status, String location, String description,
-//                 Favorite favorite, String type, List<Contact> contacts, Company company) {
-//        id = UUID.randomUUID().toString();
-//        this.title = title;
-//        this.status = status;
-//        this.location = location;
-//        this.description = description;
-//        this.favorite = favorite;
-//        this.type = type;
-//        this.contacts = contacts;
-//        this.company = company;
-//    }
+    private String company;
 
     public Position() {
         id = UUID.randomUUID().toString();
+        contacts = new ArrayList<Contact>();
     }
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -143,17 +136,17 @@ public class Position implements Serializable{
         }
     }
 
-    public Company getCompany() {
+    public String getCompany() {
         return company;
     }
 
-    public void setCompany(Company company) {
+    public void setCompany(String company) {
         this.company = company;
     }
 
     @Override
     public String toString() {
-        return title + ", " + company.toString();
+        return title + ", " + company;
     }
 
     public enum Status {
