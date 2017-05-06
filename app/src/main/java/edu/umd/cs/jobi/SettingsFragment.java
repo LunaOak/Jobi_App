@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
 import android.widget.Switch;
+import android.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,8 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
+
+
 
         // Status Radio Group //
         statusRadioGroup = (RadioGroup)view.findViewById(R.id.settings_status_radio_group);
@@ -214,4 +217,6 @@ public class SettingsFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 }
