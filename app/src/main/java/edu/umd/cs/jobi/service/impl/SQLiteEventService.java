@@ -166,6 +166,7 @@ public class SQLiteEventService implements EventService {
         contentValues.put(JobiEventDbSchema.EventTable.Columns.TITLE, event.getTitle());
         contentValues.put(JobiEventDbSchema.EventTable.Columns.COMPANY, event.getCompany());
         contentValues.put(JobiEventDbSchema.EventTable.Columns.POSITION, event.getPosition());
+        contentValues.put(JobiEventDbSchema.EventTable.Columns.TYPE, event.getType());
         contentValues.put(JobiEventDbSchema.EventTable.Columns.DATE, event.getDate().getTime());
         contentValues.put(JobiEventDbSchema.EventTable.Columns.ADDRESS, event.getAddress());
         contentValues.put(JobiEventDbSchema.EventTable.Columns.CITY, event.getCity());
@@ -207,6 +208,7 @@ public class SQLiteEventService implements EventService {
             String title = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.TITLE));
             String company = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.COMPANY));
             String position = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.POSITION));
+            String type = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.TYPE));
             Date date = new Date(getLong(getColumnIndex(JobiEventDbSchema.EventTable.Columns.DATE)));
             String address = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.ADDRESS));
             String city = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.CITY));
@@ -217,6 +219,7 @@ public class SQLiteEventService implements EventService {
             event.setTitle(title);
             event.setCompany(company);
             event.setPosition(position);
+            event.setType(type);
             event.setDate(date);
             event.setAddress(address);
             event.setCity(city);
@@ -232,7 +235,7 @@ public class SQLiteEventService implements EventService {
             String email = getString(getColumnIndex(JobiEventDbSchema.ContactTable.Columns.EMAIL));
             String phone = getString(getColumnIndex(JobiEventDbSchema.ContactTable.Columns.PHONE));
 
-            Contact contact = new Contact(name, jobTitle, email, null, phone);
+            Contact contact = new Contact(name, jobTitle, email, phone);
 
             return contact;
         }

@@ -12,6 +12,7 @@ public class Event implements Serializable {
     private String title;
     private String company;
     private String position;
+    private String type;
     private Date date;
     private String address;
     private String city;
@@ -55,6 +56,14 @@ public class Event implements Serializable {
 
     public String getPosition() {
         return position;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public void setCompany(String company) {
