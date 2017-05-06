@@ -21,6 +21,7 @@ public class JobiPositionContactDbHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + JobiPositionDbSchema.ContactTable.NAME + "(" +
                 " _id integer primary key autoincrement, " +
                 JobiPositionDbSchema.ContactTable.Columns.ID + ", " +
+                JobiPositionDbSchema.ContactTable.Columns.POSITION_ID + ", " +
                 JobiPositionDbSchema.ContactTable.Columns.JOB_TITLE + ", " +
                 JobiPositionDbSchema.ContactTable.Columns.NAME + ", " +
                 JobiPositionDbSchema.ContactTable.Columns.EMAIL + ", " +

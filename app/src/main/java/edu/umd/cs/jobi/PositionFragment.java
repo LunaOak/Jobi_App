@@ -17,8 +17,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -27,6 +25,7 @@ import edu.umd.cs.jobi.model.Contact;
 import edu.umd.cs.jobi.model.Event;
 import edu.umd.cs.jobi.model.Position;
 import edu.umd.cs.jobi.service.impl.SQLiteEventService;
+import edu.umd.cs.jobi.service.impl.SQLitePositionService;
 
 import static android.R.drawable.btn_star_big_off;
 import static android.R.drawable.btn_star_big_on;
@@ -38,10 +37,9 @@ public class PositionFragment extends Fragment {
 
     private static final String POSITION_ID = "PositionId";
     private static final int REQUEST_CODE_EDIT_POSITION = 0;
-    private static final int REQUEST_CODE_ADD_NEW_EVENT = 1;
-    private static final int REQUEST_CODE_CREATE_CONTACT = 2;
-    private static final int REQUEST_CODE_EDIT_CONTACT = 3;
-    private static final int REQUEST_CODE_EDIT_EVENT = 4;
+    private static final int REQUEST_CODE_CONTACT = 1;
+    private static final int REQUEST_CODE_ADD_EVENT = 2;
+    private static final int REQUEST_CODE_EVENT = 3;
 
 
     private Position position;
@@ -61,6 +59,7 @@ public class PositionFragment extends Fragment {
     private Button addNewEventButton;
 
     // Services //
+    private SQLitePositionService positionService;
     private SQLiteEventService eventService;
 
     // RecyclerViews //
@@ -69,7 +68,7 @@ public class PositionFragment extends Fragment {
 
     // Adapters //
     private ContactAdapter contactAdapter;
-    private EventAdapter eventAdapter; //Todo: events adapter
+    private EventAdapter eventAdapter;
 
     public static PositionFragment newInstance(String positionId) {
         Bundle args = new Bundle();
@@ -160,8 +159,8 @@ public class PositionFragment extends Fragment {
         addNewContactButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = new Intent(getActivity(), EnterContactActivity.class); //Todo: change to newIntentForCreate(position.getId())
-                startActivityForResult(intent, REQUEST_CODE_CREATE_CONTACT);
+                Intent intent = new Intent(getActivity(), EnterContactActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_CONTACT);
             }
         });
 
@@ -170,8 +169,9 @@ public class PositionFragment extends Fragment {
         addNewEventButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = EnterEventActivity.newIntent(getActivity(), position.getTitle(), position.getCompany()); //ToDo: Juan
-                startActivityForResult(intent, REQUEST_CODE_ADD_NEW_EVENT);
+                Intent intent = EnterEventActivity.newIntent(getActivity().getApplicationContext(), position.getTitle(), position.getCompany());
+//                Intent intent = new Intent(getActivity(), EnterEventActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_ADD_EVENT);
             }
         });
 
@@ -186,10 +186,41 @@ public class PositionFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK || data == null) {
+            return;
+        }
+
+        if (requestCode == REQUEST_CODE_EDIT_POSITION) {
+            position = EnterPositionActivity.getPositionCreated(data);
+            positionService.addPositionToDb(position);
+        } else if (requestCode == REQUEST_CODE_CONTACT) {
+            Contact newContact = EnterContactActivity.getContactCreated(data);
+            Contact remContact = null;
+
+            for (Contact c: position.getContacts()) {
+                if (c.getId().equals(newContact.getId())){
+                    remContact = c;
+                }
+            }
+
+            if (remContact != null) {
+                position.getContacts().remove(remContact);
+            }
+
+            position.getContacts().add(newContact);
+            positionService.addPositionToDb(position);
+        } else if (requestCode == REQUEST_CODE_ADD_EVENT) {
+            Event newEvent = EnterEventActivity.getEventCreated(data);
+            eventService.addEventToDb(newEvent);
+        }
+        updateUI();
+    }
 
     private void updateUI() {
-        List<Contact> contacts = eventService.getAllContacts(); // ToDo: get contacts for this position
-        List<Event> events = eventService.getAllEvents(); // ToDo: get events for this position
+        List<Contact> contacts = positionService.getPositionById(position.getId()).getContacts();
+        List<Event> events = eventService.getEventsByPositionTitle(position.getTitle());
 
         if (contactAdapter == null) {
             contactAdapter = new ContactAdapter(contacts);
@@ -205,6 +236,36 @@ public class PositionFragment extends Fragment {
         } else {
             eventAdapter.setEvents(events);
             eventAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private class ContactAdapter extends RecyclerView.Adapter<ContactHolder> {
+        private List<Contact> contacts;
+
+        public ContactAdapter(List<Contact> contacts) {
+            this.contacts = contacts;
+        }
+
+        public void setContacts(List<Contact> contacts) {
+            this.contacts = contacts;
+        }
+
+        @Override
+        public ContactHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            View view = layoutInflater.inflate(R.layout.list_item_contact, parent, false);
+            return new ContactHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ContactHolder holder, int position) {
+            Contact contact = contacts.get(position);
+            holder.bindContact(contact);
+        }
+
+        @Override
+        public int getItemCount() {
+            return contacts.size();
         }
     }
 
@@ -237,8 +298,8 @@ public class PositionFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Intent intent = EnterContactActivity.newIntent(getActivity(), position.getId()); // TOdo: change to contact.getId()
-            startActivityForResult(intent, REQUEST_CODE_EDIT_CONTACT);
+            Intent intent = EnterContactActivity.newIntent(getActivity(), contact.getId(), false);
+            startActivityForResult(intent, REQUEST_CODE_CONTACT);
         }
     }
 
@@ -299,37 +360,7 @@ public class PositionFragment extends Fragment {
         @Override
         public void onClick(View view) {
             Intent intent = EnterEventActivity.newIntent(getActivity(), position.getId());
-            startActivityForResult(intent, REQUEST_CODE_EDIT_EVENT);
-        }
-    }
-
-    private class ContactAdapter extends RecyclerView.Adapter<ContactHolder> {
-        private List<Contact> contacts;
-
-        public ContactAdapter(List<Contact> contacts) {
-            this.contacts = contacts;
-        }
-
-        public void setContacts(List<Contact> contacts) {
-            this.contacts = contacts;
-        }
-
-        @Override
-        public ContactHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            View view = layoutInflater.inflate(R.layout.list_item_contact, parent, false);
-            return new ContactHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(ContactHolder holder, int position) {
-            Contact contact = contacts.get(position);
-            holder.bindContact(contact);
-        }
-
-        @Override
-        public int getItemCount() {
-            return contacts.size();
+            startActivityForResult(intent, REQUEST_CODE_EVENT);
         }
     }
 }

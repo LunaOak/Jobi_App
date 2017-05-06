@@ -11,10 +11,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import edu.umd.cs.jobi.model.Story;
-import edu.umd.cs.jobi.service.StoryService;
-
 import edu.umd.cs.jobi.model.Company;
+import edu.umd.cs.jobi.model.Story;
 import edu.umd.cs.jobi.service.CompanyService;
 
 
@@ -33,12 +31,24 @@ public class SQLiteCompanyService implements CompanyService {
     }
 
     @Override
+    public Company getCompanyById(String id) {
+        //Todo
+        return null;
+    }
+
+    @Override
     public List<Company> getAllCompanies() {
         return null;
     }
 
     @Override
     public List<Company> getCurrentCompanies() {
+        return null;
+    }
+
+    @Override
+    public List<Company> getFavoriteCompanies() {
+        //Todo
         return null;
     }
 

@@ -1,19 +1,30 @@
 package edu.umd.cs.jobi.model;
 
-public class Contact {
+import java.io.Serializable;
+import java.util.UUID;
 
+public class Contact implements Serializable {
+
+    private String id;
     private String jobTitle;
     private String name;
     private String email;
-    private String address;
     private String phone;
 
-    public Contact(String name, String jobTitle, String email, String address, String phone){
+    public Contact(String name, String jobTitle, String email, String phone){
+        id = UUID.randomUUID().toString();
         this.name = name;
         this.email = email;
         this.jobTitle = jobTitle;
-        this.address = address;
         this.phone = phone;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getJobTitle() {
@@ -38,14 +49,6 @@ public class Contact {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getPhone() {

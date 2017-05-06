@@ -131,6 +131,7 @@
     <string name="current_companies">Current</string>
 
     <string name="position_list_label">Positions</string>
+    <string name="events_list_label">Events</string>
 
 
     <!--Home Activity Strings-->
@@ -154,7 +155,7 @@
     <string name="status_interviewing">Interviewing</string>
     <string name="status_searching">Searching</string>
     <string name="status_not_searching">Not Searching</string>
-=======
+
     <string name="positions_todo">To Do</string>
     <string name="positions_ongoing">Ongoing</string>
     <string name="positions_done">Done</string>
@@ -162,7 +163,7 @@
     <string name="event_list_label">Events</string>
 
     <string name="add_new_button">Add new</string>
->>>>>>> origin/br-development
+
 
 
     <!-- TODO: Remove or change this placeholder text -->
