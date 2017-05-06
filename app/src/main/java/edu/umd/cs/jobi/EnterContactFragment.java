@@ -42,6 +42,7 @@ public class EnterContactFragment extends Fragment {
 
         EnterContactFragment fragment = new EnterContactFragment();
         fragment.setArguments(args);
+
         return fragment;
     }
 

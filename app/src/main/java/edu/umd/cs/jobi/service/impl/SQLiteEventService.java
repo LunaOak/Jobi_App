@@ -65,40 +65,52 @@ public class SQLiteEventService implements EventService {
         }
 
         for(Event event : events) {
-            cursorRaw = contactDb.query(JobiEventDbSchema.ContactTable.NAME, null, JobiEventDbSchema.ContactTable.Columns.EVENT_ID + "=?", new String[]{event.getId()}, null, null, null);
-            cursor = new EventCursorWrapper(cursorRaw);
-
-            try {
-                cursor.moveToFirst();
-                while (!cursor.isAfterLast()) {
-                    event.getContacts().add(cursor.getContact());
-
-                    cursor.moveToNext();
-                }
-            } finally {
-                cursor.close();
-                cursorRaw.close();
-            }
+            event.getContacts().addAll(queryContacts(JobiEventDbSchema.ContactTable.Columns.EVENT_ID + "=?", new String[]{event.getId()}, null));
+            event.getReminders().addAll(queryReminders(JobiEventDbSchema.ReminderTable.Columns.EVENT_ID + "=?", new String[]{event.getId()}, null));
         }
-
-        for(Event event : events) {
-            cursorRaw = contactDb.query(JobiEventDbSchema.ReminderTable.NAME, null, JobiEventDbSchema.ReminderTable.Columns.ID + "=?", new String[]{event.getId()}, null, null, null);
-            cursor = new EventCursorWrapper(cursorRaw);
-
-            try {
-                cursor.moveToFirst();
-                while (!cursor.isAfterLast()) {
-                    event.getReminders().add(cursor.getReminder());
-
-                    cursor.moveToNext();
-                }
-            } finally {
-                cursor.close();
-                cursorRaw.close();
-            }
-        }
-
         return events;
+    }
+
+    private List<Contact> queryContacts(String whereClause, String[] whereArgs, String orderBy) {
+        List<Contact> contacts = new ArrayList<Contact>();
+
+        Cursor cursorRaw = contactDb.query(JobiEventDbSchema.ContactTable.NAME, null, whereClause, whereArgs, null, null, orderBy);
+        EventCursorWrapper cursor = new EventCursorWrapper(cursorRaw);
+
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                contacts.add(cursor.getContact());
+
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+            cursorRaw.close(); // Might need to delete
+        }
+
+        return contacts;
+    }
+
+    private List<Reminder> queryReminders(String whereClause, String[] whereArgs, String orderBy) {
+        List<Reminder> reminders = new ArrayList<Reminder>();
+
+        Cursor cursorRaw = reminderDb.query(JobiEventDbSchema.ReminderTable.NAME, null, whereClause, whereArgs, null, null, orderBy);
+        EventCursorWrapper cursor = new EventCursorWrapper(cursorRaw);
+
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                reminders.add(cursor.getReminder());
+
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+            cursorRaw.close(); // Might need to delete
+        }
+
+        return reminders;
     }
 
     @Override
@@ -110,8 +122,8 @@ public class SQLiteEventService implements EventService {
             eventDb.update(JobiEventDbSchema.EventTable.NAME, getEventContentValues(event), JobiEventDbSchema.EventTable.Columns.ID + "=?", new String[]{event.getId()});
         }
 
-        contactDb.delete(JobiEventDbSchema.ContactTable.NAME, JobiEventDbSchema.EventTable.Columns.ID + "=?", new String[] {event.getId()});
-        reminderDb.delete(JobiEventDbSchema.ReminderTable.NAME, JobiEventDbSchema.EventTable.Columns.ID + "=?", new String[] {event.getId()});
+        contactDb.delete(JobiEventDbSchema.ContactTable.NAME, JobiEventDbSchema.ContactTable.Columns.EVENT_ID + "=?", new String[] {event.getId()});
+        reminderDb.delete(JobiEventDbSchema.ReminderTable.NAME, JobiEventDbSchema.ReminderTable.Columns.EVENT_ID + "=?", new String[] {event.getId()});
 
         for(Contact contact : event.getContacts()) {
             contactDb.insert(JobiEventDbSchema.ContactTable.NAME, null, getContactContentValues(event.getId(), contact));
@@ -161,8 +173,38 @@ public class SQLiteEventService implements EventService {
 
     @Override
     public Contact getContactById(String id) {
-        //Todo getContactById
-        return null;
+        if (id == null) {
+            return null;
+        }
+
+        List<Contact> contacts = queryContacts(JobiEventDbSchema.ContactTable.Columns.ID + "=?", new String[]{id}, null);
+
+        if (contacts.size() == 0) {
+            return null;
+        }
+
+        /*
+        if (stories.size() != 1) {
+            throw new IllegalArgumentException();
+        }
+        */
+
+        return contacts.get(0);
+    }
+
+    @Override
+    public List<Event> getEventsByPositionTitle(String title) {
+        List<Event> prioritizedEvents = queryEvents(JobiEventDbSchema.EventTable.Columns.POSITION + "=?", new String[]{title}, null);
+
+        Collections.sort(prioritizedEvents, new Comparator<Event>() {
+
+            @Override
+            public int compare(Event event1, Event event2) {
+                return event1.getDate().compareTo(event2.getDate());
+            }
+        });
+
+        return prioritizedEvents;
     }
 
     private static ContentValues getEventContentValues(Event event) {
