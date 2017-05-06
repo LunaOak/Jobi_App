@@ -11,10 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.List;
+
+import edu.umd.cs.jobi.model.Position;
+import edu.umd.cs.jobi.service.PositionService;
+
 public class PositionListFragment extends Fragment {
 
-    private TabLayout tabLayout;
+    private PositionService positionService;
+    private List<Position> allPositions;
     private RecyclerView positionList;
+    private TabLayout tabLayout;
     private Button newPositionButton;
 
     public static PositionListFragment newInstance() {
@@ -26,6 +33,9 @@ public class PositionListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        positionService = DependencyFactory.getPositionService(getActivity().getApplicationContext());
+        allPositions = positionService.getAllPositions();
     }
 
     @Nullable
