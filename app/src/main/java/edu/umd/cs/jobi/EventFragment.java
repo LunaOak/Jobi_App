@@ -105,7 +105,7 @@ public class EventFragment extends Fragment {
         addContactBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = EnterContactActivity.newIntent(getActivity(), event.getId()); //event might be null. SHOULDNT though
+                Intent intent =  new Intent(getActivity().getApplicationContext(), EnterContactActivity.class);
 
                 startActivityForResult(intent, REQUEST_CODE_ADD_CONTACT);
             }
