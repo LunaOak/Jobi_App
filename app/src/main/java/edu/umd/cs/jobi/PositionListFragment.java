@@ -1,19 +1,20 @@
 package edu.umd.cs.jobi;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 public class PositionListFragment extends Fragment {
 
     private TabLayout tabLayout;
-    private TextView positionList;
+    private RecyclerView positionList;
     private Button newPositionButton;
 
     public static PositionListFragment newInstance() {
@@ -35,20 +36,18 @@ public class PositionListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_positionlist, container, false);
 
         tabLayout = (TabLayout)view.findViewById(R.id.position_tab_layout);
-        positionList = (TextView)view.findViewById(R.id.position_list);
-        positionList.setText("All Positions!"); //TODO change this to be the list of all companies
+        positionList = (RecyclerView)view.findViewById(R.id.position_list);
+        //positionList.setText("All Positions!"); //TODO change this to be the list of all companies
 
-        /*
         newPositionButton = (Button)view.findViewById(R.id.add_new_position_button);
         newPositionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent positionIntent = new Intent(getActivity(),
-                        PositionActivity.class);
-                startActivity(positionIntent);
+                Intent enterPositionIntent = new Intent(getActivity(),
+                        EnterPositionActivity.class);
+                startActivity(enterPositionIntent);
             }
         });
-        */
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -56,14 +55,14 @@ public class PositionListFragment extends Fragment {
                 String tabText = tab.getText().toString();
 
                 if (tabText.equals(getString(R.string.list_all))) {
-                    positionList.setText("All positions!");
+                    //positionList.setText("All positions!");
                 } else if (tabText.equals(getString(R.string.positions_todo))) {
-                    positionList.setText("Need to do these applications");
+                    //positionList.setText("Need to do these applications");
                 } else if (tabText.equals(getString(R.string.positions_ongoing))) {
-                    positionList.setText("These are in progress");
+                    //positionList.setText("These are in progress");
                 } else {
                     // R.string.positions_done
-                    positionList.setText("These are all done!");
+                    //positionList.setText("These are all done!");
                 }
 
             }
