@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import edu.umd.cs.jobi.model.Contact;
 import edu.umd.cs.jobi.model.Position;
 import edu.umd.cs.jobi.service.PositionService;
 
@@ -106,6 +107,12 @@ public class SQLitePositionService implements PositionService {
         }
 
         return positions;
+    }
+
+    @Override
+    public Contact getContactById(String id) {
+        //Todo getContactById
+        return null;
     }
 
 
