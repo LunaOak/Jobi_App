@@ -19,6 +19,7 @@ import android.widget.Toast;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.Toolbar;
+import static android.app.Activity.RESULT_OK;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,8 @@ public class SettingsFragment extends Fragment {
     private CheckBox notificationsEmails;
     private CheckBox notificationsDeadlines;
     private List<Settings.Notifications> notificationsList;
+    private static final String SETTINGS_UPDATED= "SettingsUpdated";
+
 
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
@@ -179,6 +182,9 @@ public class SettingsFragment extends Fragment {
 
                 settings.setNotifications(notificationsList);
 
+                Intent data = new Intent();
+                data.putExtra(SETTINGS_UPDATED, settings);
+                getActivity().setResult(RESULT_OK, data);
                 getActivity().finish();
             }
 
