@@ -140,4 +140,8 @@ public class PositionFragment extends Fragment {
 
         return view;
     }
+
+    public static Position getPositionCreated(Intent data) {
+        return (Position) data.getSerializableExtra(POSITION_ID);
+    }
 }

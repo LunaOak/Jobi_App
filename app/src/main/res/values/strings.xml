@@ -131,6 +131,7 @@
     <string name="current_companies">Current</string>
 
     <string name="position_list_label">Positions</string>
+    <string name="events_list_label">Events</string>
 
 
     <!--Home Activity Strings-->

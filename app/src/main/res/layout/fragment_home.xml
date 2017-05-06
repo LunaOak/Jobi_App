@@ -13,19 +13,22 @@
         android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>-->
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/home_title"
-        android:textSize="23dp"
-        android:textColor="@color/colorPrimary"
-        android:layout_marginBottom="10dp"/>
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/home_title"-->
+        <!--android:textSize="17dp"-->
+        <!--android:textColor="@color/colorPrimary"-->
+        <!--android:layout_marginBottom="10dp"/>-->
 
     <!--Day-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/day"/>
+        android:id="@+id/day"
+        android:textColor="@color/home_date"
+        android:textStyle="bold"
+        android:textSize="21dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,24 +41,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/month"
-            android:textColor="@color/home_date"
-            android:textSize="25dp"/>
+            android:textColor="@color/home_date2"
+            android:textStyle="bold"
+            android:textSize="27dp"/>
 
         <!--Date-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/date"
-            android:textColor="@color/home_date"
-            android:textSize="25dp"/>
+            android:textColor="@color/home_date2"
+            android:textStyle="bold"
+            android:textSize="27dp"/>
 
         <!--Year-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/year"
-            android:textColor="@color/home_date"
-            android:textSize="25dp"/>
+            android:textColor="@color/home_date2"
+            android:textStyle="bold"
+            android:textSize="27dp"/>
 
 
     </LinearLayout>
@@ -116,6 +122,15 @@
         android:text="@string/manage_label"
         android:textSize="20dp"
         android:textColor="@color/colorAccent2"/>
+
+    <Button
+        android:id="@+id/event_list_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/event_list_label"
+        android:background="@color/colorWhite"
+        android:textColor="@color/colorAccent"
+        android:textAlignment="viewStart"/>
 
     <Button
         android:id="@+id/company_list_button"
