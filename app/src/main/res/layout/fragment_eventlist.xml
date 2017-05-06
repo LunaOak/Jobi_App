@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="35dp"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/home_date2"
             android:text="@string/event_list_label"
             android:layout_weight="0.75" />
 
@@ -27,7 +27,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:drawableLeft="@android:drawable/ic_menu_add"
-            android:text="@string/add_new_button"/>
+            android:text="@string/add_new_button"
+            android:background="@color/colorWhite"
+            android:textColor="@color/colorAccent"/>
 
     </LinearLayout>
 
@@ -35,7 +37,7 @@
         android:id="@+id/company_tab_layout"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        app:tabIndicatorColor="@color/home_date">
+        app:tabIndicatorColor="@color/colorAccent">
 
         <android.support.design.widget.TabItem
             android:id="@+id/all_companies_tab"
@@ -55,8 +57,9 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/event_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colorAccent5">
     </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>
