@@ -24,8 +24,8 @@ import java.util.Locale;
 import edu.umd.cs.jobi.model.Contact;
 import edu.umd.cs.jobi.model.Event;
 import edu.umd.cs.jobi.model.Position;
-import edu.umd.cs.jobi.service.impl.SQLiteEventService;
-import edu.umd.cs.jobi.service.impl.SQLitePositionService;
+import edu.umd.cs.jobi.service.EventService;
+import edu.umd.cs.jobi.service.PositionService;
 
 import static android.R.drawable.btn_star_big_off;
 import static android.R.drawable.btn_star_big_on;
@@ -59,8 +59,8 @@ public class PositionFragment extends Fragment {
     private Button addNewEventButton;
 
     // Services //
-    private SQLitePositionService positionService;
-    private SQLiteEventService eventService;
+    private PositionService positionService;
+    private EventService eventService;
 
     // RecyclerViews //
     private RecyclerView contactsRecyclerView;
@@ -92,6 +92,10 @@ public class PositionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_position, container, false);
+
+        // Services declaration //
+        eventService = DependencyFactory.getEventService(getActivity().getApplication().getApplicationContext());
+        positionService = DependencyFactory.getPositionService(getActivity().getApplication().getApplicationContext());
 
         // Position Title //
         positionTitle = (TextView) view.findViewById(R.id.positionTitle);
