@@ -26,6 +26,8 @@ public class PositionActivity extends SingleFragmentActivity {
     }
 
     public static Position getPositionEdit(Intent data) {
-        return PositionFragment.getPositionEdit(data);
+        //Todo
+//        return PositionFragment.getPositionEdit(data);
+        return  null;
     }
 }

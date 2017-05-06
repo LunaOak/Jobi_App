@@ -6,13 +6,19 @@ import android.support.v4.app.Fragment;
 
 public class EventActivity extends SingleFragmentActivity {
 
+    private static final String EXTRA_EVENT_ID = "EVENT_ID";
+
     @Override
     protected Fragment createFragment() {
-        return EventFragment.newInstance();
+        String eventId = getIntent().getStringExtra(EXTRA_EVENT_ID);
+
+        return EventFragment.newInstance(eventId);
     }
 
-    public static Intent newIntent(Context context) {
+    public static Intent newIntent(Context context, String eventId) {
         Intent intent = new Intent(context, EventActivity.class);
+        intent.putExtra(EXTRA_EVENT_ID, eventId);
+
         return intent;
     }
 }
