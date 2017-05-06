@@ -23,7 +23,6 @@ public class JobiPositionDbHelper extends SQLiteOpenHelper {
                 JobiPositionDbSchema.PositionTable.Columns.DESCRIPTION + ", " +
                 JobiPositionDbSchema.PositionTable.Columns.FAVORITE + ", " +
                 JobiPositionDbSchema.PositionTable.Columns.TYPE + ", " +
-                JobiPositionDbSchema.PositionTable.Columns.CONTACTS + ", " +
                 JobiPositionDbSchema.PositionTable.Columns.COMPANY + ")");
     }
 
