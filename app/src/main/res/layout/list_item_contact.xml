@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:id="@+id/contact_list">
+
+
+    <!-- Left -->
+    <TextView
+        android:id="@+id/list_item_contact_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        tools:text="Contact Name"/>
+
+    <TextView
+        android:id="@+id/list_item_contact_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        tools:text="Contact Title"
+        android:layout_below="@+id/list_item_contact_name"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <!-- Right -->
+    <TextView
+        android:id="@+id/list_item_contact_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        tools:text="email@email.com"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        tools:ignore="RelativeOverlap" />
+
+    <TextView
+        android:id="@+id/list_item_contact_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        tools:text="(202)123-1234"
+        android:layout_below="@+id/list_item_contact_email"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
