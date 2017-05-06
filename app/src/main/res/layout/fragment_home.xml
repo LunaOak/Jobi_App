@@ -22,53 +22,61 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="110dp"
         android:orientation="vertical"
         android:background="@drawable/ic_mountain">
 
-    <!--Day-->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/day"
-        android:textColor="@color/home_date2"
-        android:textStyle="bold"
-        android:textSize="21dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <!--Month-->
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/month"
-            android:textColor="@color/colorAccent"
-            android:textStyle="bold"
-            android:textSize="27dp"/>
+            android:orientation="vertical"
+            android:layout_margin="10dp">
 
-        <!--Date-->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/date"
-            android:textColor="@color/colorAccent"
-            android:textStyle="bold"
-            android:textSize="27dp"/>
+            <!--Day-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/day"
+                android:textColor="@color/home_date2"
+                android:textStyle="bold"
+                android:textSize="21dp" />
 
-        <!--Year-->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/year"
-            android:textColor="@color/colorAccent"
-            android:textStyle="bold"
-            android:textSize="27dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!--Month-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/month"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:textSize="27dp"/>
+
+                <!--Date-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/date"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:textSize="27dp"/>
+
+                <!--Year-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/year"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:textSize="27dp"/>
 
 
-    </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

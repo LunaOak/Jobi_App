@@ -59,8 +59,6 @@ public class SettingsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-
-
         // Status Radio Group //
         statusRadioGroup = (RadioGroup)view.findViewById(R.id.settings_status_radio_group);
 
