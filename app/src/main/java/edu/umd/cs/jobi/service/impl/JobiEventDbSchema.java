@@ -40,6 +40,7 @@ public class JobiEventDbSchema {
 
         static final class Columns {
             public static final String ID = "ID";
+            public static final String EVENT_ID = "EVENT_ID";
             public static final String TITLE = "TITLE";
             public static final String DATE = "DATE";
         }
