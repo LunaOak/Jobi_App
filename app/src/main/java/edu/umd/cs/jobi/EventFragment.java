@@ -85,6 +85,7 @@ public class EventFragment extends Fragment {
         editEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Todo
 //                Intent intent = EventCreateActivity.newIntent(getActivity(), event.getId()); //event might be null. SHOULDNT though
 //
 //                startActivityForResult(intent, REQUEST_CODE_EDIT_EVENT);
@@ -95,6 +96,7 @@ public class EventFragment extends Fragment {
         setReminderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Todo
 //                Intent intent = EventReminderCreateActivity.newIntent(getActivity(), event.getId()); //event might be null. SHOULDNT though
 //
 //                startActivityForResult(intent, REQUEST_CODE_ADD_REMINDER);
@@ -126,11 +128,12 @@ public class EventFragment extends Fragment {
             if (data == null) {
                 return;
             }
-
+            //Todo
 //            event = EventCreateActivity.getEventCreated(data);
 //            eventService.addEventToDb(event);
 //            updateUI();
         } else if(requestCode == REQUEST_CODE_ADD_REMINDER) {
+            //Todo
 //            event.getReminders().add(EventReminderCreateActivity.getReminderCreated(data));
 //            eventService.addEventToDb(event);
 //            updateUI();
