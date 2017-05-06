@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:text="@string/settings_title"
         android:textSize="40dp"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/home_date2"
         android:layout_marginBottom="10dp"/>
 
     <!--Current Status-->

@@ -46,6 +46,7 @@ public class HomeFragment extends Fragment {
     private Button companyListButton;
     private Button positionListButton;
     private Button createPositionButton;
+    private Button eventListButton;
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -83,6 +84,15 @@ public class HomeFragment extends Fragment {
         year.setText(new StringBuilder().append(c.get(Calendar.YEAR)));
 
 
+        eventListButton = (Button)view.findViewById(R.id.event_list_button);
+        eventListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent eventListIntent = new Intent(getActivity(),
+                        EventListActivity.class);
+                startActivity(eventListIntent);
+            }
+        });
         companyListButton = (Button)view.findViewById(R.id.company_list_button);
         companyListButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +109,15 @@ public class HomeFragment extends Fragment {
                 Intent positionListIntent = new Intent(getActivity(),
                         PositionListActivity.class);
                 startActivity(positionListIntent);
+            }
+        });
+        createPositionButton = (Button)view.findViewById(R.id.create_position_button);
+        createPositionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent createPositionIntent = new Intent(getActivity(),
+                        EnterPositionActivity.class);
+                startActivity(createPositionIntent);
             }
         });
 
@@ -147,13 +166,8 @@ public class HomeFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-//            case R.id.menu_item_create_story:
-//                Intent createStoryIntent = new Intent(getActivity(), StoryActivity.class);
-//                startActivityForResult(createStoryIntent, REQUEST_CODE_CREATE_EVENT);
-//                return true;
             case R.id.menu_item_home:
-//                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-//                startActivity(homeIntent);
+//               Don't do anything, you're already here!
                 return true;
             case R.id.menu_item_settings:
                 Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
