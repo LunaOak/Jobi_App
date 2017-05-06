@@ -17,4 +17,6 @@
     <color name="home_date">#49e12e</color>
     <color name="home_date2">#0f2c43</color>
     <color name="background_material_light">#ffffff</color>
+
+    <color name="colorAccent4">#f24f5a</color>
 </resources>

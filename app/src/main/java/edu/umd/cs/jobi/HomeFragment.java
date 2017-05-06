@@ -16,25 +16,32 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.content.res.Resources;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import java.util.*;
 import java.text.*;
 
 import java.util.List;
 
 import edu.umd.cs.jobi.model.Event;
-import edu.umd.cs.jobi.service.StoryService;
+import edu.umd.cs.jobi.model.Settings;
+import edu.umd.cs.jobi.service.EventService;
+
 
 public class HomeFragment extends Fragment {
 
     private final String TAG = getClass().getSimpleName();
     private static final int REQUEST_CODE_CREATE_EVENT = 0;
+    private static final int REQUEST_CODE_SETTINGS_UPDATED = 5;
 
-    private StoryService storyService;
+    private EventService eventService;
 
     private RecyclerView eventRecyclerView;
     private EventAdapter adapter;
-
+    private Settings settings;
 
     // Labels and Date
     private TextView day;
@@ -47,6 +54,12 @@ public class HomeFragment extends Fragment {
     private Button positionListButton;
     private Button createPositionButton;
     private Button eventListButton;
+    private ImageView statusColor;
+    private TextView statusText;
+    private Drawable circle;
+    private int interviewColor;
+    private int searchingColor;
+    private int notSearchingColor;
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -57,8 +70,8 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-        //storyService = DependencyFactory.getStoryService(getActivity().getApplicationContext());
+        eventService = DependencyFactory.getEventService(getActivity().getApplicationContext());
+        settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings();
     }
 
     @Nullable
@@ -67,7 +80,7 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        eventRecyclerView = (RecyclerView)view.findViewById(R.id.story_recycler_view);
+        eventRecyclerView = (RecyclerView)view.findViewById(R.id.event_recycler_view);
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         day = (TextView) view.findViewById(R.id.day);
@@ -83,6 +96,38 @@ public class HomeFragment extends Fragment {
         date.setText(new StringBuilder().append(c.get(Calendar.DATE)).append(" "));
         year.setText(new StringBuilder().append(c.get(Calendar.YEAR)));
 
+        circle = getActivity().getApplicationContext().getDrawable(R.drawable.circle);
+        statusColor = (ImageView) view.findViewById(R.id.status_color);
+        statusColor.setImageDrawable(circle);
+
+        interviewColor = getActivity().getApplicationContext().getColor(R.color.interviewing);
+        searchingColor = getActivity().getApplicationContext().getColor(R.color.searching);
+        notSearchingColor = getActivity().getApplicationContext().getColor(R.color.not_searching);
+
+        statusText = (TextView) view.findViewById(R.id.status_text);
+
+        if (settings != null) {
+
+            // Status //
+            switch (settings.getStatus()) {
+                case INTERVIEWING:
+                    statusColor.getDrawable().setColorFilter(interviewColor,PorterDuff.Mode.SRC_ATOP);
+                    statusText.setText(R.string.status_interviewing);
+                    break;
+                case SEARCHING:
+                    statusColor.setColorFilter(searchingColor,PorterDuff.Mode.SRC_ATOP);
+                    statusText.setText(R.string.status_searching);
+                    break;
+                case NOT_SEARCHING:
+                    statusColor.setColorFilter(notSearchingColor,PorterDuff.Mode.SRC_ATOP);
+                    statusText.setText(R.string.status_not_searching);
+                    break;
+                default:
+                    statusColor.setColorFilter(interviewColor,PorterDuff.Mode.SRC_ATOP);
+                    statusText.setText(R.string.status_interviewing);
+                    break;
+            }
+        }
 
         eventListButton = (Button)view.findViewById(R.id.event_list_button);
         eventListButton.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +166,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        //updateUI();
+        updateUI();
 
         return view;
     }
@@ -138,23 +183,57 @@ public class HomeFragment extends Fragment {
             }
 
             //Event eventCreated = EventActivity.getEventCreated(data);
-            //storyService.addStoryToBacklog(eventCreated);
+            //eventService.addEventToDb(eventCreated);
             updateUI();
         }
+
+        if (requestCode == REQUEST_CODE_SETTINGS_UPDATED) {
+            if (data == null) {
+                return;
+            }
+
+            if (settings != null) {
+
+                // Status //
+                switch (settings.getStatus()) {
+                    case INTERVIEWING:
+                        statusColor.getDrawable().setColorFilter(interviewColor,PorterDuff.Mode.SRC_ATOP);
+                        statusText.setText(R.string.status_interviewing);
+                        break;
+                    case SEARCHING:
+                        statusColor.setColorFilter(searchingColor,PorterDuff.Mode.SRC_ATOP);
+                        statusText.setText(R.string.status_searching);
+                        break;
+                    case NOT_SEARCHING:
+                        statusColor.setColorFilter(notSearchingColor,PorterDuff.Mode.SRC_ATOP);
+                        statusText.setText(R.string.status_not_searching);
+                        break;
+                    default:
+                        statusColor.setColorFilter(interviewColor,PorterDuff.Mode.SRC_ATOP);
+                        statusText.setText(R.string.status_interviewing);
+                        break;
+                }
+            }
+
+        }
+
     }
 
     private void updateUI() {
-        Log.d(TAG, "updating UI all stories");
+        //Log.d(TAG, "updating UI all stories");
 
-        //List<Event> events = eventService.getAllStories();
+        List<Event> events = eventService.getAllEvents();
 
         if (adapter == null) {
-            //adapter = new EventAdapter(events);
+            adapter = new EventAdapter(events);
             eventRecyclerView.setAdapter(adapter);
         } else {
-            //adapter.setEvents(events);
+            adapter.setEvents(events);
             adapter.notifyDataSetChanged();
         }
+
+
+
     }
 
     @Override
@@ -171,7 +250,7 @@ public class HomeFragment extends Fragment {
                 return true;
             case R.id.menu_item_settings:
                 Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
-                startActivity(settingsIntent);
+                startActivityForResult(settingsIntent,REQUEST_CODE_SETTINGS_UPDATED);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -179,10 +258,8 @@ public class HomeFragment extends Fragment {
     }
 
     private class EventHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView summaryTextView;
-        private TextView criteria;
-        private TextView priorityTextView;
-        private TextView pointsTextView;
+        private TextView dateTextView;
+        private TextView typeTextView;
 
         private Event event;
 
@@ -190,19 +267,16 @@ public class HomeFragment extends Fragment {
             super(itemView);
             itemView.setOnClickListener(this);
 
-//            summaryTextView = (TextView)itemView.findViewById(R.id.list_item_story_summary);
-//            criteria = (TextView)itemView.findViewById(R.id.list_item_story_criteria);
-//            priorityTextView = (TextView)itemView.findViewById(R.id.list_item_story_priority);
-//            pointsTextView = (TextView)itemView.findViewById(R.id.list_item_story_points);
+            dateTextView = (TextView)itemView.findViewById(R.id.list_item_event_date);
+            typeTextView = (TextView)itemView.findViewById(R.id.list_item_event_type);
         }
 
         public void bindEvent(Event event) {
             this.event = event;
 
-//            summaryTextView.setText(story.getSummary());
-//            criteria.setText(story.getAcceptanceCriteria());
-//            priorityTextView.setText(story.getPriority().toString());
-//            pointsTextView.setText("" + story.getStoryPoints());
+            dateTextView.setText(event.getDate().toString());
+            typeTextView.setText(event.getType());
+
         }
 
         @Override
@@ -226,7 +300,7 @@ public class HomeFragment extends Fragment {
         @Override
         public EventHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            View view = layoutInflater.inflate(R.layout.list_item_story, parent, false);
+            View view = layoutInflater.inflate(R.layout.list_item_event_position, parent, false);
             return new EventHolder(view);
         }
 
