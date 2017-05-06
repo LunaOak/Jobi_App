@@ -6,14 +6,26 @@
         <item name="colorPrimary">@color/newColorPrimary</item>
         <item name="colorPrimaryDark">@color/newColorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:actionBarStyle">@style/AppTheme.AppBarOverlay</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+    <!--<style name="Widget.AppTheme.ActionBar" parent="Widget.AppCompat.ActionBar.Solid">-->
+        <!--<item name="android:background">@color/colorWhite</item>-->
+        <!--<item name="android:titleTextStyle">@style/ThemeOverlay.AppTheme.ActionBar</item>-->
+    <!--</style>-->
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <!--<style name="ThemeOverlay.AppTheme.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">-->
+        <!--<item name="android:textColor">@color/colorAccent</item>-->
+    <!--</style>-->
+
+    <!--<style name="AppTheme.NoActionBar">-->
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="windowNoTitle">true</item>-->
+    <!--</style>-->
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorPrimary">@color/colorAccent</item>
+    </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
