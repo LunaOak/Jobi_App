@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:id="@+id/position_event_list">
+
+    <TextView
+        android:id="@+id/list_item_event_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        tools:text="Jan 01 - "/>
+
+    <TextView
+        android:id="@+id/list_item_event_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        tools:text="Phone Interview"
+        android:layout_toRightOf="@id/list_item_event_date"
+        android:layout_toEndOf="@id/list_item_event_date"/>
+
+</RelativeLayout>
