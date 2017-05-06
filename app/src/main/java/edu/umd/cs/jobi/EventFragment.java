@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 
 import edu.umd.cs.jobi.model.Contact;
@@ -40,8 +43,6 @@ public class EventFragment extends Fragment {
     private TextView positionText;
     private TextView dateText;
     private TextView timeText;
-    private TextView remindersText;
-    private TextView contactsText;
 
     private ImageButton editEventBtn;
     private Button setReminderBtn;
@@ -51,6 +52,14 @@ public class EventFragment extends Fragment {
     private static final int MINUTE = 60 * SECOND;
     private static final int HOUR = 60 * MINUTE;
     private static final int DAY = 24 * HOUR;
+
+    // RecyclerViews //
+    private RecyclerView contactsRecyclerView;
+    private RecyclerView remindersRecyclerView;
+
+    // Adapters //
+    private ContactAdapter contactAdapter;
+    private ReminderAdapter reminderAdapter;
 
     public static EventFragment newInstance() {
         return new EventFragment();
@@ -78,8 +87,6 @@ public class EventFragment extends Fragment {
         positionText = (TextView) view.findViewById(R.id.event_position);
         dateText = (TextView) view.findViewById(R.id.event_date);
         timeText = (TextView) view.findViewById(R.id.event_time);
-        remindersText = (TextView) view.findViewById(R.id.event_reminders);
-        contactsText = (TextView) view.findViewById(R.id.event_contacts);
 
         editEventBtn = (ImageButton) view.findViewById(R.id.event_edit_event_button);
         editEventBtn.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +119,12 @@ public class EventFragment extends Fragment {
                 startActivityForResult(intent, REQUEST_CODE_ADD_CONTACT);
             }
         });
+
+        contactsRecyclerView = (RecyclerView)view.findViewById(R.id.event_contact_recycler_view);
+        contactsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        remindersRecyclerView = (RecyclerView)view.findViewById(R.id.event_reminder_recycler_view);
+        remindersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         updateUI();
 
@@ -155,35 +168,161 @@ public class EventFragment extends Fragment {
             //"EEE, d MMM yyyy HH:mm:ss Z"
             timeText.setText(new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).format(event.getDate()));
 
-            remindersText.setText("");
-            for (Reminder reminder : event.getReminders()) {
-                long ms = event.getDate().getTime() - reminder.getDate().getTime();
-                String timeBefore= "";
+            List<Reminder> reminders = eventService.getEventById(event.getId()).getReminders();
+            List<Contact> contacts = eventService.getEventById(event.getId()).getContacts();
 
-                if (ms > DAY) {
-                    timeBefore += (Long.toString(ms/DAY) + " days ");
-                    ms %= DAY;
-                }
-
-                if (ms > HOUR) {
-                    timeBefore += (Long.toString(ms/HOUR) + " hours ");
-                    ms %= HOUR;
-                }
-
-                if (ms > MINUTE) {
-                    timeBefore += (Long.toString(ms/MINUTE) + " minutes ");
-                    ms %= MINUTE;
-                }
-
-                remindersText.append(reminder.getTitle() + ":" + timeBefore + "before");
-                remindersText.append(System.getProperty("line.separator"));
+            if (reminderAdapter == null) {
+                reminderAdapter = new ReminderAdapter(reminders);
+                remindersRecyclerView.setAdapter(reminderAdapter);
+            } else {
+                reminderAdapter.setReminders(reminders);
+                reminderAdapter.notifyDataSetChanged();
             }
 
-            contactsText.setText("");
-            for (Contact contact: event.getContacts()) {
-                contactsText.append(contact.getName() + " " + contact.getPhone() + " " + contact.getEmail());
-                contactsText.append(System.getProperty("line.separator"));
+            if (contactAdapter == null) {
+                contactAdapter = new ContactAdapter(contacts);
+                contactsRecyclerView.setAdapter(contactAdapter);
+            } else {
+                contactAdapter.setContacts(contacts);
+                contactAdapter.notifyDataSetChanged();
             }
+        }
+    }
+
+    private class ReminderAdapter extends RecyclerView.Adapter<ReminderHolder> {
+        private List<Reminder> reminders;
+
+        public ReminderAdapter(List<Reminder> reminders) {
+            this.reminders = reminders;
+        }
+
+        public void setReminders(List<Reminder> reminders) {
+            this.reminders = reminders;
+        }
+
+        @Override
+        public ReminderHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            View view = layoutInflater.inflate(R.layout.list_item_reminder, parent, false);
+            return new ReminderHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ReminderHolder holder, int position) {
+            Reminder reminder = reminders.get(position);
+            holder.bindReminder(reminder);
+        }
+
+        @Override
+        public int getItemCount() {
+            return reminders.size();
+        }
+    }
+
+    private class ReminderHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private TextView reminderText;
+
+        private Reminder reminder;
+
+        public ReminderHolder(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+
+            reminderText = (TextView)itemView.findViewById(R.id.list_item_reminder);
+        }
+
+        public void bindReminder(Reminder reminder) {
+            this.reminder = reminder;
+
+            long ms = event.getDate().getTime() - reminder.getDate().getTime();
+            String timeBefore= "";
+
+            if (ms > DAY) {
+                timeBefore += (Long.toString(ms/DAY) + " days ");
+                ms %= DAY;
+            }
+
+            if (ms > HOUR) {
+                timeBefore += (Long.toString(ms/HOUR) + " hours ");
+                ms %= HOUR;
+            }
+
+            if (ms > MINUTE) {
+                timeBefore += (Long.toString(ms/MINUTE) + " minutes ");
+                ms %= MINUTE;
+            }
+
+            reminderText.setText(reminder.getTitle() + ":" + timeBefore + "before");
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = EnterContactActivity.newIntent(getActivity(), reminder.getId());
+            startActivityForResult(intent, REQUEST_CODE_ADD_REMINDER);
+        }
+    }
+
+    private class ContactAdapter extends RecyclerView.Adapter<ContactHolder> {
+        private List<Contact> contacts;
+
+        public ContactAdapter(List<Contact> contacts) {
+            this.contacts = contacts;
+        }
+
+        public void setContacts(List<Contact> contacts) {
+            this.contacts = contacts;
+        }
+
+        @Override
+        public ContactHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            View view = layoutInflater.inflate(R.layout.list_item_contact, parent, false);
+            return new ContactHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ContactHolder holder, int position) {
+            Contact contact = contacts.get(position);
+            holder.bindContact(contact);
+        }
+
+        @Override
+        public int getItemCount() {
+            return contacts.size();
+        }
+    }
+
+    private class ContactHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private TextView contactName;
+        private TextView contactTitle;
+        private TextView contactEmail;
+        private TextView contactPhone;
+
+        private Contact contact;
+
+        public ContactHolder(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+
+            contactName = (TextView)itemView.findViewById(R.id.list_item_contact_name);
+            contactTitle = (TextView)itemView.findViewById(R.id.list_item_contact_title);
+            contactEmail = (TextView)itemView.findViewById(R.id.list_item_contact_email);
+            contactPhone = (TextView)itemView.findViewById(R.id.list_item_contact_phone);
+        }
+
+        public void bindContact(Contact contact) {
+            this.contact = contact;
+
+            contactName.setText(contact.getName());
+            contactTitle.setText(contact.getJobTitle());
+            contactEmail.setText(contact.getEmail());
+            contactPhone.setText(contact.getPhone());
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = EnterContactActivity.newIntent(getActivity(), contact.getId(), false);
+            startActivityForResult(intent, REQUEST_CODE_ADD_CONTACT);
         }
     }
 }

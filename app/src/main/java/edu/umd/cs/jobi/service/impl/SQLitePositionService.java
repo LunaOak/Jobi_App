@@ -42,7 +42,7 @@ public class SQLitePositionService implements PositionService {
             db.update(JobiPositionDbSchema.PositionTable.NAME, getContentValues(position), JobiPositionDbSchema.PositionTable.Columns.ID + "=?", new String[]{position.getId()});
         }
 
-        contactDb.delete(JobiPositionDbSchema.ContactTable.NAME, JobiPositionDbSchema.PositionTable.Columns.ID + "=?", new String[] {position.getId()});
+        contactDb.delete(JobiPositionDbSchema.ContactTable.NAME, JobiPositionDbSchema.ContactTable.Columns.POSITION_ID + "=?", new String[] {position.getId()});
 
         for(Contact contact : position.getContacts()) {
             contactDb.insert(JobiPositionDbSchema.ContactTable.NAME, null, getContactContentValues(position.getId(), contact));

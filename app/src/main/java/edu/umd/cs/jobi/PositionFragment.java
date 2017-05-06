@@ -35,12 +35,11 @@ public class PositionFragment extends Fragment {
 
     private final String TAG = getClass().getSimpleName();
 
-    private static final String POSITION_ID = "PositionId";
+    private static final String POSITION_ID = "POSITION_ID";
     private static final int REQUEST_CODE_EDIT_POSITION = 0;
     private static final int REQUEST_CODE_CONTACT = 1;
     private static final int REQUEST_CODE_ADD_EVENT = 2;
     private static final int REQUEST_CODE_EVENT = 3;
-
 
     private Position position;
 
