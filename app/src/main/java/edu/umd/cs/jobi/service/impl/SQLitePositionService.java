@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import edu.umd.cs.jobi.model.Contact;
 import edu.umd.cs.jobi.model.Position;
 import edu.umd.cs.jobi.service.PositionService;
 
@@ -22,7 +23,7 @@ public class SQLitePositionService implements PositionService {
 
     public SQLitePositionService (Context context) {
         db = new JobiPositionDbHelper(context).getWritableDatabase();
-//        contactDb = new JobiEventContactDbHelper(context).getWritableDatabase();
+        contactDb = new JobiPositionContactDbHelper(context).getWritableDatabase();
     }
 
     protected SQLiteDatabase getPositionDatabase() {
@@ -37,10 +38,14 @@ public class SQLitePositionService implements PositionService {
     public void addPositionToDb(Position position) {
         if(getPositionById(position.getId()) == null) {
             db.insert(JobiPositionDbSchema.PositionTable.NAME, null, getContentValues(position));
-            // Contacts?
         } else {
             db.update(JobiPositionDbSchema.PositionTable.NAME, getContentValues(position), JobiPositionDbSchema.PositionTable.Columns.ID + "=?", new String[]{position.getId()});
-            // Contacts?
+        }
+
+        contactDb.delete(JobiPositionDbSchema.ContactTable.NAME, JobiPositionDbSchema.PositionTable.Columns.ID + "=?", new String[] {position.getId()});
+
+        for(Contact contact : position.getContacts()) {
+            contactDb.insert(JobiPositionDbSchema.ContactTable.NAME, null, getContactContentValues(position.getId(), contact));
         }
     }
 
@@ -75,6 +80,23 @@ public class SQLitePositionService implements PositionService {
         } finally {
             cursor.close();
             cursorRaw.close(); // Might need to delete
+        }
+
+        for(Position position : positions) {
+            cursorRaw = contactDb.query(JobiPositionDbSchema.ContactTable.NAME, null, JobiPositionDbSchema.ContactTable.Columns.ID + "=?", new String[]{position.getId()}, null, null, null);
+            cursor = new PositionCursorWrapper(cursorRaw);
+
+            try {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    position.getContacts().add(cursor.getContact());
+
+                    cursor.moveToNext();
+                }
+            } finally {
+                cursor.close();
+                cursorRaw.close();
+            }
         }
         return positions;
     }
@@ -140,6 +162,18 @@ public class SQLitePositionService implements PositionService {
 
             return position;
         }
+
+        public Contact getContact() {
+            String id = getString(getColumnIndex(JobiPositionDbSchema.ContactTable.Columns.ID));
+            String jobTitle = getString(getColumnIndex(JobiPositionDbSchema.ContactTable.Columns.JOB_TITLE));
+            String name = getString(getColumnIndex(JobiPositionDbSchema.ContactTable.Columns.NAME));
+            String email = getString(getColumnIndex(JobiPositionDbSchema.ContactTable.Columns.EMAIL));
+            String phone = getString(getColumnIndex(JobiPositionDbSchema.ContactTable.Columns.PHONE));
+
+            Contact contact = new Contact(name, jobTitle, email, null, phone); //Todo
+
+            return contact;
+        }
     }
 
     // getContentValues //////////////////////////////////////////////////////////////////////////////
@@ -158,66 +192,15 @@ public class SQLitePositionService implements PositionService {
         return contentValues;
     }
 
-    // addStoryToBacklog //////////////////////////////////////////////////////////////////////////////
-//    public void addStoryToBacklog(Story story) {
-//
-//        String[] IDs = new String[]{story.getId()};
-//        //IDs[0] = story.getId();
-//
-//        // If not present in the list at all, add //
-//        if (getStoryById(story.getId()) == null) {
-//            db.insert(JobiPositionDbSchema.PositionTable.NAME,null,getContentValues(story));
-//        // Otherwise if it is then update it //
-//        } else {
-//            db.update(JobiPositionDbSchema.PositionTable.NAME,getContentValues(story),"ID=?",IDs);
-//        }
-//    }
+    private static ContentValues getContactContentValues(String id, Contact contact) {
+        ContentValues contentValues = new ContentValues();
 
-    // getStoryById //////////////////////////////////////////////////////////////////////////////
-//    public Story getStoryById(String id) {
-//
-//        if (id == null) {
-//            return null;
-//        } else {
-//            for (Story story : queryStories("ID=?", new String[]{id}, null)) {
-//                if (story.getId().equals(id)) {
-//                    return story;
-//                }
-//            }
-//            return null;
-//        }
-//    }
+        contentValues.put(JobiPositionDbSchema.ContactTable.Columns.ID, id);
+        contentValues.put(JobiPositionDbSchema.ContactTable.Columns.JOB_TITLE, contact.getJobTitle());
+        contentValues.put(JobiPositionDbSchema.ContactTable.Columns.NAME, contact.getName());
+        contentValues.put(JobiPositionDbSchema.ContactTable.Columns.EMAIL, contact.getEmail());
+        contentValues.put(JobiPositionDbSchema.ContactTable.Columns.PHONE, contact.getPhone());
 
-    // getAllStories //////////////////////////////////////////////////////////////////////////////
-//    public List<Story> getAllStories() {
-//        List<Story> prioritizedStories = queryStories(null,null,null);
-//
-//        Collections.sort(prioritizedStories, new Comparator<Story>() {
-//            @Override
-//            public int compare(Story story1, Story story2) {
-//                if (story1.getPriority().equals(story2.getPriority())) {
-//                    if (story1.getStatus().equals(story2.getStatus())) {
-//                        return story1.getTimeCreated().compareTo(story2.getTimeCreated());
-//                    } else {
-//                        return story1.getStatus().compareTo(story2.getStatus());
-//                    }
-//                } else {
-//                    return story1.getPriority().compareTo(story2.getPriority());
-//                }
-//            }
-//        });
-//
-//        return prioritizedStories;
-//    }
-
-
-    // getCurrentSprintStories //////////////////////////////////////////////////////////////////////////////
-//    public List<Story> getCurrentSprintStories() {
-//
-//        String[] priority = new String[]{Story.Priority.CURRENT.toString()};
-//        //priority[0] = Story.Priority.CURRENT.toString();
-//
-//        return queryStories("PRIORITY=?",priority,null);
-//    }
-
+        return contentValues;
+    }
 }

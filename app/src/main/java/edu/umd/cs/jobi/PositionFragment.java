@@ -1,10 +1,13 @@
 package edu.umd.cs.jobi;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +17,16 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Locale;
+
+import edu.umd.cs.jobi.model.Contact;
+import edu.umd.cs.jobi.model.Event;
 import edu.umd.cs.jobi.model.Position;
+import edu.umd.cs.jobi.service.impl.SQLiteEventService;
 
 import static android.R.drawable.btn_star_big_off;
 import static android.R.drawable.btn_star_big_on;
@@ -27,6 +39,10 @@ public class PositionFragment extends Fragment {
     private static final String POSITION_ID = "PositionId";
     private static final int REQUEST_CODE_EDIT_POSITION = 0;
     private static final int REQUEST_CODE_ADD_NEW_EVENT = 1;
+    private static final int REQUEST_CODE_CREATE_CONTACT = 2;
+    private static final int REQUEST_CODE_EDIT_CONTACT = 3;
+    private static final int REQUEST_CODE_EDIT_EVENT = 4;
+
 
     private Position position;
 
@@ -41,8 +57,19 @@ public class PositionFragment extends Fragment {
     // Buttons //
     private ToggleButton favoriteButton;
     private ImageButton editPositionButton;
+    private Button addNewContactButton;
     private Button addNewEventButton;
 
+    // Services //
+    private SQLiteEventService eventService;
+
+    // RecyclerViews //
+    private RecyclerView contactsRecyclerView;
+    private RecyclerView eventsRecyclerView;
+
+    // Adapters //
+    private ContactAdapter contactAdapter;
+    private EventAdapter eventAdapter; //Todo: events adapter
 
     public static PositionFragment newInstance(String positionId) {
         Bundle args = new Bundle();
@@ -128,16 +155,181 @@ public class PositionFragment extends Fragment {
 
         });
 
+        // Add New Contact Button //
+        addNewContactButton = (Button)view.findViewById(R.id.add_contact_button);
+        addNewContactButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(getActivity(), EnterContactActivity.class); //Todo: change to newIntentForCreate(position.getId())
+                startActivityForResult(intent, REQUEST_CODE_CREATE_CONTACT);
+            }
+        });
+
         // Add New Event Button //
         addNewEventButton = (Button)view.findViewById(R.id.add_new_event_button);
         addNewEventButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = EventActivity.newIntent(getActivity()); //ToDo: Ask Juan
-                startActivityForResult(intent, REQUEST_CODE_EDIT_POSITION);
+                Intent intent = EnterEventActivity.newIntent(getActivity(), position.getTitle(), position.getCompany()); //ToDo: Juan
+                startActivityForResult(intent, REQUEST_CODE_ADD_NEW_EVENT);
             }
         });
 
+        contactsRecyclerView = (RecyclerView)view.findViewById(R.id.position_contact_recycler_view);
+        contactsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        eventsRecyclerView = (RecyclerView)view.findViewById(R.id.position_event_recycler_view);
+        eventsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        updateUI();
+
         return view;
+    }
+
+
+    private void updateUI() {
+        List<Contact> contacts = eventService.getAllContacts(); // ToDo: get contacts for this position
+        List<Event> events = eventService.getAllEvents(); // ToDo: get events for this position
+
+        if (contactAdapter == null) {
+            contactAdapter = new ContactAdapter(contacts);
+            contactsRecyclerView.setAdapter(contactAdapter);
+        } else {
+            contactAdapter.setContacts(contacts);
+            contactAdapter.notifyDataSetChanged();
+        }
+
+        if (eventAdapter == null) {
+            eventAdapter = new EventAdapter(events);
+            eventsRecyclerView.setAdapter(eventAdapter);
+        } else {
+            eventAdapter.setEvents(events);
+            eventAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private class ContactHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private TextView contactName;
+        private TextView contactTitle;
+        private TextView contactEmail;
+        private TextView contactPhone;
+
+        private Contact contact;
+
+        public ContactHolder(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+
+            contactName = (TextView)itemView.findViewById(R.id.list_item_contact_name);
+            contactTitle = (TextView)itemView.findViewById(R.id.list_item_contact_title);
+            contactEmail = (TextView)itemView.findViewById(R.id.list_item_contact_email);
+            contactPhone = (TextView)itemView.findViewById(R.id.list_item_contact_phone);
+        }
+
+        public void bindContact(Contact contact) {
+            this.contact = contact;
+
+            contactName.setText(contact.getName());
+            contactTitle.setText(contact.getJobTitle());
+            contactEmail.setText(contact.getEmail());
+            contactPhone.setText(contact.getPhone());
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = EnterContactActivity.newIntent(getActivity(), position.getId()); // TOdo: change to contact.getId()
+            startActivityForResult(intent, REQUEST_CODE_EDIT_CONTACT);
+        }
+    }
+
+    private class EventAdapter extends RecyclerView.Adapter<EventHolder> {
+        private List<Event> events;
+
+        public EventAdapter(List<Event> events) {
+            this.events = events;
+        }
+
+        public void setEvents(List<Event> events) {
+            this.events = events;
+        }
+
+        @Override
+        public EventHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            View view = layoutInflater.inflate(R.layout.list_item_event_position, parent, false);
+            return new EventHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(EventHolder holder, int position) {
+            Event event = events.get(position);
+            holder.bindEvent(event);
+        }
+
+        @Override
+        public int getItemCount() {
+            return events.size();
+        }
+    }
+
+    private class EventHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private TextView eventDate;
+        private TextView eventTitle;
+        private TextView eventType;
+
+        private Event event;
+
+        public EventHolder(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+
+            eventDate = (TextView)itemView.findViewById(R.id.list_item_event_date);
+            eventTitle = (TextView)itemView.findViewById(R.id.list_item_event_title);
+            eventType = (TextView)itemView.findViewById(R.id.list_item_event_type);
+        }
+
+        public void bindEvent(Event event) {
+            this.event = event;
+
+            eventDate.setText(new SimpleDateFormat("MMM d", Locale.ENGLISH).format(event.getDate()));
+            eventTitle.setText(event.getTitle());
+            eventType.setText(event.getType());
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = EnterEventActivity.newIntent(getActivity(), position.getId());
+            startActivityForResult(intent, REQUEST_CODE_EDIT_EVENT);
+        }
+    }
+
+    private class ContactAdapter extends RecyclerView.Adapter<ContactHolder> {
+        private List<Contact> contacts;
+
+        public ContactAdapter(List<Contact> contacts) {
+            this.contacts = contacts;
+        }
+
+        public void setContacts(List<Contact> contacts) {
+            this.contacts = contacts;
+        }
+
+        @Override
+        public ContactHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            View view = layoutInflater.inflate(R.layout.list_item_contact, parent, false);
+            return new ContactHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ContactHolder holder, int position) {
+            Contact contact = contacts.get(position);
+            holder.bindContact(contact);
+        }
+
+        @Override
+        public int getItemCount() {
+            return contacts.size();
+        }
     }
 }
