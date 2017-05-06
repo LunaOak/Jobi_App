@@ -9,9 +9,6 @@ public class Settings implements Serializable {
     private Status status = Status.INTERVIEWING;
     private NotificationSwitch notificationSwitch = NotificationSwitch.ON;
     private List<Notifications> notifications = new ArrayList<>();
-//    private Notifications notification = Notifications.INTERVIEWS;
-////    private List<Notifications> notifications = new ArrayList<>();
-////    private List<Notifications> notifications = new ArrayList<>();
 
     public Settings() {
         notifications.add(Notifications.INTERVIEWS);

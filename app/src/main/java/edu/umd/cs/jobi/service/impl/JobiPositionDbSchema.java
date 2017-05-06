@@ -24,6 +24,7 @@ public class JobiPositionDbSchema {
 
         static final class Columns {
             public static final String ID = "ID";
+            public static final String POSITION_ID = "POSITION_ID";
             public static final String JOB_TITLE = "JOB_TITLE";
             public static final String NAME = "NAME";
             public static final String EMAIL = "EMAIL";

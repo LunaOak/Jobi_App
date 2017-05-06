@@ -1,19 +1,30 @@
 package edu.umd.cs.jobi;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
+
+import java.util.List;
+
+import edu.umd.cs.jobi.model.Position;
+import edu.umd.cs.jobi.service.PositionService;
 
 public class PositionListFragment extends Fragment {
 
+    private PositionService positionService;
+    private List<Position> allPositions;
+    private RecyclerView positionList;
     private TabLayout tabLayout;
-    private TextView positionList;
     private Button newPositionButton;
 
     public static PositionListFragment newInstance() {
@@ -25,6 +36,9 @@ public class PositionListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        positionService = DependencyFactory.getPositionService(getActivity().getApplicationContext());
+        allPositions = positionService.getAllPositions();
     }
 
     @Nullable
@@ -35,20 +49,18 @@ public class PositionListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_positionlist, container, false);
 
         tabLayout = (TabLayout)view.findViewById(R.id.position_tab_layout);
-        positionList = (TextView)view.findViewById(R.id.position_list);
-        positionList.setText("All Positions!"); //TODO change this to be the list of all companies
+        positionList = (RecyclerView)view.findViewById(R.id.position_list);
+        //positionList.setText("All Positions!"); //TODO change this to be the list of all companies
 
-        /*
         newPositionButton = (Button)view.findViewById(R.id.add_new_position_button);
         newPositionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent positionIntent = new Intent(getActivity(),
-                        PositionActivity.class);
-                startActivity(positionIntent);
+                Intent enterPositionIntent = new Intent(getActivity(),
+                        EnterPositionActivity.class);
+                startActivity(enterPositionIntent);
             }
         });
-        */
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -56,14 +68,14 @@ public class PositionListFragment extends Fragment {
                 String tabText = tab.getText().toString();
 
                 if (tabText.equals(getString(R.string.list_all))) {
-                    positionList.setText("All positions!");
+                    //positionList.setText("All positions!");
                 } else if (tabText.equals(getString(R.string.positions_todo))) {
-                    positionList.setText("Need to do these applications");
+                    //positionList.setText("Need to do these applications");
                 } else if (tabText.equals(getString(R.string.positions_ongoing))) {
-                    positionList.setText("These are in progress");
+                    //positionList.setText("These are in progress");
                 } else {
                     // R.string.positions_done
-                    positionList.setText("These are all done!");
+                    //positionList.setText("These are all done!");
                 }
 
             }
@@ -79,5 +91,27 @@ public class PositionListFragment extends Fragment {
         return view;
     }
 
+    // Menu Bar Management //
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_home, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_home:
+                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                startActivity(homeIntent);
+                return true;
+            case R.id.menu_item_settings:
+                Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
 

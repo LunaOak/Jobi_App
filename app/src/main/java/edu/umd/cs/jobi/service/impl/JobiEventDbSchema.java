@@ -14,6 +14,7 @@ public class JobiEventDbSchema {
             public static final String TITLE = "TITLE";
             public static final String COMPANY = "COMPANY";
             public static final String POSITION = "POSITION";
+            public static final String TYPE = "TYPE";
             public static final String DATE = "DATE";
             public static final String ADDRESS = "ADDRESS";
             public static final String CITY = "CITY";
@@ -26,6 +27,7 @@ public class JobiEventDbSchema {
 
         static final class Columns {
             public static final String ID = "ID";
+            public static final String EVENT_ID = "EVENT_ID";
             public static final String JOB_TITLE = "JOB_TITLE";
             public static final String NAME = "NAME";
             public static final String EMAIL = "EMAIL";

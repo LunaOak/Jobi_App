@@ -22,6 +22,7 @@ public class JobiEventContactDbHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + JobiEventDbSchema.ContactTable.NAME + "(" +
                 " _id integer primary key autoincrement, " +
                 JobiEventDbSchema.ContactTable.Columns.ID + ", " +
+                JobiEventDbSchema.ContactTable.Columns.EVENT_ID + ", " +
                 JobiEventDbSchema.ContactTable.Columns.JOB_TITLE + ", " +
                 JobiEventDbSchema.ContactTable.Columns.NAME + ", " +
                 JobiEventDbSchema.ContactTable.Columns.EMAIL + ", " +

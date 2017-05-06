@@ -65,7 +65,7 @@ public class SQLiteEventService implements EventService {
         }
 
         for(Event event : events) {
-            cursorRaw = contactDb.query(JobiEventDbSchema.ContactTable.NAME, null, JobiEventDbSchema.ContactTable.Columns.ID + "=?", new String[]{event.getId()}, null, null, null);
+            cursorRaw = contactDb.query(JobiEventDbSchema.ContactTable.NAME, null, JobiEventDbSchema.ContactTable.Columns.EVENT_ID + "=?", new String[]{event.getId()}, null, null, null);
             cursor = new EventCursorWrapper(cursorRaw);
 
             try {
@@ -159,6 +159,12 @@ public class SQLiteEventService implements EventService {
         return prioritizedEvents;
     }
 
+    @Override
+    public Contact getContactById(String id) {
+        //Todo getContactById
+        return null;
+    }
+
     private static ContentValues getEventContentValues(Event event) {
         ContentValues contentValues = new ContentValues();
 
@@ -166,6 +172,7 @@ public class SQLiteEventService implements EventService {
         contentValues.put(JobiEventDbSchema.EventTable.Columns.TITLE, event.getTitle());
         contentValues.put(JobiEventDbSchema.EventTable.Columns.COMPANY, event.getCompany());
         contentValues.put(JobiEventDbSchema.EventTable.Columns.POSITION, event.getPosition());
+        contentValues.put(JobiEventDbSchema.EventTable.Columns.TYPE, event.getType());
         contentValues.put(JobiEventDbSchema.EventTable.Columns.DATE, event.getDate().getTime());
         contentValues.put(JobiEventDbSchema.EventTable.Columns.ADDRESS, event.getAddress());
         contentValues.put(JobiEventDbSchema.EventTable.Columns.CITY, event.getCity());
@@ -177,7 +184,8 @@ public class SQLiteEventService implements EventService {
     private static ContentValues getContactContentValues(String id, Contact contact) {
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(JobiEventDbSchema.ContactTable.Columns.ID, id);
+        contentValues.put(JobiEventDbSchema.ContactTable.Columns.ID, contact.getId());
+        contentValues.put(JobiEventDbSchema.ContactTable.Columns.EVENT_ID, id);
         contentValues.put(JobiEventDbSchema.ContactTable.Columns.JOB_TITLE, contact.getJobTitle());
         contentValues.put(JobiEventDbSchema.ContactTable.Columns.NAME, contact.getName());
         contentValues.put(JobiEventDbSchema.ContactTable.Columns.EMAIL, contact.getEmail());
@@ -207,6 +215,7 @@ public class SQLiteEventService implements EventService {
             String title = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.TITLE));
             String company = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.COMPANY));
             String position = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.POSITION));
+            String type = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.TYPE));
             Date date = new Date(getLong(getColumnIndex(JobiEventDbSchema.EventTable.Columns.DATE)));
             String address = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.ADDRESS));
             String city = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.CITY));
@@ -217,6 +226,7 @@ public class SQLiteEventService implements EventService {
             event.setTitle(title);
             event.setCompany(company);
             event.setPosition(position);
+            event.setType(type);
             event.setDate(date);
             event.setAddress(address);
             event.setCity(city);
@@ -232,7 +242,8 @@ public class SQLiteEventService implements EventService {
             String email = getString(getColumnIndex(JobiEventDbSchema.ContactTable.Columns.EMAIL));
             String phone = getString(getColumnIndex(JobiEventDbSchema.ContactTable.Columns.PHONE));
 
-            Contact contact = new Contact(name, jobTitle, email, null, phone);
+            Contact contact = new Contact(name, jobTitle, email, phone);
+            contact.setId(id);
 
             return contact;
         }

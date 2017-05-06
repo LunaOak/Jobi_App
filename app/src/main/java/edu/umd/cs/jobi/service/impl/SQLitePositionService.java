@@ -83,22 +83,28 @@ public class SQLitePositionService implements PositionService {
         }
 
         for(Position position : positions) {
-            cursorRaw = contactDb.query(JobiPositionDbSchema.ContactTable.NAME, null, JobiPositionDbSchema.ContactTable.Columns.ID + "=?", new String[]{position.getId()}, null, null, null);
-            cursor = new PositionCursorWrapper(cursorRaw);
-
-            try {
-                cursor.moveToFirst();
-                while (!cursor.isAfterLast()) {
-                    position.getContacts().add(cursor.getContact());
-
-                    cursor.moveToNext();
-                }
-            } finally {
-                cursor.close();
-                cursorRaw.close();
-            }
+            position.getContacts().addAll(queryContacts(JobiPositionDbSchema.ContactTable.Columns.POSITION_ID + "=?", new String[]{position.getId()}, null));
         }
         return positions;
+    }
+
+    private List<Contact> queryContacts(String whereClause, String[] whereArgs, String orderBy) {
+        List<Contact> contacts = new ArrayList<Contact>();
+
+        Cursor cursorRaw = contactDb.query(JobiPositionDbSchema.ContactTable.NAME, null, whereClause, whereArgs, null, null, orderBy);
+        PositionCursorWrapper cursor = new PositionCursorWrapper(cursorRaw);
+
+        try{
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()) {
+                contacts.add(cursor.getContact());
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+            cursorRaw.close();
+        }
+        return contacts;
     }
 
     @Override
@@ -130,6 +136,20 @@ public class SQLitePositionService implements PositionService {
         return positions;
     }
 
+    @Override
+    public Contact getContactById(String id) {
+        if (id == null) {
+            return null;
+        }
+
+        List<Contact> contacts = queryContacts(JobiPositionDbSchema.ContactTable.Columns.ID + "=?", new String[]{id}, null);
+
+        if (contacts.size() == 0) {
+            return null;
+        }
+
+        return contacts.get(0);
+    }
 
     private class PositionCursorWrapper extends CursorWrapper {
 
@@ -170,7 +190,7 @@ public class SQLitePositionService implements PositionService {
             String email = getString(getColumnIndex(JobiPositionDbSchema.ContactTable.Columns.EMAIL));
             String phone = getString(getColumnIndex(JobiPositionDbSchema.ContactTable.Columns.PHONE));
 
-            Contact contact = new Contact(name, jobTitle, email, null, phone); //Todo
+            Contact contact = new Contact(name, jobTitle, email, phone);
 
             return contact;
         }
@@ -187,7 +207,7 @@ public class SQLitePositionService implements PositionService {
         contentValues.put(JobiPositionDbSchema.PositionTable.Columns.DESCRIPTION, position.getDescription());
         contentValues.put(JobiPositionDbSchema.PositionTable.Columns.FAVORITE, position.getFavorite().name());
         contentValues.put(JobiPositionDbSchema.PositionTable.Columns.TYPE, position.getType().name());
-        contentValues.put(JobiPositionDbSchema.PositionTable.Columns.COMPANY, position.getCompany().toString());
+        contentValues.put(JobiPositionDbSchema.PositionTable.Columns.COMPANY, position.getCompany());
 
         return contentValues;
     }
@@ -195,7 +215,8 @@ public class SQLitePositionService implements PositionService {
     private static ContentValues getContactContentValues(String id, Contact contact) {
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(JobiPositionDbSchema.ContactTable.Columns.ID, id);
+        contentValues.put(JobiPositionDbSchema.ContactTable.Columns.ID, contact.getId());
+        contentValues.put(JobiPositionDbSchema.ContactTable.Columns.POSITION_ID, id);
         contentValues.put(JobiPositionDbSchema.ContactTable.Columns.JOB_TITLE, contact.getJobTitle());
         contentValues.put(JobiPositionDbSchema.ContactTable.Columns.NAME, contact.getName());
         contentValues.put(JobiPositionDbSchema.ContactTable.Columns.EMAIL, contact.getEmail());
