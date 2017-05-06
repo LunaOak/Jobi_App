@@ -172,9 +172,9 @@ public class PositionFragment extends Fragment {
         addNewEventButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = EnterEventActivity.newIntent(getActivity().getApplicationContext(), position.getTitle(), position.getCompany());
-//                Intent intent = new Intent(getActivity(), EnterEventActivity.class);
-                startActivityForResult(intent, REQUEST_CODE_ADD_EVENT);
+                //Todo
+//                Intent intent = EnterEventActivity.newIntent(getActivity().getApplicationContext(), position.getTitle(), position.getCompany());
+//                startActivityForResult(intent, REQUEST_CODE_ADD_EVENT);
             }
         });
 
@@ -215,8 +215,9 @@ public class PositionFragment extends Fragment {
             position.getContacts().add(newContact);
             positionService.addPositionToDb(position);
         } else if (requestCode == REQUEST_CODE_ADD_EVENT) {
-            Event newEvent = EnterEventActivity.getEventCreated(data);
-            eventService.addEventToDb(newEvent);
+            //Todo
+//            Event newEvent = EnterEventActivity.getEventCreated(data);
+//            eventService.addEventToDb(newEvent);
         }
         updateUI();
     }
@@ -362,8 +363,9 @@ public class PositionFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Intent intent = EnterEventActivity.newIntent(getActivity(), position.getId());
-            startActivityForResult(intent, REQUEST_CODE_EVENT);
+            //Todo
+//            Intent intent = EnterEventActivity.newIntent(getActivity(), position.getId());
+//            startActivityForResult(intent, REQUEST_CODE_EVENT);
         }
     }
 }
