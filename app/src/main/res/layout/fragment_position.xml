@@ -21,7 +21,7 @@
             android:orientation="horizontal">
 
             <ToggleButton
-                android:layout_width="wrap_content"
+                android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/favorite_button"
                 android:textOn=""
@@ -55,33 +55,6 @@
                     android:textSize="18sp"
                     android:text=""/>
 
-                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/position_type_text"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:id="@+id/position_type_text" />
-
-                    <TextView
-                        android:id="@+id/positionType"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="Full-time"
-                        android:layout_alignParentTop="true"
-                        android:layout_toRightOf="@+id/position_type_text"
-                        android:layout_toEndOf="@+id/position_type_text"
-                        android:layout_marginLeft="19dp"
-                        android:layout_marginStart="19dp" />
-
-                </RelativeLayout>
-
             </LinearLayout>
 
             <ImageButton
@@ -93,6 +66,35 @@
                 android:src="@android:drawable/ic_menu_edit" />
 
         </LinearLayout>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/position_type_text"
+                android:textSize="16sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/position_type_text" />
+
+            <TextView
+                android:id="@+id/positionType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Full-time"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/position_type_text"
+                android:layout_toEndOf="@+id/position_type_text"
+                android:layout_marginLeft="19dp"
+                android:layout_marginStart="19dp" />
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
