@@ -24,7 +24,6 @@ import java.util.Locale;
 import edu.umd.cs.jobi.model.Contact;
 import edu.umd.cs.jobi.model.Event;
 import edu.umd.cs.jobi.model.Position;
-import edu.umd.cs.jobi.model.Story;
 import edu.umd.cs.jobi.service.EventService;
 import edu.umd.cs.jobi.service.PositionService;
 
@@ -148,6 +147,7 @@ public class PositionFragment extends Fragment {
                     favoriteButton.setBackgroundDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(), btn_star_big_off));
                     position.setFavorite(Position.Favorite.NO);
                 }
+                positionService.addPositionToDb(position);
             }
 
         });
