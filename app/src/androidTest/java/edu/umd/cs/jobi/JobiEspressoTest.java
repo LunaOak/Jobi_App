@@ -175,6 +175,8 @@ public class JobiEspressoTest extends BaseActivityEspressoTest {
         Activity currentActivity = getActivityInstance();
         assertTrue(currentActivity.getClass().isAssignableFrom(PositionListActivity.class));
 
+
+
     }
 
     @Test
