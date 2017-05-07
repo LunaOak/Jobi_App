@@ -28,8 +28,10 @@ import java.util.List;
 import java.util.Locale;
 
 import edu.umd.cs.jobi.model.Event;
+import edu.umd.cs.jobi.model.Position;
 import edu.umd.cs.jobi.model.Settings;
 import edu.umd.cs.jobi.service.EventService;
+import edu.umd.cs.jobi.service.PositionService;
 
 
 public class HomeFragment extends Fragment {
@@ -37,8 +39,10 @@ public class HomeFragment extends Fragment {
     private final String TAG = getClass().getSimpleName();
     private static final int REQUEST_CODE_CREATE_EVENT = 0;
     private static final int REQUEST_CODE_SETTINGS_UPDATED = 5;
+    private static final int REQUEST_CODE_POSITION_CREATED = 10;
 
     private EventService eventService;
+    private PositionService positionService;
 
     private RecyclerView eventRecyclerView;
     private EventAdapter adapter;
@@ -73,6 +77,8 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
         eventService = DependencyFactory.getEventService(getActivity().getApplicationContext());
         settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings();
+        positionService = DependencyFactory.getPositionService(getActivity().getApplicationContext());
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -165,7 +171,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent createPositionIntent = new Intent(getActivity(),
                         EnterPositionActivity.class);
-                startActivity(createPositionIntent);
+                startActivityForResult(createPositionIntent,REQUEST_CODE_POSITION_CREATED);
             }
         });
 
@@ -176,10 +182,12 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
 
+        // Reflect Events in Recycler View //
         if (requestCode == REQUEST_CODE_CREATE_EVENT) {
             if (data == null) {
                 return;
@@ -190,6 +198,7 @@ public class HomeFragment extends Fragment {
             updateUI();
         }
 
+        // Update view from settings //
         if (requestCode == REQUEST_CODE_SETTINGS_UPDATED) {
             if (data == null) {
                 return;
@@ -218,6 +227,14 @@ public class HomeFragment extends Fragment {
                 }
             }
 
+        }
+
+        if (requestCode == REQUEST_CODE_POSITION_CREATED) {
+            if (data == null) {
+                return;
+            }
+            Position positionCreated = PositionActivity.getPositionEdit(data);
+            positionService.addPositionToDb(positionCreated);
         }
 
     }
