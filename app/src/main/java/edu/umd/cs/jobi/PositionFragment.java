@@ -24,6 +24,7 @@ import java.util.Locale;
 import edu.umd.cs.jobi.model.Contact;
 import edu.umd.cs.jobi.model.Event;
 import edu.umd.cs.jobi.model.Position;
+import edu.umd.cs.jobi.model.Story;
 import edu.umd.cs.jobi.service.EventService;
 import edu.umd.cs.jobi.service.PositionService;
 
@@ -40,6 +41,7 @@ public class PositionFragment extends Fragment {
     private static final int REQUEST_CODE_CONTACT = 1;
     private static final int REQUEST_CODE_ADD_EVENT = 2;
     private static final int REQUEST_CODE_EVENT = 3;
+    private static final String POSITION_CREATED = "POSITION_CREATED";
 
     private Position position;
 
@@ -367,5 +369,9 @@ public class PositionFragment extends Fragment {
 //            Intent intent = EnterEventActivity.newIntent(getActivity(), position.getId());
 //            startActivityForResult(intent, REQUEST_CODE_EVENT);
         }
+    }
+
+    public static Position getPositionCreated(Intent data) {
+        return (Position)data.getSerializableExtra(POSITION_CREATED);
     }
 }

@@ -73,8 +73,8 @@ public class JobiEspressoTest extends BaseActivityEspressoTest {
         onView(withId(R.id.company_list_button)).check(matches(isDisplayed()));
         onView(withId(R.id.create_position_button)).check(matches(isDisplayed()));
 
-        // Check right color of status being displayed //
-        //onView(withId(R.id.status_color)).check(matches(withId(R.color.interviewing)));
+        // Check right status is being displayed //
+        onView(withId(R.id.status_text)).check(matches(withText(R.string.status_interviewing)));
 
         // Test Settings //////////
         onView(withId(R.id.menu_item_settings)).perform(click());
@@ -107,7 +107,7 @@ public class JobiEspressoTest extends BaseActivityEspressoTest {
         onView(withId(R.id.settings_save_button)).perform(click());
 
         // Back in Home //
-        //onView(withId(R.id.status_color)).check(matches(withId(R.color.searching)));
+        onView(withId(R.id.status_text)).check(matches(withText(R.string.status_searching)));
 
         // Go Back to Settings and check if changes are reflected //
         onView(withId(R.id.menu_item_settings)).perform(click());
@@ -129,7 +129,7 @@ public class JobiEspressoTest extends BaseActivityEspressoTest {
         onView(withId(R.id.settings_cancel_button)).perform(click());
 
         // Back at Home //
-        //onView(withId(R.id.status_color)).check(matches(withId(R.color.searching)));
+        onView(withId(R.id.status_text)).check(matches(withText(R.string.status_searching)));
 
         // Go Back to Settings and check if changes are not reflected //
         onView(withId(R.id.menu_item_settings)).perform(click());
@@ -144,5 +144,47 @@ public class JobiEspressoTest extends BaseActivityEspressoTest {
         onView(withId(R.id.settings_deadlines)).check(matches(isChecked()));
 
     }
-    
+
+    @Test
+    public void testEventListUI(){
+
+        // Test Event List //////////
+        onView(withId(R.id.event_list_button)).perform(click());
+
+        Activity currentActivity = getActivityInstance();
+        assertTrue(currentActivity.getClass().isAssignableFrom(EventListActivity.class));
+
+    }
+
+    @Test
+    public void testCompanyListUI(){
+
+        // Test Company List //////////
+        onView(withId(R.id.company_list_button)).perform(click());
+
+        Activity currentActivity = getActivityInstance();
+        assertTrue(currentActivity.getClass().isAssignableFrom(CompanyListActivity.class));
+    }
+
+    @Test
+    public void testPositionListUI(){
+
+        // Test Position List //////////
+        onView(withId(R.id.position_list_button)).perform(click());
+
+        Activity currentActivity = getActivityInstance();
+        assertTrue(currentActivity.getClass().isAssignableFrom(PositionListActivity.class));
+
+    }
+
+    @Test
+    public void testCreatePositionUI(){
+
+        // Test Position List //////////
+        onView(withId(R.id.create_position_button)).perform(click());
+
+        Activity currentActivity = getActivityInstance();
+        assertTrue(currentActivity.getClass().isAssignableFrom(EnterPositionActivity.class));
+
+    }
 }

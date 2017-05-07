@@ -1,5 +1,6 @@
 package edu.umd.cs.jobi;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,6 +31,8 @@ public class CompanyListFragment extends Fragment {
     private List<Company> allCompanies;
     private List<Company> currentCompanies;
     private List<Company> favoriteCompanies;
+
+    private static final int REQUEST_CODE_CREATE_COMPANY = 0;
 
     public static CompanyListFragment newInstance() {
         CompanyListFragment fragment = new CompanyListFragment();
@@ -77,6 +80,17 @@ public class CompanyListFragment extends Fragment {
                 onTabSelected(tab);
             }
         });
+
+        newCompanyButton = (Button)view.findViewById(R.id.add_new_company_button);
+
+        newCompanyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent companyIntent = new Intent(getActivity(),
+                        EnterCompanyActivity.class);
+                startActivityForResult(companyIntent, REQUEST_CODE_CREATE_COMPANY);
+            }
+        });
         return view;
     }
 
@@ -107,4 +121,25 @@ public class CompanyListFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (resultCode != Activity.RESULT_OK){
+            return;
+        }
+
+        if (requestCode == REQUEST_CODE_CREATE_COMPANY) {
+            if (data == null){
+                return;
+            }
+
+            Company companyCreated = EnterCompanyActivity.getCompanyCreated(data);
+            companyService.addCompanyToDb(companyCreated);
+            updateUI();
+        }
+    }
+
+
+    private void updateUI(){
+        //TODO
+    }
 }

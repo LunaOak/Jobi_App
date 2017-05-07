@@ -1,13 +1,109 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.umd.cs.jobi.CompanyFragment">
+    tools:context="edu.umd.cs.jobi.CompanyFragment"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/company_name_label"
+            android:layout_width="314dp"
+            android:layout_height="54dp"
+            android:text="Test Company" />
+
+            <ImageButton
+                android:id="@+id/edit_company_info_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="@string/position_title"
+                android:src="@android:drawable/ic_menu_edit" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/event_location_label" />
+
+    <TextView
+        android:id="@+id/company_location_label"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="Another test" />
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:text="@string/position_description_label" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/company_description_label"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_weight="5.25"
+        android:text="This is a test" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.75"
+        android:text="@string/position_contact_label"
+        android:textColor="@color/home_date2" />
+
+    <Button
+        android:id="@+id/company_add_contact_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/colorWhite"
+        android:drawableLeft="@android:drawable/ic_menu_add"
+        android:text="@string/add_new_button"
+        android:textColor="@color/colorAccent" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/company_contact_list"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colorAccent5"
+        android:layout_weight="3.69"></android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.75"
+        android:text="@string/position_list_label"
+        android:textColor="@color/home_date2"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/company_position_list"
+        android:layout_width="match_parent"
+        android:layout_height="91dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colorAccent5"></android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/company_add_position_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/colorWhite"
+        android:drawableLeft="@android:drawable/ic_menu_add"
+        android:text="@string/add_new_button"
+        android:textColor="@color/colorAccent" />
+
+
+</LinearLayout>
