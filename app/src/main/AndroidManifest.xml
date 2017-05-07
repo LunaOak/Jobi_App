@@ -29,6 +29,10 @@
         <activity android:name=".SettingsActivity"></activity>
         <activity android:name=".SprintActivity"></activity>
         <activity android:name=".EnterCompanyActivity"></activity>
+        <activity android:name=".EnterContactActivity"></activity>
+        <activity android:name=".EventActivity"></activity>
+        <activity android:name=".EnterEventActivity"></activity>
+        <activity android:name=".EnterEventReminderActivity"></activity>
     </application>
 
 </manifest>
