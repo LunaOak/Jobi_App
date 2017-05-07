@@ -20,12 +20,6 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <ToggleButton
-                android:layout_width="65dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/favorite_button"
-                android:textOn=""
-                android:textOff=""/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -38,14 +32,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="24sp"
-                    android:text=""/>
+                    android:text=""
+                    android:textColor="@color/home_date2"/>
 
                 <TextView
                     android:id="@+id/companyName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:text=""/>
+                    android:text=""
+                    android:textColor="@color/colorAccent"/>
 
                 <TextView
                     android:id="@+id/companyLocation"
@@ -55,46 +51,55 @@
                     android:textSize="18sp"
                     android:text=""/>
 
+                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/position_type_text"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:id="@+id/position_type_text"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorAccent3"/>
+
+                    <TextView
+                        android:id="@+id/positionType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Full-time"
+                        android:layout_alignParentTop="true"
+                        android:layout_toRightOf="@+id/position_type_text"
+                        android:layout_toEndOf="@+id/position_type_text"
+                        android:layout_marginLeft="19dp"
+                        android:layout_marginStart="19dp" />
+
+                </RelativeLayout>
+
             </LinearLayout>
+
+            <ToggleButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/favorite_button"
+                android:textOn=""
+                android:textOff=""/>
 
             <ImageButton
                 android:id="@+id/edit_position_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
                 android:layout_weight="1"
                 android:contentDescription="@string/position_title"
                 android:src="@android:drawable/ic_menu_edit" />
 
+
+
         </LinearLayout>
-
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/position_type_text"
-                android:textSize="16sp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:id="@+id/position_type_text" />
-
-            <TextView
-                android:id="@+id/positionType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Full-time"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/position_type_text"
-                android:layout_toEndOf="@+id/position_type_text"
-                android:layout_marginLeft="19dp"
-                android:layout_marginStart="19dp" />
-
-        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -107,7 +112,8 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
                 android:text="@string/position_status_text"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textColor="@color/colorAccent3"/>
 
             <TextView
                 android:id="@+id/positionStatus"
@@ -127,7 +133,8 @@
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
             android:textSize="16sp"
-            android:text="@string/position_description_label"/>
+            android:text="@string/position_description_label"
+            android:textColor="@color/colorAccent3"/>
 
         <TextView
             android:id="@+id/positionDescription"
@@ -143,7 +150,8 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:textSize="16sp"
-            android:text="@string/position_contacts_text"/>
+            android:text="@string/position_contacts_text"
+            android:textColor="@color/colorAccent3"/>
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
@@ -159,12 +167,14 @@
             android:layout_marginBottom="10dp"
             android:drawableLeft="@drawable/ic_person_add_white_24dp"
             android:drawableStart="@drawable/ic_person_add_white_24dp"
-            android:text="@string/add_contact_button"/>
+            android:text="@string/add_contact_button"
+            android:background="@color/colorAccent6"
+            android:textColor="@color/colorAccent"/>
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="2dp"
-            android:background="#c0c0c0"/>
+            android:background="@color/colorAccent2"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -172,7 +182,8 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:textSize="16sp"
-            android:text="@string/position_next_steps_label"/>
+            android:text="@string/position_next_steps_label"
+            android:textColor="@color/colorAccent3"/>
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
@@ -187,7 +198,9 @@
             android:layout_marginTop="10dp"
             android:drawableLeft="@android:drawable/ic_menu_add"
             android:drawableStart="@android:drawable/ic_menu_add"
-            android:text="@string/add_new_event_button"/>
+            android:text="@string/add_new_event_button"
+            android:background="@color/colorAccent6"
+            android:textColor="@color/colorAccent"/>
 
     </LinearLayout>
 
