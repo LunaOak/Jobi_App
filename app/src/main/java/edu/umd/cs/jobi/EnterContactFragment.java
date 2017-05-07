@@ -21,7 +21,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class EnterContactFragment extends Fragment {
 
-    private static final String EXTRA_CONTACT_CREATED = "ContactCreated";
+    private static final String EXTRA_CONTACT_CREATED = "EXTRA_CONTACT_CREATED";
     private static final String ARG_CONTACT_ID = "ARG_CONTACT_ID";
     private static final String ARG_FROM_EVENT = "ARG_FROM_EVENT";
 

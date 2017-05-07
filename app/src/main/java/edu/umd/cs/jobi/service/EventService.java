@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.umd.cs.jobi.model.Contact;
 import edu.umd.cs.jobi.model.Event;
+import edu.umd.cs.jobi.model.Reminder;
 
 /**
  * Created by Juan on 5/2/2017.
@@ -14,5 +15,6 @@ public interface EventService {
     public Event getEventById(String id);
     public List<Event> getAllEvents();
     public Contact getContactById(String id);
+    public Reminder getReminderById(String id);
     public List<Event> getEventsByPositionTitle(String title);
 }
