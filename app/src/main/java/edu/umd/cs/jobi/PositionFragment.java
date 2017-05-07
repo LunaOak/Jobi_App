@@ -358,7 +358,7 @@ public class PositionFragment extends Fragment {
 
             eventDate.setText(new SimpleDateFormat("MMM d", Locale.ENGLISH).format(event.getDate()));
             eventTitle.setText(event.getTitle());
-            eventType.setText(event.getType());
+            eventType.setText(event.getType().name());
         }
 
         @Override
