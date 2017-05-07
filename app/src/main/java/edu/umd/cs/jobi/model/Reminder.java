@@ -1,5 +1,6 @@
 package edu.umd.cs.jobi.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -7,10 +8,14 @@ import java.util.UUID;
  * Created by Juan on 4/28/2017.
  */
 
-public class Reminder {
+public class Reminder implements Serializable {
     private String id;
     private String title;
     private Date date;
+
+    public Reminder() {
+        id = UUID.randomUUID().toString();
+    }
 
     public Reminder(String title, Date date) {
         id = UUID.randomUUID().toString();
