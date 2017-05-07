@@ -24,7 +24,6 @@ import java.util.Locale;
 import edu.umd.cs.jobi.model.Contact;
 import edu.umd.cs.jobi.model.Event;
 import edu.umd.cs.jobi.model.Position;
-import edu.umd.cs.jobi.model.Story;
 import edu.umd.cs.jobi.service.EventService;
 import edu.umd.cs.jobi.service.PositionService;
 
@@ -100,28 +99,21 @@ public class PositionFragment extends Fragment {
 
         // Position Title //
         positionTitle = (TextView) view.findViewById(R.id.positionTitle);
-        positionTitle.setText(position.getTitle());
 
         // Position Company //
         companyName = (TextView) view.findViewById(R.id.companyName);
-        companyName.setText(position.getCompany());
 
         // Position Location //
         companyLocation = (TextView) view.findViewById(R.id.companyLocation);
-        companyLocation.setText(position.getLocation());
 
         // Position Type //
         positionType = (TextView) view.findViewById(R.id.positionType);
-        positionType.append(position.getType().name());
 
         // Position Status //
         positionStatus = (TextView) view.findViewById(R.id.positionStatus);
-        positionStatus.append(position.getStatus().name());
 
         // Position Description //
         positionDescription = (TextView) view.findViewById(R.id.positionDescription);
-        positionDescription.setText(position.getDescription());
-
 
         //// Button Actions
 
@@ -130,7 +122,7 @@ public class PositionFragment extends Fragment {
         editPositionButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = EnterPositionActivity.newIntent(getActivity(), position.getId());
+                Intent intent = EnterPositionActivity.newIntent(getActivity().getApplicationContext(), position.getId());
                 startActivityForResult(intent, REQUEST_CODE_EDIT_POSITION);
             }
         });
@@ -164,7 +156,7 @@ public class PositionFragment extends Fragment {
         addNewContactButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = new Intent(getActivity(), EnterContactActivity.class);
+                Intent intent = new Intent(getActivity().getApplicationContext(), EnterContactActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_CONTACT);
             }
         });
@@ -225,6 +217,13 @@ public class PositionFragment extends Fragment {
     }
 
     private void updateUI() {
+        positionTitle.setText(position.getTitle());
+        companyName.setText(position.getCompany());
+        companyLocation.setText(position.getLocation());
+        positionType.setText(position.getType().name());
+        positionStatus.setText(position.getStatus().name());
+        positionDescription.setText(position.getDescription());
+
         List<Contact> contacts = positionService.getPositionById(position.getId()).getContacts();
         List<Event> events = eventService.getEventsByPositionTitle(position.getTitle());
 
