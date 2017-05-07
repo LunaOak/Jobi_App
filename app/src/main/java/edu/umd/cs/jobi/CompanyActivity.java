@@ -15,6 +15,8 @@ public class CompanyActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
+
+
         return CompanyFragment.newInstance();
     }
 }

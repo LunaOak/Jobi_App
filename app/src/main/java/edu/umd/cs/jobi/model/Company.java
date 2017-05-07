@@ -8,7 +8,21 @@ public class Company implements Serializable {
     private String name;
     private boolean current;
     private String location;
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     private Favorite favorite = Favorite.NO;
+
+    public Company(){
+
+    }
 
     public Company(String name, boolean current) {
         id = UUID.randomUUID().toString();

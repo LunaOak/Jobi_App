@@ -20,9 +20,33 @@ public class SQLiteCompanyService implements CompanyService {
 
     private SQLiteDatabase db;
 
+    public SQLiteCompanyService (Context context){
+        db = new JobiCompanyDbHelper(context).getWritableDatabase();
+
+    }
+
     @Override
     public void addCompanyToDb(Company company) {
+        SQLiteDatabase compDb = getDatabase();
+        List<Company> companies = queryCompanies("", null, null);
+        if (companies.contains(company)){
+            compDb.update(JobiCompanyDbSchema.CompanyTable.NAME, getContentValues(company), "", null);
 
+        } else {
+            compDb.insert(JobiCompanyDbSchema.CompanyTable.NAME, null, getContentValues(company));
+        }
+
+    }
+
+    private static ContentValues getContentValues(Company company){
+        ContentValues cv = new ContentValues();
+        cv.put(JobiCompanyDbSchema.CompanyTable.Columns.COMPANY_ID, company.getId());
+        cv.put(JobiCompanyDbSchema.CompanyTable.Columns.TITLE, company.getName());
+        cv.put(JobiCompanyDbSchema.CompanyTable.Columns.STATUS, company.getCurrent());
+        cv.put(JobiCompanyDbSchema.CompanyTable.Columns.LOCATION, company.getLocation());
+        cv.put(JobiCompanyDbSchema.CompanyTable.Columns.DESCRIPTION, company.getDescription());
+
+        return cv;
     }
 
     @Override
@@ -32,19 +56,86 @@ public class SQLiteCompanyService implements CompanyService {
 
     @Override
     public Company getCompanyById(String id) {
-        //Todo
-        return null;
+        if (id == null){
+            return null;
+        }
+
+        List<Company> companies = queryCompanies(JobiEventDbSchema.EventTable.Columns.ID + "=?", new String[]{id}, null);
+        for (Company company:companies){
+            if(company.getId().equals(id)){
+                return company;
+
+            }
+        }
+
+    return null;
+
+    }
+
+    private List<Company> queryCompanies(String whereClause, String[] whereArgs, String orderBy){
+        List<Company> companies = new ArrayList<Company>();
+
+        SQLiteDatabase compDb = getDatabase();
+
+        Cursor cursor = compDb.query(JobiCompanyDbSchema.CompanyTable.NAME, null, whereClause, whereArgs, null, null, orderBy);
+        CompanyCursoryWrapper wrapper = new CompanyCursoryWrapper(cursor);
+        try {
+            wrapper.moveToFirst();
+            while(!cursor.isAfterLast()){
+                companies.add(wrapper.getCompany());
+                wrapper.moveToNext();
+            }
+        } finally {
+            wrapper.close();
+        }
+
+        return companies;
+
+
+    }
+
+    private class CompanyCursoryWrapper extends CursorWrapper {
+
+
+        public CompanyCursoryWrapper(Cursor cursor) {
+            super(cursor);
+        }
+
+        public Company getCompany(){
+            String id = getString(getColumnIndex(JobiCompanyDbSchema.CompanyTable.Columns.COMPANY_ID));
+            String title = getString(getColumnIndex(JobiCompanyDbSchema.CompanyTable.Columns.TITLE));
+            String status = getString(getColumnIndex(JobiCompanyDbSchema.CompanyTable.Columns.STATUS));
+            String location = getString(getColumnIndex(JobiCompanyDbSchema.CompanyTable.Columns.LOCATION));
+            String description = getString(getColumnIndex(JobiCompanyDbSchema.CompanyTable.Columns.DESCRIPTION));
+
+            Company company = new Company();
+            company.setId(id);
+            company.setName(title);
+            //TODO deal with current & favorites
+            company.setCurrent(true);
+            company.setLocation(location);
+            company.setDescription(description);
+            return company;
+        }
     }
 
     @Override
     public List<Company> getAllCompanies() {
-        return null;
+
+
+        List<Company> companies = queryCompanies("", null, null);
+        return companies;
     }
 
     @Override
     public List<Company> getCurrentCompanies() {
-        return null;
+
+
+        List<Company> companies = queryCompanies(JobiCompanyDbSchema.CompanyTable.Columns.STATUS + "=?", new String[]{"TRUE"}, null);
+        return companies;
     }
+
+
 
     @Override
     public List<Company> getFavoriteCompanies() {
@@ -53,142 +144,13 @@ public class SQLiteCompanyService implements CompanyService {
     }
 
 
-    // Private Inner Class StoryCursorWrapper ///////////////////
-    private class StoryCursorWrapper extends CursorWrapper {
 
-        StoryCursorWrapper(Cursor cursor) {
-            super(cursor);
-        }
-
-        public Story getStory() {
-//            String id = getString(getColumnIndex(JobiPositionDbSchema.PositionTable.Columns.ID));
-//            String title = getString(getColumnIndex(JobiPositionDbSchema.PositionTable.Columns.TITLE));
-//            String status = getString(getColumnIndex(JobiPositionDbSchema.PositionTable.Columns.STATUS));
-//            double storyPoints = getDouble(getColumnIndex(JobiPositionDbSchema.PositionTable.Columns.STORY_POINTS));
-//            String priority = getString(getColumnIndex(JobiPositionDbSchema.PositionTable.Columns.PRIORITY));
-//            String status = getString(getColumnIndex(JobiPositionDbSchema.PositionTable.Columns.STATUS));
-//            long timeCreated = getLong(getColumnIndex(JobiPositionDbSchema.PositionTable.Columns.TIME_CREATED));
-
-            Story story = new Story();
-//            story.setId(id);
-//            story.setSummary(title);
-//            //story.setAcceptanceCriteria(acceptanceCriteria);
-//            story.setStoryPoints(storyPoints);
-//            story.setPriority(Story.Priority.valueOf(priority));
-//            story.setStatus(Story.Status.valueOf(status));
-//            story.setTimeCreated(new Date(timeCreated));
-
-            return story;
-        }
-
-    }
-
-
-    // Constructor and Methods ///////////////////////////////////
-    public SQLiteCompanyService(Context c) {
-        db = new JobiPositionDbHelper(c).getWritableDatabase();
-    }
 
     protected SQLiteDatabase getDatabase() {
         return this.db;
     }
 
-    // queryStories //////////////////////////////////////////////////////////////////////////////
-    private List<Story> queryStories(String whereClause, String[] whereArgs, String orderBy) {
-
-        List<Story> list = new ArrayList<Story>();
-
-        Cursor cursor = db.query(JobiPositionDbSchema.PositionTable.NAME, null, whereClause, whereArgs, null, null, orderBy);
-        StoryCursorWrapper story_cursor = new StoryCursorWrapper(cursor);
-        try {
-            story_cursor.moveToFirst();
-            while (!story_cursor.isAfterLast()) {
-                list.add(story_cursor.getStory());
-                story_cursor.moveToNext();
-            }
-
-        } finally {
-            story_cursor.close();
-        }
-
-        return list;
-    }
-
-    // getContentValues //////////////////////////////////////////////////////////////////////////////
-    private static ContentValues getContentValues(Story story) {
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put(JobiPositionDbSchema.PositionTable.Columns.ID,story.getId());
-//        contentValues.put(JobiPositionDbSchema.PositionTable.Columns.SUMMARY,story.getSummary());
-//        contentValues.put(JobiPositionDbSchema.PositionTable.Columns.ACCEPTANCE_CRITERIA,story.getAcceptanceCriteria());
-//        contentValues.put(JobiPositionDbSchema.PositionTable.Columns.STORY_POINTS, story.getStoryPoints());
-//        contentValues.put(JobiPositionDbSchema.PositionTable.Columns.PRIORITY, story.getPriority().toString());
-//        contentValues.put(JobiPositionDbSchema.PositionTable.Columns.STATUS, story.getStatus().toString());
-//        contentValues.put(JobiPositionDbSchema.PositionTable.Columns.TIME_CREATED, story.getTimeCreated().getTime());
-
-        return contentValues;
-    }
-
-    // addStoryToBacklog //////////////////////////////////////////////////////////////////////////////
-    public void addStoryToBacklog(Story story) {
-
-        String[] IDs = new String[]{story.getId()};
-        //IDs[0] = story.getId();
-
-        // If not present in the list at all, add //
-        if (getStoryById(story.getId()) == null) {
-            db.insert(JobiPositionDbSchema.PositionTable.NAME,null,getContentValues(story));
-        // Otherwise if it is then update it //
-        } else {
-            db.update(JobiPositionDbSchema.PositionTable.NAME,getContentValues(story),"ID=?",IDs);
-        }
-    }
-
-    // getStoryById //////////////////////////////////////////////////////////////////////////////
-    public Story getStoryById(String id) {
-
-        if (id == null) {
-            return null;
-        } else {
-            for (Story story : queryStories("ID=?", new String[]{id}, null)) {
-                if (story.getId().equals(id)) {
-                    return story;
-                }
-            }
-            return null;
-        }
-    }
-
-    // getAllStories //////////////////////////////////////////////////////////////////////////////
-    public List<Story> getAllStories() {
-        List<Story> prioritizedStories = queryStories(null,null,null);
-
-        Collections.sort(prioritizedStories, new Comparator<Story>() {
-            @Override
-            public int compare(Story story1, Story story2) {
-                if (story1.getPriority().equals(story2.getPriority())) {
-                    if (story1.getStatus().equals(story2.getStatus())) {
-                        return story1.getTimeCreated().compareTo(story2.getTimeCreated());
-                    } else {
-                        return story1.getStatus().compareTo(story2.getStatus());
-                    }
-                } else {
-                    return story1.getPriority().compareTo(story2.getPriority());
-                }
-            }
-        });
-
-        return prioritizedStories;
-    }
 
 
-    // getCurrentSprintStories //////////////////////////////////////////////////////////////////////////////
-    public List<Story> getCurrentSprintStories() {
-
-        String[] priority = new String[]{Story.Priority.CURRENT.toString()};
-        //priority[0] = Story.Priority.CURRENT.toString();
-
-        return queryStories("PRIORITY=?",priority,null);
-    }
 
 }

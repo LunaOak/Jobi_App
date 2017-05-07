@@ -98,10 +98,9 @@ public class EventFragment extends Fragment {
         editEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Todo
-//                Intent intent = EnterEventActivity.newIntent(getActivity().getApplicationContext(), event.getId()); //event might be null. SHOULDNT though
-//
-//                startActivityForResult(intent, REQUEST_CODE_EDIT_EVENT);
+                Intent intent = EnterEventActivity.newIntent(getActivity().getApplicationContext(), event.getId()); //event might be null. SHOULDNT though
+
+                startActivityForResult(intent, REQUEST_CODE_EDIT_EVENT);
             }
         });
 
@@ -148,9 +147,9 @@ public class EventFragment extends Fragment {
                 return;
             }
             //Todo
-//            event = EventCreateActivity.getEventCreated(data);
-//            eventService.addEventToDb(event);
-//            updateUI();
+            event = EnterEventActivity.getEventCreated(data);
+            eventService.addEventToDb(event);
+            updateUI();
         } else if(requestCode == REQUEST_CODE_ADD_REMINDER) {
             //Todo
 //            if (data == null) {
