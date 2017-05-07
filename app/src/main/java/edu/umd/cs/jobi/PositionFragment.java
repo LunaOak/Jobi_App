@@ -8,13 +8,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.text.SimpleDateFormat;
@@ -173,15 +178,39 @@ public class PositionFragment extends Fragment {
             }
         });
 
+        // Recycler Views //
         contactsRecyclerView = (RecyclerView)view.findViewById(R.id.position_contact_recycler_view);
         contactsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         eventsRecyclerView = (RecyclerView)view.findViewById(R.id.position_event_recycler_view);
         eventsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+
+
         updateUI();
 
         return view;
+    }
+
+    // Menu Inflates //
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.menu_deleting, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.delete_option:
+                // Todo Delete from here
+                Toast.makeText(getActivity().getApplicationContext(), "DELETE!", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 
     @Override
@@ -291,6 +320,17 @@ public class PositionFragment extends Fragment {
             contactTitle = (TextView)itemView.findViewById(R.id.list_item_contact_title);
             contactEmail = (TextView)itemView.findViewById(R.id.list_item_contact_email);
             contactPhone = (TextView)itemView.findViewById(R.id.list_item_contact_phone);
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener(){
+                @Override
+                public boolean onLongClick(View view){
+                    registerForContextMenu(view);
+
+
+                    Toast.makeText(getActivity().getApplicationContext(), "YAY", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });
         }
 
         public void bindContact(Contact contact) {
