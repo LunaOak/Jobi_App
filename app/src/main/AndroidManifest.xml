@@ -33,6 +33,7 @@
         <activity android:name=".EventActivity"></activity>
         <activity android:name=".EnterEventActivity"></activity>
         <activity android:name=".EnterEventReminderActivity"></activity>
+        <activity android:name=".CompanyActivity"></activity>
     </application>
 
 </manifest>
