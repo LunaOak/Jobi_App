@@ -23,8 +23,8 @@ public class EnterPositionFragment extends Fragment {
 
     private final String TAG = getClass().getSimpleName();
 
-    private static final String POSITION_CREATED = "PositionCreated";
-    private static final String POSITION_ID = "PositionId";
+    private static final String POSITION_CREATED = "POSITION_CREATED";
+    private static final String POSITION_ID = "POSITION_ID";
 
     private Position position;
 

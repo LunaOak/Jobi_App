@@ -6,6 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import static edu.umd.cs.jobi.model.Position.Type.FULL_TIME;
+import static edu.umd.cs.jobi.model.Position.Type.INTERNSHIP;
+import static edu.umd.cs.jobi.model.Position.Type.PART_TIME;
+import static edu.umd.cs.jobi.model.Position.Type.VOLUNTEER;
+
 public class Position implements Serializable{
 
     private String id;
@@ -43,8 +48,38 @@ public class Position implements Serializable{
         return status;
     }
 
+    public int getPositionStatus() {
+        switch (status) {
+            case TODO:
+                return 0;
+            case IN_PROGRESS:
+                return 1;
+            case DONE:
+                return 2;
+            default:
+                return 0;
+        }
+    }
+
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public void setStatus(int position) {
+        switch(position) {
+            case 0:
+                this.status = Status.TODO;
+                break;
+            case 1:
+                this.status = Status.IN_PROGRESS;
+                break;
+            case 2:
+                this.status = Status.DONE;
+                break;
+            default:
+                this.status = Status.TODO;
+                break;
+        }
     }
 
     public String getLocation() {
@@ -97,19 +132,19 @@ public class Position implements Serializable{
     public void setType(int position) {
         switch (position) {
             case 0:
-                this.type = Type.FULL_TIME;
+                this.type = FULL_TIME;
                 break;
             case 1:
-                this.type = Type.PART_TIME;
+                this.type = PART_TIME;
                 break;
             case 2:
-                this.type = Type.INTERNSHIP;
+                this.type = INTERNSHIP;
                 break;
             case 3:
-                this.type = Type.VOLUNTEER;
+                this.type = VOLUNTEER;
                 break;
             default:
-                this.status = Status.TODO;
+                this.type = FULL_TIME;
                 break;
         }
     }

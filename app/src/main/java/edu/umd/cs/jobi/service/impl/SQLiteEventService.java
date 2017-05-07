@@ -193,6 +193,27 @@ public class SQLiteEventService implements EventService {
     }
 
     @Override
+    public Reminder getReminderById(String id) {
+        if (id == null) {
+            return null;
+        }
+
+        List<Reminder> reminders = queryReminders(JobiEventDbSchema.ReminderTable.Columns.ID + "=?", new String[]{id}, null);
+
+        if (reminders.size() == 0) {
+            return null;
+        }
+
+        /*
+        if (stories.size() != 1) {
+            throw new IllegalArgumentException();
+        }
+        */
+
+        return reminders.get(0);
+    }
+
+    @Override
     public List<Event> getEventsByPositionTitle(String title) {
         List<Event> prioritizedEvents = queryEvents(JobiEventDbSchema.EventTable.Columns.POSITION + "=?", new String[]{title}, null);
 
