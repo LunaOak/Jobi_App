@@ -147,6 +147,7 @@ public class PositionFragment extends Fragment {
                     favoriteButton.setBackgroundDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(), btn_star_big_off));
                     position.setFavorite(Position.Favorite.NO);
                 }
+                positionService.addPositionToDb(position);
             }
 
         });
