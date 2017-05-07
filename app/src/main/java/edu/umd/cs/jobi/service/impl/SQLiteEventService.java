@@ -235,7 +235,7 @@ public class SQLiteEventService implements EventService {
         contentValues.put(JobiEventDbSchema.EventTable.Columns.TITLE, event.getTitle());
         contentValues.put(JobiEventDbSchema.EventTable.Columns.COMPANY, event.getCompany());
         contentValues.put(JobiEventDbSchema.EventTable.Columns.POSITION, event.getPosition());
-        contentValues.put(JobiEventDbSchema.EventTable.Columns.TYPE, event.getType());
+        contentValues.put(JobiEventDbSchema.EventTable.Columns.TYPE, event.getType().name());
         contentValues.put(JobiEventDbSchema.EventTable.Columns.DATE, event.getDate().getTime());
         contentValues.put(JobiEventDbSchema.EventTable.Columns.ADDRESS, event.getAddress());
         contentValues.put(JobiEventDbSchema.EventTable.Columns.CITY, event.getCity());
@@ -289,7 +289,7 @@ public class SQLiteEventService implements EventService {
             event.setTitle(title);
             event.setCompany(company);
             event.setPosition(position);
-            event.setType(type);
+            event.setType(Event.Type.valueOf(type));
             event.setDate(date);
             event.setAddress(address);
             event.setCity(city);
