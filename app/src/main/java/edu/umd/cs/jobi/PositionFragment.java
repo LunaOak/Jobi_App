@@ -122,7 +122,7 @@ public class PositionFragment extends Fragment {
         editPositionButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = EnterPositionActivity.newIntent(getActivity(), position.getId());
+                Intent intent = EnterPositionActivity.newIntent(getActivity().getApplicationContext(), position.getId());
                 startActivityForResult(intent, REQUEST_CODE_EDIT_POSITION);
             }
         });
@@ -157,7 +157,7 @@ public class PositionFragment extends Fragment {
         addNewContactButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = new Intent(getActivity(), EnterContactActivity.class);
+                Intent intent = new Intent(getActivity().getApplicationContext(), EnterContactActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_CONTACT);
             }
         });
