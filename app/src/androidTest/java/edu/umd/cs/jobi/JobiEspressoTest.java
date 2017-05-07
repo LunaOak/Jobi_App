@@ -37,7 +37,6 @@ import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-
 @RunWith(AndroidJUnit4.class)
 
 public class JobiEspressoTest extends BaseActivityEspressoTest {
