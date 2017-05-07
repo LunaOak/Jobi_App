@@ -2,7 +2,8 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:orientation="vertical"
@@ -54,12 +55,32 @@
                     android:textSize="18sp"
                     android:text=""/>
 
-                <TextView
-                    android:id="@+id/positionType"
+                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="15dp"
-                    android:text="@string/position_type_text"/>
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/position_type_text"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:id="@+id/position_type_text" />
+
+                    <TextView
+                        android:id="@+id/positionType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Full-time"
+                        android:layout_alignParentTop="true"
+                        android:layout_toRightOf="@+id/position_type_text"
+                        android:layout_toEndOf="@+id/position_type_text"
+                        android:layout_marginLeft="19dp"
+                        android:layout_marginStart="19dp" />
+
+                </RelativeLayout>
 
             </LinearLayout>
 
@@ -73,13 +94,31 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/positionStatus"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="5dp"
-            android:textSize="16sp"
-            android:text="@string/position_status_text"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/position_status_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:text="@string/position_status_text"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/positionStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_marginStart="13dp"
+                tools:text="TODO"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/position_status_text"
+                android:layout_toEndOf="@+id/position_status_text" />
+
+        </RelativeLayout>
 
         <TextView
             android:layout_width="match_parent"
