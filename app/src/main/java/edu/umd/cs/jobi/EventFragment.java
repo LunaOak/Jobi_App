@@ -200,7 +200,7 @@ public class EventFragment extends Fragment {
     private void updateUI() {
         if (event != null) {
             titleText.setText(event.getTitle());
-            typeText.setText(event.getType());
+            typeText.setText(event.getType().name());
             companyText.setText(event.getCompany());
             locationText.setText(event.getLocation());
             positionText.setText(event.getPosition());
@@ -292,7 +292,7 @@ public class EventFragment extends Fragment {
                 ms %= MINUTE;
             }
 
-            reminderText.setText(reminder.getTitle() + ":" + timeBefore + "before");
+            reminderText.setText(timeBefore + "before");
         }
 
         @Override

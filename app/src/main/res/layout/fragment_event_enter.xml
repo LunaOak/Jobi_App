@@ -65,45 +65,84 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/event_date_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="@string/event_date_label"
+                android:layout_alignBottom="@+id/textView"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/textView" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="MON, 01 JAN 2017"
+                android:textSize="18sp"
+                android:id="@+id/textView"
+                android:layout_alignBaseline="@+id/event_date_button"
+                android:layout_alignBottom="@+id/event_date_button"
+                android:layout_toLeftOf="@+id/event_date_button"
+                android:layout_toStartOf="@+id/event_date_button"
+                android:layout_marginRight="21dp"
+                android:layout_marginEnd="21dp" />
+
+            <Button
+                android:id="@+id/event_date_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/event_date_button"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_marginTop="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:text="@string/event_date_label"/>
-
-            <EditText
-                android:id="@+id/event_date"
-                android:inputType="date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/event_date_hint"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+                android:text="@string/event_time_label"
+                android:id="@+id/textView2"
+                android:layout_alignTop="@+id/event_time_text" />
 
             <TextView
+                android:id="@+id/event_time_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                tools:text="11:00AM"
                 android:textSize="18sp"
-                android:text="@string/event_time_label"/>
+                android:layout_alignBaseline="@+id/event_time_button"
+                android:layout_alignBottom="@+id/event_time_button"
+                android:layout_toRightOf="@+id/textView2"
+                android:layout_toEndOf="@+id/textView2"
+                android:layout_marginLeft="54dp"
+                android:layout_marginStart="54dp" />
 
-            <EditText
-                android:id="@+id/event_time"
-                android:inputType="time"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/event_time_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/event_time_hint"/>
+                android:text="@string/event_time_button"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:orientation="horizontal"

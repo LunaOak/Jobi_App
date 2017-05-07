@@ -191,6 +191,7 @@ public class SQLitePositionService implements PositionService {
             String phone = getString(getColumnIndex(JobiPositionDbSchema.ContactTable.Columns.PHONE));
 
             Contact contact = new Contact(name, jobTitle, email, phone);
+            contact.setId(id);
 
             return contact;
         }
