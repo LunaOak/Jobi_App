@@ -1,6 +1,5 @@
 package edu.umd.cs.jobi;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,7 +7,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,6 +34,7 @@ public class PositionListFragment extends Fragment {
     private String currentTab;
     private Button newPositionButton;
     private static final int REQUEST_CODE_CREATE_POSITION = 10;
+    private static final int REQUEST_CODE_VIEW_POSITION = 11;
     private PositionAdapter adapter;
 
 
@@ -122,9 +121,13 @@ public class PositionListFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK) {
-            return;
-        }
+        // Commented this out because when the back button is pressed it sets resultCode to
+        // Activity.RESULT_CANCEL. When pressing the back button from PositionFragment after a
+        // position has been edited, I still want to updateUI here with the new info. - JUAN :P
+
+//        if (resultCode != Activity.RESULT_OK) {
+//            return;
+//        }
 
         if (requestCode == REQUEST_CODE_CREATE_POSITION) {
             if (data == null) {
@@ -133,8 +136,9 @@ public class PositionListFragment extends Fragment {
 
             Position positionCreated = PositionActivity.getPositionEdit(data);
             positionService.addPositionToDb(positionCreated);
-            updateUI();
         }
+
+        updateUI();
     }
 
     private void updateUI() {
@@ -215,7 +219,7 @@ public class PositionListFragment extends Fragment {
         @Override
         public void onClick(View view) {
             Intent intent = PositionActivity.newIntent(getActivity(), position.getId());
-            startActivityForResult(intent, REQUEST_CODE_CREATE_POSITION);
+            startActivityForResult(intent, REQUEST_CODE_VIEW_POSITION);
         }
     }
 
