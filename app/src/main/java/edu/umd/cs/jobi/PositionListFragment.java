@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.umd.cs.jobi.model.Position;
@@ -28,7 +29,11 @@ public class PositionListFragment extends Fragment {
     private PositionService positionService;
     private List<Position> allPositions;
     private RecyclerView positionList;
+    private RecyclerView todo_positionList;
+    private RecyclerView in_progress_positionList;
+    private RecyclerView done_positionList;
     private TabLayout tabLayout;
+    private String currentTab;
     private Button newPositionButton;
     private static final int REQUEST_CODE_CREATE_POSITION = 10;
     private PositionAdapter adapter;
@@ -61,10 +66,6 @@ public class PositionListFragment extends Fragment {
         positionList = (RecyclerView)view.findViewById(R.id.position_list);
         positionList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
-
-        //positionList.setText("All Positions!"); //TODO change this to be the list of all companies
-
         newPositionButton = (Button)view.findViewById(R.id.add_new_position_button);
         newPositionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +76,9 @@ public class PositionListFragment extends Fragment {
             }
         });
 
+
+        currentTab = "All";
+        updateUI();
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
             @Override
@@ -82,12 +86,20 @@ public class PositionListFragment extends Fragment {
                 String tabText = tab.getText().toString();
 
                 if (tabText.equals(getString(R.string.list_all))) {
+                    currentTab = "All";
+                    updateUI();
                     //positionList.setText("All positions!");
                 } else if (tabText.equals(getString(R.string.positions_todo))) {
+                    currentTab = "To Do";
+                    updateUI();
                     //positionList.setText("Need to do these applications");
                 } else if (tabText.equals(getString(R.string.positions_ongoing))) {
+                    currentTab = "Ongoing";
+                    updateUI();
                     //positionList.setText("These are in progress");
                 } else {
+                    currentTab = "Done";
+                    updateUI();
                     // R.string.positions_done
                     //positionList.setText("These are all done!");
                 }
@@ -103,7 +115,7 @@ public class PositionListFragment extends Fragment {
             }
         });
 
-        updateUI();
+        //updateUI();
         return view;
     }
 
@@ -127,7 +139,43 @@ public class PositionListFragment extends Fragment {
 
     private void updateUI() {
 
-        List<Position> positions = positionService.getAllPositions();
+        List<Position> all_positions = positionService.getAllPositions();
+
+        List<Position> positions = new ArrayList<Position>();
+        List<Position> todo_positions = new ArrayList<Position>();
+        List<Position> in_progress_positions = new ArrayList<Position>();
+        List<Position> done_positions = new ArrayList<Position>();
+
+        if (currentTab.equals("To Do") == true) {
+
+            for (Position p : all_positions) {
+                if (p.getStatus() == Position.Status.TODO) {
+                    todo_positions.add(p);
+                }
+            }
+            positions = todo_positions;
+
+        } else if (currentTab.equals("Ongoing") == true) {
+
+            for (Position p : all_positions) {
+                if (p.getStatus() == Position.Status.IN_PROGRESS) {
+                    in_progress_positions.add(p);
+                }
+            }
+            positions = in_progress_positions;
+
+        } else if (currentTab.equals("Done") == true) {
+
+            for (Position p : all_positions) {
+                if (p.getStatus() == Position.Status.DONE) {
+                    done_positions.add(p);
+                }
+            }
+            positions = done_positions;
+
+        } else {
+            positions = all_positions;
+        }
 
         if (adapter == null) {
             adapter = new PositionAdapter(positions);
