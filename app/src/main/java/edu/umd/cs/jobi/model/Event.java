@@ -12,7 +12,7 @@ public class Event implements Serializable {
     private String title;
     private String company;
     private String position;
-    private String type;
+    private Type type;
     private Date date;
     private String address;
     private String city;
@@ -58,12 +58,42 @@ public class Event implements Serializable {
         return position;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
-    public String getType() {
+    public void setType(int position) {
+        switch (position) {
+            case 0:
+                this.type = Type.INTERVIEW;
+                break;
+            case 1:
+                this.type = Type.EMAIL;
+                break;
+            case 2:
+                this.type = Type.DEADLINE;
+                break;
+            default:
+                this.type = Type.INTERVIEW;
+                break;
+        }
+    }
+
+    public Type getType() {
         return type;
+    }
+
+    public int getPositionType() {
+        switch (type) {
+            case INTERVIEW:
+                return 0;
+            case EMAIL:
+                return 1;
+            case DEADLINE:
+                return 2;
+            default:
+                return 0;
+        }
     }
 
     public void setCompany(String company) {
@@ -122,6 +152,8 @@ public class Event implements Serializable {
         reminders.add(reminder);
     }
 
-
+    public enum Type {
+        INTERVIEW, EMAIL, DEADLINE;
+    }
 }
 
