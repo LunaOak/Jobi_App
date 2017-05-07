@@ -98,6 +98,7 @@ public class HomeFragment extends Fragment {
         date.setText(new StringBuilder().append(c.get(Calendar.DATE)).append(" "));
         year.setText(new StringBuilder().append(c.get(Calendar.YEAR)));
 
+
         circle = getActivity().getApplicationContext().getDrawable(R.drawable.circle);
         statusColor = (ImageView) view.findViewById(R.id.status_color);
         statusColor.setImageDrawable(circle);
