@@ -14,4 +14,5 @@ public interface EventService {
     public Event getEventById(String id);
     public List<Event> getAllEvents();
     public Contact getContactById(String id);
+    public List<Event> getEventsByPositionTitle(String title);
 }

@@ -26,7 +26,7 @@ import edu.umd.cs.jobi.service.EventService;
 
 public class EventFragment extends Fragment {
 
-    public static final String EVENT_ID = "EVENT_ID";
+    public static final String ARG_EVENT_ID = "ARG_EVENT_ID";
 
     private static final int REQUEST_CODE_EDIT_EVENT = 0;
     private static final int REQUEST_CODE_ADD_REMINDER = 1;
@@ -53,6 +53,15 @@ public class EventFragment extends Fragment {
     private static final int HOUR = 60 * MINUTE;
     private static final int DAY = 24 * HOUR;
 
+    public static EventFragment newInstance(String eventId) {
+        Bundle args = new Bundle();
+        args.putString(ARG_EVENT_ID, eventId);
+
+        EventFragment fragment = new EventFragment();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
     // RecyclerViews //
     private RecyclerView contactsRecyclerView;
     private RecyclerView remindersRecyclerView;
@@ -61,15 +70,12 @@ public class EventFragment extends Fragment {
     private ContactAdapter contactAdapter;
     private ReminderAdapter reminderAdapter;
 
-    public static EventFragment newInstance() {
-        return new EventFragment();
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String eventId = getArguments().getString(EVENT_ID);
+        String eventId = getArguments().getString(ARG_EVENT_ID);
         event = DependencyFactory.getEventService(getActivity().getApplicationContext()).getEventById(eventId);
     }
 
@@ -93,7 +99,7 @@ public class EventFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Todo
-//                Intent intent = EventCreateActivity.newIntent(getActivity(), event.getId()); //event might be null. SHOULDNT though
+//                Intent intent = EnterEventActivity.newIntent(getActivity().getApplicationContext(), event.getId()); //event might be null. SHOULDNT though
 //
 //                startActivityForResult(intent, REQUEST_CODE_EDIT_EVENT);
             }
@@ -104,7 +110,7 @@ public class EventFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Todo
-//                Intent intent = EventReminderCreateActivity.newIntent(getActivity(), event.getId()); //event might be null. SHOULDNT though
+//                Intent intent = new Intent(getActivity().getApplicationContext(), EnterEventReminderActivity.class);
 //
 //                startActivityForResult(intent, REQUEST_CODE_ADD_REMINDER);
             }
@@ -147,11 +153,45 @@ public class EventFragment extends Fragment {
 //            updateUI();
         } else if(requestCode == REQUEST_CODE_ADD_REMINDER) {
             //Todo
-//            event.getReminders().add(EventReminderCreateActivity.getReminderCreated(data));
+//            if (data == null) {
+//                return;
+//            }
+//
+//            Reminder newReminder = EnterEventReminderActivity.getReminderCreated(data);
+//            Reminder remReminder = null;
+//
+//            for (Reminder r : event.getReminders()) {
+//                if (r.getId().equals(newReminder.getId)) {
+//                    remReminder = r;
+//                }
+//            }
+//
+//            if (remContact != null) {
+//                event.getReminders().remove(remReminder);
+//            }
+//
+//            event.getReminders().add(newReminder);
 //            eventService.addEventToDb(event);
 //            updateUI();
         } else if(requestCode == REQUEST_CODE_ADD_CONTACT) {
-            event.getContacts().add(EnterContactActivity.getContactCreated(data));
+            if (data == null) {
+                return;
+            }
+
+            Contact newContact = EnterContactActivity.getContactCreated(data);
+            Contact remContact = null;
+
+            for (Contact c : event.getContacts()) {
+                if (c.getId().equals(newContact.getId())) {
+                    remContact = c;
+                }
+            }
+
+            if (remContact != null) {
+                event.getContacts().remove(remContact);
+            }
+
+            event.getContacts().add(newContact);
             eventService.addEventToDb(event);
             updateUI();
         }
@@ -257,8 +297,8 @@ public class EventFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Intent intent = EnterContactActivity.newIntent(getActivity(), reminder.getId());
-            startActivityForResult(intent, REQUEST_CODE_ADD_REMINDER);
+//            Intent intent = EnterReminderActivity.newIntent(getActivity().getApplicationContext(), reminder.getId());
+//            startActivityForResult(intent, REQUEST_CODE_ADD_REMINDER);
         }
     }
 

@@ -22,6 +22,7 @@ public class JobiEventReminderDbHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + JobiEventDbSchema.ReminderTable.NAME + "(" +
                 " _id integer primary key autoincrement, " +
                 JobiEventDbSchema.ReminderTable.Columns.ID + ", " +
+                JobiEventDbSchema.ReminderTable.Columns.EVENT_ID + ", " +
                 JobiEventDbSchema.ReminderTable.Columns.TITLE + ", " +
                 JobiEventDbSchema.ReminderTable.Columns.DATE +
                 ")");
