@@ -117,7 +117,7 @@ public class EnterPositionFragment extends Fragment {
             descriptionEditText.setText(position.getDescription());
         }
 
-        saveButton = (Button)view.findViewById(R.id.save_story_button);
+        saveButton = (Button)view.findViewById(R.id.save_position_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -160,7 +160,7 @@ public class EnterPositionFragment extends Fragment {
             }
         });
 
-        cancelButton = (Button)view.findViewById(R.id.cancel_story_button);
+        cancelButton = (Button)view.findViewById(R.id.cancel_position_button);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

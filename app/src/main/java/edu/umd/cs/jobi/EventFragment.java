@@ -297,7 +297,7 @@ public class EventFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-//            Intent intent = EnterReminderActivity.newIntent(getActivity().getApplicationContext(), reminder.getId());
+//            Intent intent = EnterEventReminderActivity.newIntent(getActivity().getApplicationContext(), reminder.getId(), event.getTitle(), eventDateMs);
 //            startActivityForResult(intent, REQUEST_CODE_ADD_REMINDER);
         }
     }
