@@ -275,7 +275,7 @@ public class HomeFragment extends Fragment {
             this.event = event;
 
             dateTextView.setText(event.getDate().toString());
-            typeTextView.setText(event.getType());
+            typeTextView.setText(event.getType().name());
 
         }
 

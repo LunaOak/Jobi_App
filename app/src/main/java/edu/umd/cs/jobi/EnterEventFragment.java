@@ -1,5 +1,6 @@
 package edu.umd.cs.jobi;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,8 +28,8 @@ import edu.umd.cs.jobi.model.Event;
 public class EnterEventFragment extends Fragment {
     private final String TAG = getClass().getSimpleName();
 
-    private static final String EVENT_CREATED = "EVENT_CREATED";
-    private static final String EVENT_ID = "EVENT_ID";
+    private static final String EXTRA_EVENT_CREATED = "EXTRA_EVENT_CREATED";
+    private static final String ARG_EVENT_ID = "ARG_EVENT_ID";
 
     private Event event;
 
@@ -55,7 +56,7 @@ public class EnterEventFragment extends Fragment {
 
     public static EnterEventFragment newInstance(String eventId) {
         Bundle args = new Bundle();
-        args.putString(EVENT_ID, eventId);
+        args.putString(ARG_EVENT_ID, eventId);
 
         EnterEventFragment fragment = new EnterEventFragment();
         fragment.setArguments(args);
@@ -66,7 +67,7 @@ public class EnterEventFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String eventId = getArguments().getString(EVENT_ID);
+        String eventId = getArguments().getString(ARG_EVENT_ID);
         event = DependencyFactory.getEventService(getActivity().getApplicationContext()).getEventById(eventId);
     }
 
@@ -108,6 +109,7 @@ public class EnterEventFragment extends Fragment {
         eventDateButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                //Todo
             }
         });
 
@@ -122,12 +124,17 @@ public class EnterEventFragment extends Fragment {
         eventTimeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                //Todo
 //                DialogFragment newFragment = new TimePickerFragment();
 //                newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
             }
         });
 
         return view;
+    }
+
+    public static Event getEventCreated(Intent data) {
+        return (Event)data.getSerializableExtra(EXTRA_EVENT_CREATED);
     }
 
 //    public static class TimePickerFragment extends DialogFragment
