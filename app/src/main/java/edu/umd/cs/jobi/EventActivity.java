@@ -3,6 +3,7 @@ package edu.umd.cs.jobi;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import edu.umd.cs.jobi.model.Event;
 
 public class EventActivity extends SingleFragmentActivity {
 
@@ -20,5 +21,11 @@ public class EventActivity extends SingleFragmentActivity {
         intent.putExtra(EXTRA_EVENT_ID, eventId);
 
         return intent;
+    }
+
+    public static Event getEventEdit(Intent data) {
+        return EventFragment.getEventCreated(data);
+
+        //return  null;
     }
 }
