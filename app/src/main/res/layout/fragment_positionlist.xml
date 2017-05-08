@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp">
+    android:padding="15dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,18 +18,17 @@
             android:layout_height="wrap_content"
             android:textSize="35dp"
             android:textColor="@color/home_date2"
-            android:text="@string/position_list_label"
-            android:layout_weight="0.75" />
+            android:text="@string/position_list_label" />
 
         <Button
             android:id="@+id/add_new_position_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
             android:drawableLeft="@android:drawable/ic_menu_add"
             android:text="@string/add_new_button"
             android:background="@color/colorWhite"
-            android:textColor="@color/colorAccent"/>
+            android:textColor="@color/colorAccent"
+            android:layout_marginLeft="90dp"/>
 
     </LinearLayout>
 

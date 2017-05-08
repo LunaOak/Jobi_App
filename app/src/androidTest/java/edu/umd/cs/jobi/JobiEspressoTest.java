@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -36,6 +38,11 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import android.view.View;
+import android.support.test.espresso.ViewAction;
+import org.hamcrest.Matcher;
+import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.test.espresso.UiController;
 
 @RunWith(AndroidJUnit4.class)
 
@@ -55,6 +62,8 @@ public class JobiEspressoTest extends BaseActivityEspressoTest {
         return (Activity)activityRule.getActivity();
     }
 
+    // This test will test using and updating changes in settings and checking if changes are being //
+    // reflected in home and preserved in settings //
     @Test
     public void testHomeAndSettingsUI(){
 
@@ -145,27 +154,30 @@ public class JobiEspressoTest extends BaseActivityEspressoTest {
 
     }
 
-    @Test
-    public void testEventListUI(){
+//    @Test
+//    public void testEventListUI(){
+//
+//        // Test Event List //////////
+//        onView(withId(R.id.event_list_button)).perform(click());
+//
+//        Activity currentActivity = getActivityInstance();
+//        assertTrue(currentActivity.getClass().isAssignableFrom(EventListActivity.class));
+//
+//    }
 
-        // Test Event List //////////
-        onView(withId(R.id.event_list_button)).perform(click());
+//    @Test
+//    public void testCompanyListUI(){
+//
+//        // Test Company List //////////
+//        onView(withId(R.id.company_list_button)).perform(click());
+//
+//        Activity currentActivity = getActivityInstance();
+//        assertTrue(currentActivity.getClass().isAssignableFrom(CompanyListActivity.class));
+//    }
 
-        Activity currentActivity = getActivityInstance();
-        assertTrue(currentActivity.getClass().isAssignableFrom(EventListActivity.class));
 
-    }
-
-    @Test
-    public void testCompanyListUI(){
-
-        // Test Company List //////////
-        onView(withId(R.id.company_list_button)).perform(click());
-
-        Activity currentActivity = getActivityInstance();
-        assertTrue(currentActivity.getClass().isAssignableFrom(CompanyListActivity.class));
-    }
-
+    // This test will test creating various positions, updating them, and checking if changes are //
+    // being reflected //
     @Test
     public void testPositionListUI(){
 
@@ -175,18 +187,317 @@ public class JobiEspressoTest extends BaseActivityEspressoTest {
         Activity currentActivity = getActivityInstance();
         assertTrue(currentActivity.getClass().isAssignableFrom(PositionListActivity.class));
 
+        // Create New Positions //
+        onView(withId(R.id.add_new_position_button)).check(matches(ViewMatchers.isDisplayed()));
+        onView(withId(R.id.add_new_position_button)).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
 
+                    @Override
+                    public String getDescription() {
+                        return "click add position";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+
+        // Position One //
+        Espresso.closeSoftKeyboard();
+
+        onView(withId(R.id.position)).perform(typeText("Software Engineer"));
+        onView(withId(R.id.position_company)).perform(typeText("Google"));
+        onView(withId(R.id.position_location)).perform(typeText("Seattle, Washington"));
+
+        Espresso.closeSoftKeyboard();
+
+        onView(withId(R.id.position_type_spinner)).perform(click());
+        onData(allOf(is(instanceOf(String.class)), is("Full-time"))).perform(click());
+        onView(withId(R.id.position_type_spinner)).check(matches(withSpinnerText(containsString("Full-time"))));
+        onView(withId(R.id.position_todo)).perform(click());
+        onView(withId(R.id.position_todo)).check(matches(isChecked()));
+        onView(withId(R.id.position_inProgress)).check(matches(isNotChecked()));
+        onView(withId(R.id.position_done)).check(matches(isNotChecked()));
+
+        Espresso.closeSoftKeyboard();
+
+        onView(withId(R.id.position_description)).perform(typeText("Mobile App Development"));
+
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.save_position_button)).perform(click());
+
+        // Go back to Position List and check that it was created and in right tab //
+        onView(withText(R.string.list_all)).perform(
+                new ViewAction() {
+                @Override
+                public Matcher<View> getConstraints() {
+                    return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                }
+
+                @Override
+                public String getDescription() {
+                   return "click all tab";
+                }
+
+                @Override
+                public void perform(UiController uiController, View view) {
+                 view.performClick();
+              }
+            }
+        );
+
+        onView(withText("Software Engineer")).check(matches(isDisplayed()));
+        onView(withText(R.string.positions_todo)).perform(
+                new ViewAction() {
+
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+                    @Override
+                    public String getDescription() {
+                        return "click all tab";
+                    }
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+
+        onView(withText("Software Engineer")).check(matches(isDisplayed()));
+
+        // Check if information was correctly added //
+        onView(withText("Software Engineer")).perform(click());
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.positionTitle)).check(matches(withText("Software Engineer")));
+        onView(withId(R.id.companyName)).check(matches(withText("Google")));
+        onView(withId(R.id.companyLocation)).check(matches(withText("Seattle, Washington")));
+        onView(withId(R.id.positionType)).check(matches(withText("FULL_TIME")));
+        onView(withId(R.id.positionStatus)).check(matches(withText("TODO")));
+        onView(withId(R.id.positionDescription)).check(matches(withText("Mobile App Development")));
+
+        Espresso.pressBack();
+
+        // Position Two //
+        onView(withId(R.id.add_new_position_button)).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click add position";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+
+        Espresso.closeSoftKeyboard();
+
+        onView(withId(R.id.position)).perform(typeText("Software Engineer 2"));
+        onView(withId(R.id.position_company)).perform(typeText("Microsoft"));
+        onView(withId(R.id.position_location)).perform(typeText("San Francisco, California"));
+
+        Espresso.closeSoftKeyboard();
+
+        onView(withId(R.id.position_type_spinner)).perform(click());
+        onData(allOf(is(instanceOf(String.class)), is("Part-time"))).perform(click());
+        onView(withId(R.id.position_type_spinner)).check(matches(withSpinnerText(containsString("Part-time"))));
+        onView(withId(R.id.position_inProgress)).perform(click());
+        onView(withId(R.id.position_todo)).check(matches(isNotChecked()));
+        onView(withId(R.id.position_inProgress)).check(matches(isChecked()));
+        onView(withId(R.id.position_done)).check(matches(isNotChecked()));
+
+        Espresso.closeSoftKeyboard();
+
+        onView(withId(R.id.position_description)).perform(typeText("Software Development"));
+
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.save_position_button)).perform(click());
+
+        // Go back to Position List and check that it was created //
+        onView(withText(R.string.list_all)).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click all tab";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+        onView(withText("Software Engineer 2")).check(matches(isDisplayed()));
+
+        onView(withText(R.string.positions_ongoing)).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click all tab";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+        onView(withText("Software Engineer 2")).check(matches(isDisplayed()));
+
+        // Check if information was correctly added //
+        onView(withText("Software Engineer 2")).perform(click());
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.positionTitle)).check(matches(withText("Software Engineer 2")));
+        onView(withId(R.id.companyName)).check(matches(withText("Microsoft")));
+        onView(withId(R.id.companyLocation)).check(matches(withText("San Francisco, California")));
+        onView(withId(R.id.positionType)).check(matches(withText("PART_TIME")));
+        onView(withId(R.id.positionStatus)).check(matches(withText("IN_PROGRESS")));
+        onView(withId(R.id.positionDescription)).check(matches(withText("Software Development")));
+
+        // Perform Changes //
+        onView(withId(R.id.edit_position_button)).perform(click());
+
+        onView(withId(R.id.position)).perform(clearText(),typeText("Software Engineer 2A"));
+        onView(withId(R.id.position_company)).perform(clearText(),typeText("Microsoft 2"));
+        Espresso.closeSoftKeyboard();
+
+        onView(withId(R.id.position_type_spinner)).perform(click());
+        onData(allOf(is(instanceOf(String.class)), is("Full-time"))).perform(click());
+        onView(withId(R.id.position_type_spinner)).check(matches(withSpinnerText(containsString("Full-time"))));
+        onView(withId(R.id.position_done)).perform(click());
+        onView(withId(R.id.position_todo)).check(matches(isNotChecked()));
+        onView(withId(R.id.position_inProgress)).check(matches(isNotChecked()));
+        onView(withId(R.id.position_done)).check(matches(isChecked()));
+
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.save_position_button)).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click save";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+
+        // Check if changes were applied //
+        onView(withId(R.id.positionTitle)).check(matches(withText("Software Engineer 2A")));
+        onView(withId(R.id.companyName)).check(matches(withText("Microsoft 2")));
+        onView(withId(R.id.companyLocation)).check(matches(withText("San Francisco, California")));
+        onView(withId(R.id.positionType)).check(matches(withText("FULL_TIME")));
+        onView(withId(R.id.positionStatus)).check(matches(withText("DONE")));
+        onView(withId(R.id.positionDescription)).check(matches(withText("Software Development")));
+
+        Espresso.pressBack();
+
+        // Check that it has been modified in the list //
+        onView(withText(R.string.list_all)).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click all tab";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+        onView(withText("Software Engineer 2A")).check(matches(isDisplayed()));
+        onView(withText("Software Engineer")).check(matches(isDisplayed()));
+
+        onView(withText(R.string.positions_todo)).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click all tab";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+        onView(withText("Software Engineer")).check(matches(isDisplayed()));
+
+        onView(withText(R.string.positions_done)).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click all tab";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+        onView(withText("Software Engineer 2A")).check(matches(isDisplayed()));
+
+        // Position 3 //
 
     }
 
-    @Test
-    public void testCreatePositionUI(){
-
-        // Test Position List //////////
-        onView(withId(R.id.create_position_button)).perform(click());
-
-        Activity currentActivity = getActivityInstance();
-        assertTrue(currentActivity.getClass().isAssignableFrom(EnterPositionActivity.class));
-
-    }
+//    @Test
+//    public void testCreatePositionUI(){
+//
+//        // Test Position List //////////
+//        onView(withId(R.id.create_position_button)).perform(click());
+//
+//        Activity currentActivity = getActivityInstance();
+//        assertTrue(currentActivity.getClass().isAssignableFrom(EnterPositionActivity.class));
+//
+//    }
 }
