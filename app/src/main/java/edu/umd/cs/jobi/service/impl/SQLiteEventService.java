@@ -116,8 +116,8 @@ public class SQLiteEventService implements EventService {
     @Override
     public void addEventToDb(Event event) {
         if(getEventById(event.getId()) == null) {
+            //Todo not inserting. Returning -1
             eventDb.insert(JobiEventDbSchema.EventTable.NAME, null, getEventContentValues(event));
-
         } else {
             eventDb.update(JobiEventDbSchema.EventTable.NAME, getEventContentValues(event), JobiEventDbSchema.EventTable.Columns.ID + "=?", new String[]{event.getId()});
         }
@@ -236,7 +236,7 @@ public class SQLiteEventService implements EventService {
         contentValues.put(JobiEventDbSchema.EventTable.Columns.COMPANY, event.getCompany());
         contentValues.put(JobiEventDbSchema.EventTable.Columns.POSITION, event.getPosition());
         contentValues.put(JobiEventDbSchema.EventTable.Columns.TYPE, event.getType().name());
-        contentValues.put(JobiEventDbSchema.EventTable.Columns.DATE, event.getDate().getTime());
+        contentValues.put(JobiEventDbSchema.EventTable.Columns.DATE, String.valueOf(event.getDate().getTime()));
         contentValues.put(JobiEventDbSchema.EventTable.Columns.LOCATION, event.getLocation());
 
         return contentValues;
@@ -277,7 +277,7 @@ public class SQLiteEventService implements EventService {
             String company = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.COMPANY));
             String position = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.POSITION));
             String type = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.TYPE));
-            Date date = new Date(getLong(getColumnIndex(JobiEventDbSchema.EventTable.Columns.DATE)));
+            Date date = new Date(Long.parseLong(getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.DATE))));
             String location = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.LOCATION));
 
             Event event = new Event();

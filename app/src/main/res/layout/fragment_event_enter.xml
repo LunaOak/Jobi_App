@@ -88,13 +88,13 @@
                 android:layout_height="wrap_content"
                 tools:text="MON, 01 JAN 2017"
                 android:textSize="18sp"
+                tools:ignore="RelativeOverlap"
                 android:layout_alignBaseline="@+id/event_date_button"
                 android:layout_alignBottom="@+id/event_date_button"
-                android:layout_toLeftOf="@+id/event_date_button"
-                android:layout_toStartOf="@+id/event_date_button"
-                android:layout_marginRight="21dp"
-                android:layout_marginEnd="21dp"
-                tools:ignore="RelativeOverlap" />
+                android:layout_toRightOf="@+id/event_date_label"
+                android:layout_toEndOf="@+id/event_date_label"
+                android:layout_marginLeft="17dp"
+                android:layout_marginStart="17dp" />
 
             <Button
                 android:id="@+id/event_date_button"
@@ -127,12 +127,12 @@
                 android:layout_height="wrap_content"
                 tools:text="11:00AM"
                 android:textSize="18sp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_alignBaseline="@+id/event_time_button"
                 android:layout_alignBottom="@+id/event_time_button"
                 android:layout_toRightOf="@+id/textView2"
-                android:layout_toEndOf="@+id/textView2"
-                android:layout_marginLeft="54dp"
-                android:layout_marginStart="54dp" />
+                android:layout_toEndOf="@+id/textView2" />
 
             <Button
                 android:id="@+id/event_time_button"
