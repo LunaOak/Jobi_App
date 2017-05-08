@@ -1,8 +1,11 @@
 package edu.umd.cs.jobi;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +16,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,7 +27,7 @@ import edu.umd.cs.jobi.model.Event;
  * Created by Pauline on 5/6/2017.
  */
 
-public class EnterEventFragment extends Fragment {
+public class EnterEventFragment extends Fragment implements DatePickerDialog.OnDateSetListener{
     private final String TAG = getClass().getSimpleName();
 
     private static final String EXTRA_EVENT_CREATED = "EXTRA_EVENT_CREATED";
@@ -37,16 +39,13 @@ public class EnterEventFragment extends Fragment {
     private EditText eventName;
     private EditText eventLocation;
     private Spinner eventTypeSpinner;
-    private TextView eventDate;
-    private TextView eventTime;
 
     // Date and Time pickers //
-    public static DatePicker datePicker;
-    public static TimePicker timePicker;
-    private Calendar calendar;
-    private int year,month,day;
-    private int hour,minute;
-    private String datetime;
+    private TextView eventDate;
+    private TextView eventTime;
+    private int mYear;
+    private int mMonth;
+    private int mDay;
 
     // Buttons //
     private Button eventDateButton;
@@ -109,7 +108,8 @@ public class EnterEventFragment extends Fragment {
         eventDateButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                //Todo
+                DialogFragment newFragment = new DatePickerFragment();
+                newFragment.show(getFragmentManager(), "DatePicker");
             }
         });
 
@@ -133,30 +133,50 @@ public class EnterEventFragment extends Fragment {
         return view;
     }
 
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        mYear = year;
+        mMonth = monthOfYear;
+        mDay = dayOfMonth;
+        updateDisplay();
+    }
+
+    // Update the date String in the TextView
+    private void updateDisplay() {
+        eventDate.setText(new StringBuilder()
+        // Month is 0 based so add 1
+        .append(mMonth + 1).append("-").append(mDay).append("-")
+        .append(mYear).append(" "));
+    }
+
+    public static class DatePickerFragment extends DialogFragment implements
+            DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            // Set the current date in the DatePickerFragment
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+
+        }
+
+        // Callback to DatePickerActivity.onDateSet() to update the UI
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            ((DatePickerDialog.OnDateSetListener) getActivity()).onDateSet(view, year,
+                    monthOfYear, dayOfMonth);
+        }
+    }
+
     public static Event getEventCreated(Intent data) {
         return (Event)data.getSerializableExtra(EXTRA_EVENT_CREATED);
     }
-
-//    public static class TimePickerFragment extends DialogFragment
-//            implements TimePickerDialog.OnTimeSetListener {
-//
-//        @Override
-//        public Dialog onCreateDialog(Bundle savedInstanceState) {
-//            // Use the current time as the default values for the picker
-//            final Calendar c = Calendar.getInstance();
-//            int hour = c.get(Calendar.HOUR_OF_DAY);
-//            int minute = c.get(Calendar.MINUTE);
-//
-//            // Create a new instance of TimePickerDialog and return it
-//            return new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
-//        }
-
-//        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-//            timePicker.setHour(hourOfDay);
-//            timePicker.setMinute(minute);
-//            timePicker.setIs24HourView(false);
-//        }
-    }
+}
 
 // Todo used for date and time
 //    String s = "01/02/2017 12:00";
