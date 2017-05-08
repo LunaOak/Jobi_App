@@ -7,12 +7,9 @@ import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import edu.umd.cs.jobi.model.Company;
-import edu.umd.cs.jobi.model.Story;
 import edu.umd.cs.jobi.service.CompanyService;
 
 
@@ -27,15 +24,22 @@ public class SQLiteCompanyService implements CompanyService {
 
     @Override
     public void addCompanyToDb(Company company) {
-        SQLiteDatabase compDb = getDatabase();
-        List<Company> companies = getAllCompanies();
-        if (companies.contains(company)){
-            compDb.update(JobiCompanyDbSchema.CompanyTable.NAME, getContentValues(company),
-                    JobiCompanyDbSchema.CompanyTable.Columns.COMPANY_ID + "=?", new String[]{company.getId()});
 
+        if(getCompanyById(company.getId()) == null) {
+            db.insert(JobiCompanyDbSchema.CompanyTable.NAME, null, getContentValues(company));
         } else {
-            compDb.insert(JobiCompanyDbSchema.CompanyTable.NAME, null, getContentValues(company));
+            db.update(JobiCompanyDbSchema.CompanyTable.NAME, getContentValues(company), JobiCompanyDbSchema.CompanyTable.Columns.COMPANY_ID + "=?", new String[]{company.getId()});
         }
+
+//        SQLiteDatabase compDb = getDatabase();
+//        List<Company> companies = getAllCompanies();
+//        if (companies.contains(company)){
+//            compDb.update(JobiCompanyDbSchema.CompanyTable.NAME, getContentValues(company),
+//                    JobiCompanyDbSchema.CompanyTable.Columns.COMPANY_ID + "=?", new String[]{company.getId()});
+//
+//        } else {
+//            compDb.insert(JobiCompanyDbSchema.CompanyTable.NAME, null, getContentValues(company));
+//        }
 
     }
 
