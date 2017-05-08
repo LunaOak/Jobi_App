@@ -193,8 +193,8 @@ public class HomeFragment extends Fragment {
                 return;
             }
 
-            //Event eventCreated = EventActivity.getEventCreated(data);
-            //eventService.addEventToDb(eventCreated);
+            Event eventCreated = EventActivity.getEventEdit(data);
+            eventService.addEventToDb(eventCreated);
             updateUI();
         }
 
