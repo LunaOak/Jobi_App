@@ -26,9 +26,7 @@ public class JobiEventDbHelper extends SQLiteOpenHelper {
                 JobiEventDbSchema.EventTable.Columns.POSITION + ", " +
                 JobiEventDbSchema.EventTable.Columns.TYPE + ", " +
                 JobiEventDbSchema.EventTable.Columns.DATE + ", " +
-                JobiEventDbSchema.EventTable.Columns.ADDRESS + ", " +
-                JobiEventDbSchema.EventTable.Columns.CITY + ", " +
-                JobiEventDbSchema.EventTable.Columns.STATE +
+                JobiEventDbSchema.EventTable.Columns.LOCATION +
                 ")");
     }
 
