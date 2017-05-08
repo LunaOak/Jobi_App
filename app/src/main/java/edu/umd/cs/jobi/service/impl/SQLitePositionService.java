@@ -151,6 +151,26 @@ public class SQLitePositionService implements PositionService {
         return contacts.get(0);
     }
 
+    @Override
+    public boolean deletePositionById(String id) {
+        //todo delete all events related as well...
+        for (Contact contact : getPositionById(id).getContacts()){
+            deleteContactById(contact.getId());
+        }
+        if (db.delete(JobiPositionDbSchema.PositionTable.NAME, JobiPositionDbSchema.PositionTable.Columns.ID + "=?", new String[]{id}) == 0) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean deleteContactById(String id) {
+        if (contactDb.delete(JobiPositionDbSchema.ContactTable.NAME, JobiPositionDbSchema.ContactTable.Columns.ID + "=?", new String[] {id}) == 0) {
+            return false;
+        }
+        return true;
+    }
+
     private class PositionCursorWrapper extends CursorWrapper {
 
         public PositionCursorWrapper(Cursor cursor) {

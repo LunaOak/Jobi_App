@@ -64,7 +64,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
                         android:id="@+id/position_type_text"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
                         android:textColor="@color/colorAccent3"/>
 
                     <TextView

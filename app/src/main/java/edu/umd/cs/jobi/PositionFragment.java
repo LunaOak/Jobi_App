@@ -1,11 +1,13 @@
 package edu.umd.cs.jobi;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.text.SimpleDateFormat;
@@ -69,6 +72,9 @@ public class PositionFragment extends Fragment {
     // Adapters //
     private ContactAdapter contactAdapter;
     private EventAdapter eventAdapter;
+
+    // Dialog boxes for deletion //
+    private AlertDialog.Builder contactDeleteBuilder;
 
     public static PositionFragment newInstance(String positionId) {
         Bundle args = new Bundle();
@@ -173,11 +179,14 @@ public class PositionFragment extends Fragment {
             }
         });
 
+        // Recycler Views //
         contactsRecyclerView = (RecyclerView)view.findViewById(R.id.position_contact_recycler_view);
         contactsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         eventsRecyclerView = (RecyclerView)view.findViewById(R.id.position_event_recycler_view);
         eventsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
 
         updateUI();
 
@@ -291,6 +300,36 @@ public class PositionFragment extends Fragment {
             contactTitle = (TextView)itemView.findViewById(R.id.list_item_contact_title);
             contactEmail = (TextView)itemView.findViewById(R.id.list_item_contact_email);
             contactPhone = (TextView)itemView.findViewById(R.id.list_item_contact_phone);
+
+            // Delete Alert Dialog //
+            contactDeleteBuilder = new AlertDialog.Builder(getActivity());
+            contactDeleteBuilder.setTitle("Delete Contact?");
+            contactDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+                    positionService.deleteContactById(contact.getId());
+                    Toast.makeText(getActivity().getApplicationContext(), "Contact deleted!", Toast.LENGTH_SHORT).show();
+                    updateUI();
+                    dialog.dismiss();
+                }
+            });
+
+            contactDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener(){
+                @Override
+                public boolean onLongClick(View view){
+                    AlertDialog alert = contactDeleteBuilder.create();
+                    alert.show();
+                    return true;
+                }
+            });
         }
 
         public void bindContact(Contact contact) {
