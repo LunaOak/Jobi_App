@@ -237,9 +237,7 @@ public class SQLiteEventService implements EventService {
         contentValues.put(JobiEventDbSchema.EventTable.Columns.POSITION, event.getPosition());
         contentValues.put(JobiEventDbSchema.EventTable.Columns.TYPE, event.getType().name());
         contentValues.put(JobiEventDbSchema.EventTable.Columns.DATE, event.getDate().getTime());
-        contentValues.put(JobiEventDbSchema.EventTable.Columns.ADDRESS, event.getAddress());
-        contentValues.put(JobiEventDbSchema.EventTable.Columns.CITY, event.getCity());
-        contentValues.put(JobiEventDbSchema.EventTable.Columns.STATE, event.getState());
+        contentValues.put(JobiEventDbSchema.EventTable.Columns.LOCATION, event.getLocation());
 
         return contentValues;
     }
@@ -280,9 +278,7 @@ public class SQLiteEventService implements EventService {
             String position = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.POSITION));
             String type = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.TYPE));
             Date date = new Date(getLong(getColumnIndex(JobiEventDbSchema.EventTable.Columns.DATE)));
-            String address = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.ADDRESS));
-            String city = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.CITY));
-            String state = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.STATE));
+            String location = getString(getColumnIndex(JobiEventDbSchema.EventTable.Columns.LOCATION));
 
             Event event = new Event();
             event.setId(id);
@@ -291,9 +287,7 @@ public class SQLiteEventService implements EventService {
             event.setPosition(position);
             event.setType(Event.Type.valueOf(type));
             event.setDate(date);
-            event.setAddress(address);
-            event.setCity(city);
-            event.setState(state);
+            event.setLocation(location);
 
             return event;
         }

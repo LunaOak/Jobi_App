@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,14 +25,17 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+import edu.umd.cs.jobi.model.Company;
 import edu.umd.cs.jobi.model.Contact;
 import edu.umd.cs.jobi.model.Event;
 import edu.umd.cs.jobi.model.Position;
+import edu.umd.cs.jobi.service.CompanyService;
 import edu.umd.cs.jobi.service.EventService;
 import edu.umd.cs.jobi.service.PositionService;
 
 import static android.R.drawable.btn_star_big_off;
 import static android.R.drawable.btn_star_big_on;
+import static android.content.ContentValues.TAG;
 
 
 public class PositionFragment extends Fragment {
@@ -42,6 +46,7 @@ public class PositionFragment extends Fragment {
     private static final int REQUEST_CODE_EDIT_POSITION = 0;
     private static final int REQUEST_CODE_CONTACT = 1;
     private static final int REQUEST_CODE_ADD_EVENT = 2;
+    private static final int REQUEST_CODE_VIEW_COMPANY = 11;
     private static final int REQUEST_CODE_EVENT = 3;
     private static final String POSITION_CREATED = "POSITION_CREATED";
 
@@ -63,6 +68,7 @@ public class PositionFragment extends Fragment {
 
     // Services //
     private PositionService positionService;
+    private CompanyService companyService;
     private EventService eventService;
 
     // RecyclerViews //
@@ -91,6 +97,7 @@ public class PositionFragment extends Fragment {
 
         String positionId = getArguments().getString(POSITION_ID);
         position = DependencyFactory.getPositionService(getActivity().getApplicationContext()).getPositionById(positionId);
+        companyService = DependencyFactory.getCompanyService(getActivity().getApplicationContext());
     }
 
     @Nullable
@@ -108,6 +115,17 @@ public class PositionFragment extends Fragment {
 
         // Position Company //
         companyName = (TextView) view.findViewById(R.id.companyName);
+
+        companyName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Company companyToEnter = companyService.getCompanyByName(position.getCompany());
+                Intent intent = CompanyActivity.newIntent(getActivity(), companyToEnter.getId());
+                startActivityForResult(intent,REQUEST_CODE_VIEW_COMPANY);
+            }
+        });
+
+
 
         // Position Location //
         companyLocation = (TextView) view.findViewById(R.id.companyLocation);
@@ -173,8 +191,8 @@ public class PositionFragment extends Fragment {
         addNewEventButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-//                Intent intent = EnterEventActivity.newIntent(getActivity().getApplicationContext(), position.getTitle(), position.getCompany());
-//                startActivityForResult(intent, REQUEST_CODE_ADD_EVENT);
+                Intent intent = EnterEventActivity.newIntentCreate(getActivity().getApplicationContext(), position.getTitle(), position.getCompany());
+                startActivityForResult(intent, REQUEST_CODE_ADD_EVENT);
             }
         });
 
@@ -218,9 +236,8 @@ public class PositionFragment extends Fragment {
             position.getContacts().add(newContact);
             positionService.addPositionToDb(position);
         } else if (requestCode == REQUEST_CODE_ADD_EVENT) {
-            //Todo
-//            Event newEvent = EnterEventActivity.getEventCreated(data);
-//            eventService.addEventToDb(newEvent);
+            Event newEvent = EnterEventActivity.getEventCreated(data);
+            eventService.addEventToDb(newEvent);
         }
         updateUI();
     }
@@ -403,9 +420,8 @@ public class PositionFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            //Todo
-//            Intent intent = EnterEventActivity.newIntent(getActivity(), position.getId());
-//            startActivityForResult(intent, REQUEST_CODE_EVENT);
+            Intent intent = EnterEventActivity.newIntentEdit(getActivity(), event.getId());
+            startActivityForResult(intent, REQUEST_CODE_EVENT);
         }
     }
 

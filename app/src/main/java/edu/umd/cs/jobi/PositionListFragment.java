@@ -22,12 +22,15 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.umd.cs.jobi.model.Company;
 import edu.umd.cs.jobi.model.Position;
+import edu.umd.cs.jobi.service.CompanyService;
 import edu.umd.cs.jobi.service.PositionService;
 
 public class PositionListFragment extends Fragment {
 
     private PositionService positionService;
+    private CompanyService companyService;
     private List<Position> allPositions;
     private RecyclerView positionList;
     private RecyclerView todo_positionList;
@@ -54,6 +57,7 @@ public class PositionListFragment extends Fragment {
         setHasOptionsMenu(true);
 
         positionService = DependencyFactory.getPositionService(getActivity().getApplicationContext());
+        companyService = DependencyFactory.getCompanyService(getActivity().getApplicationContext());
         allPositions = positionService.getAllPositions();
     }
 
@@ -141,6 +145,12 @@ public class PositionListFragment extends Fragment {
 
             Position positionCreated = PositionActivity.getPositionEdit(data);
             positionService.addPositionToDb(positionCreated);
+            String companyName = positionCreated.getCompany();
+            if (companyService.getCompanyByName(companyName) == null){
+                // If there is no company with the name specified on the position, make a new company
+                Company newCompany = new Company(companyName, true);
+                companyService.addCompanyToDb(newCompany);
+            }
         }
 
         updateUI();
