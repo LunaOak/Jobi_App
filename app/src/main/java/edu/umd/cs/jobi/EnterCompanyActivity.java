@@ -10,10 +10,8 @@ public class EnterCompanyActivity extends SingleFragmentActivity {
 
     private static final String EXTRA_COMPANY_ID = "COMPANY_ID";
 
-
     @Override
     protected Fragment createFragment() {
-
         String companyId = getIntent().getStringExtra(EXTRA_COMPANY_ID);
         return EnterCompanyFragment.newInstance(companyId);
     }
