@@ -61,16 +61,6 @@
         android:text="@string/position_contact_label"
         android:textColor="@color/home_date2" />
 
-    <Button
-        android:id="@+id/company_add_contact_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@color/colorWhite"
-        android:drawableLeft="@android:drawable/ic_menu_add"
-        android:text="@string/add_new_button"
-        android:textColor="@color/colorAccent" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/company_contact_list"
         android:layout_width="match_parent"

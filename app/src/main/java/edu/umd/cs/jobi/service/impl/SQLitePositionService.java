@@ -160,6 +160,16 @@ public class SQLitePositionService implements PositionService {
     }
 
     @Override
+    public List<Contact> getContactsByPosition(Position position) {
+        if (position == null)
+            return null;
+        List<Contact> contacts = queryContacts(JobiPositionDbSchema.ContactTable.Columns.POSITION_ID +
+                "=?", new String[]{position.getId()}, null);
+        return contacts;
+    }
+
+
+    @Override
     public boolean deletePositionById(String id) {
         //todo delete all events related as well...
         for (Contact contact : getPositionById(id).getContacts()){

@@ -17,12 +17,14 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.RecursiveAction;
 import android.content.DialogInterface;
 import android.widget.Toast;
 
 import edu.umd.cs.jobi.model.Company;
+import edu.umd.cs.jobi.model.Contact;
 import edu.umd.cs.jobi.model.Position;
 import edu.umd.cs.jobi.service.CompanyService;
 import edu.umd.cs.jobi.service.PositionService;
@@ -42,17 +44,20 @@ public class CompanyFragment extends Fragment {
     private static final String COMPANY_ID = "COMPANY_ID";
     private static final int REQUEST_CODE_CREATE_POSITION = 10;
     private static final int REQUEST_CODE_VIEW_POSITION = 11;
+    private static final int REQUEST_CODE_CONTACT = 3;
 
     private ImageButton editButton;
-    private Button addContact;
+    //private Button addContact;
     private Button addPosition;
 
     private RecyclerView contactList;
     private RecyclerView positionList;
 
     private PositionAdapter posAdapter;
+    private ContactAdapter contactAdapter;
     // Dialog boxes for deletion //
     private AlertDialog.Builder positionDeleteBuilder;
+    private AlertDialog.Builder contactDeleteBuilder;
 
     public static CompanyFragment newInstance(String companyId){
         Bundle args = new Bundle();
@@ -89,7 +94,9 @@ public class CompanyFragment extends Fragment {
         }
 
         editButton = (ImageButton)view.findViewById(R.id.edit_company_info_button);
-        addContact = (Button)view.findViewById(R.id.company_add_contact_button);
+        //addContact = (Button)view.findViewById(R.id.company_add_contact_button);
+
+
         addPosition = (Button) view.findViewById(R.id.company_add_position_button);
         addPosition.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +128,20 @@ public class CompanyFragment extends Fragment {
         } else {
             posAdapter.setStories(positions);
             posAdapter.notifyDataSetChanged();
+        }
+
+        List<Contact> all_contacts = new ArrayList<Contact>();
+        for (Position p:positions){
+            List<Contact> posContacts = positionService.getContactsByPosition(p);
+            all_contacts.addAll(posContacts);
+        }
+
+        if (contactAdapter == null) {
+            contactAdapter = new ContactAdapter(all_contacts);
+            contactList.setAdapter(contactAdapter);
+        } else {
+            contactAdapter.setContacts(all_contacts);
+            contactAdapter.notifyDataSetChanged();
         }
     }
 
@@ -240,6 +261,101 @@ public class CompanyFragment extends Fragment {
         }
     }
 
+
+
+    private class ContactHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private TextView contactName;
+        private TextView contactTitle;
+        private TextView contactEmail;
+        private TextView contactPhone;
+
+        private Contact contact;
+
+        public ContactHolder(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+
+            contactName = (TextView)itemView.findViewById(R.id.list_item_contact_name);
+            contactTitle = (TextView)itemView.findViewById(R.id.list_item_contact_title);
+            contactEmail = (TextView)itemView.findViewById(R.id.list_item_contact_email);
+            contactPhone = (TextView)itemView.findViewById(R.id.list_item_contact_phone);
+
+            // Delete Alert Dialog //
+            contactDeleteBuilder = new AlertDialog.Builder(getActivity());
+            contactDeleteBuilder.setTitle("Delete Contact?");
+            contactDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+                    positionService.deleteContactById(contact.getId());
+                    Toast.makeText(getActivity().getApplicationContext(), "Contact deleted!", Toast.LENGTH_SHORT).show();
+                    updateUI();
+                    dialog.dismiss();
+                }
+            });
+
+            contactDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener(){
+                @Override
+                public boolean onLongClick(View view){
+                    AlertDialog alert = contactDeleteBuilder.create();
+                    alert.show();
+                    return true;
+                }
+            });
+        }
+
+        public void bindContact(Contact contact) {
+            this.contact = contact;
+
+            contactName.setText(contact.getName());
+            contactTitle.setText(contact.getJobTitle());
+            contactEmail.setText(contact.getEmail());
+            contactPhone.setText(contact.getPhone());
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = EnterContactActivity.newIntent(getActivity(), contact.getId(), false);
+            startActivityForResult(intent, REQUEST_CODE_CONTACT);
+        }
+    }
+
+    private class ContactAdapter extends RecyclerView.Adapter<ContactHolder> {
+        private List<Contact> contacts;
+
+        public ContactAdapter(List<Contact> contacts) {
+            this.contacts = contacts;
+        }
+
+        public void setContacts(List<Contact> contacts) {
+            this.contacts = contacts;
+        }
+
+        @Override
+        public ContactHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            View view = layoutInflater.inflate(R.layout.list_item_contact, parent, false);
+            return new ContactHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ContactHolder holder, int position) {
+            Contact contact = contacts.get(position);
+            holder.bindContact(contact);
+        }
+
+        @Override
+        public int getItemCount() {
+            return contacts.size();
+        }
+    }
 
 
 
