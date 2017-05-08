@@ -20,12 +20,14 @@
             android:layout_height="wrap_content"
             android:paddingBottom="15dp"
             android:textSize="28sp"
-            android:text="@string/position_title"/>
+            android:text="@string/position_title"
+            android:textColor="@color/home_date2"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/position_label"/>
+            android:text="@string/position_label"
+            android:textColor="@color/colorAccent3"/>
 
         <EditText
             android:id="@+id/position"
@@ -37,7 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
-            android:text="@string/position_company_label"/>
+            android:text="@string/position_company_label"
+            android:textColor="@color/colorAccent3"/>
 
         <EditText
             android:id="@+id/position_company"
@@ -48,7 +51,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/position_location_label"/>
+            android:text="@string/position_location_label"
+            android:textColor="@color/colorAccent3"/>
 
         <EditText
             android:id="@+id/position_location"
@@ -60,7 +64,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text="@string/position_type_label"/>
+            android:text="@string/position_type_label"
+            android:textColor="@color/colorAccent3"/>
 
         <Spinner
             android:id="@+id/position_type_spinner"
@@ -73,7 +78,8 @@
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:text="@string/position_status"/>
+            android:text="@string/position_status"
+            android:textColor="@color/colorAccent3"/>
 
         <RadioGroup
             android:id="@+id/position_radio_group"
@@ -102,7 +108,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
-            android:text="@string/position_description_label"/>
+            android:text="@string/position_description_label"
+            android:textColor="@color/colorAccent3"/>
 
         <EditText
             android:id="@+id/position_description"
@@ -122,14 +129,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/save_button"/>
+                android:text="@string/save_button"
+                android:background="@color/colorWhite"
+                android:textColor="@color/colorAccent"/>
 
             <Button
                 android:id="@+id/cancel_position_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/cancel_button"/>
+                android:text="@string/cancel_button"
+                android:background="@color/colorWhite"
+                android:textColor="@color/colorAccent"/>
 
         </LinearLayout>
 
