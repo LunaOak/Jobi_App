@@ -84,14 +84,10 @@
 
     <string name="event_type_label">Type: </string>
     <string-array name="event_type_array">
-        <item>Phone Interview</item>
-        <item>In-Person Interview</item>
+        <item>Interview</item>
         <item>Email</item>
-        <item>Phone Call</item>
         <item>Deadline</item>
-        <item>Other</item>
     </string-array>
-
 
 
     <!-- Events Activity/Fragment Strings -->
