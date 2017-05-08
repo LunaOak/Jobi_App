@@ -1,11 +1,13 @@
 package edu.umd.cs.jobi;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -37,6 +40,8 @@ public class CompanyListFragment extends Fragment {
     private List<Company> favoriteCompanies;
 
     private CompanyAdapter adapter;
+
+    private AlertDialog.Builder companyDeleteBuilder;
 
     private static final int REQUEST_CODE_CREATE_COMPANY = 0;
     private static final int REQUEST_CODE_VIEW_COMPANY = 11;
@@ -175,6 +180,36 @@ public class CompanyListFragment extends Fragment {
             itemView.setOnClickListener(this);
 
             companyName = (TextView)itemView.findViewById(R.id.list_item_company_name);
+
+            companyDeleteBuilder = new AlertDialog.Builder(getActivity());
+            companyDeleteBuilder.setTitle("Delete Company");
+            companyDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+                    companyService.deleteCompanyById(company.getId());
+                    Toast.makeText(getActivity().getApplicationContext(), "Company deleted!", Toast.LENGTH_SHORT).show();
+                    updateUI();
+                    dialog.dismiss();
+                }
+            });
+
+            companyDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener(){
+                @Override
+                public boolean onLongClick(View view){
+                    AlertDialog alert = companyDeleteBuilder.create();
+                    alert.show();
+                    return true;
+                }
+            });
+
 
         }
 

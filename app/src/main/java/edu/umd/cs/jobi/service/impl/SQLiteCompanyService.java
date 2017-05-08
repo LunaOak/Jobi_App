@@ -28,9 +28,10 @@ public class SQLiteCompanyService implements CompanyService {
     @Override
     public void addCompanyToDb(Company company) {
         SQLiteDatabase compDb = getDatabase();
-        List<Company> companies = queryCompanies("", null, null);
+        List<Company> companies = getAllCompanies();
         if (companies.contains(company)){
-            compDb.update(JobiCompanyDbSchema.CompanyTable.NAME, getContentValues(company), "", null);
+            compDb.update(JobiCompanyDbSchema.CompanyTable.NAME, getContentValues(company),
+                    JobiCompanyDbSchema.CompanyTable.Columns.COMPANY_ID + "=?", new String[]{company.getId()});
 
         } else {
             compDb.insert(JobiCompanyDbSchema.CompanyTable.NAME, null, getContentValues(company));
@@ -47,6 +48,17 @@ public class SQLiteCompanyService implements CompanyService {
         cv.put(JobiCompanyDbSchema.CompanyTable.Columns.DESCRIPTION, company.getDescription());
 
         return cv;
+    }
+
+    @Override
+    public boolean deleteCompanyById(String id){
+        if (getCompanyById(id) != null){
+            if (db.delete(JobiCompanyDbSchema.CompanyTable.NAME, JobiCompanyDbSchema.CompanyTable.Columns.COMPANY_ID + "=?", new String[]{id}) == 0){
+             return false;
+                //TODO DELETE ASSOCIATED POSITIONS, EVENTS ETC
+            }
+        }
+        return true;
     }
 
     @Override
@@ -134,7 +146,7 @@ public class SQLiteCompanyService implements CompanyService {
     public List<Company> getAllCompanies() {
 
 
-        List<Company> companies = queryCompanies("", null, null);
+        List<Company> companies = queryCompanies(null, null, null);
         return companies;
     }
 
