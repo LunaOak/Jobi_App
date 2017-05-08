@@ -2,6 +2,7 @@ package edu.umd.cs.jobi;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -27,7 +29,7 @@ import edu.umd.cs.jobi.model.Event;
  * Created by Pauline on 5/6/2017.
  */
 
-public class EnterEventFragment extends Fragment implements DatePickerDialog.OnDateSetListener{
+public class EnterEventFragment extends Fragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
     private final String TAG = getClass().getSimpleName();
 
     private static final String EXTRA_EVENT_CREATED = "EXTRA_EVENT_CREATED";
@@ -46,6 +48,8 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
     private int mYear;
     private int mMonth;
     private int mDay;
+    private int mHour;
+    private int mMinute;
 
     // Buttons //
     private Button eventDateButton;
@@ -124,9 +128,8 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
         eventTimeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                //Todo
-//                DialogFragment newFragment = new TimePickerFragment();
-//                newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getFragmentManager(), "TimePicker");
             }
         });
 
@@ -137,11 +140,11 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
         mYear = year;
         mMonth = monthOfYear;
         mDay = dayOfMonth;
-        updateDisplay();
+        updateDateDisplay();
     }
 
     // Update the date String in the TextView
-    private void updateDisplay() {
+    private void updateDateDisplay() {
         eventDate.setText(new StringBuilder()
         // Month is 0 based so add 1
         .append(mMonth + 1).append("-").append(mDay).append("-")
@@ -173,6 +176,53 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
         }
     }
 
+    // Callback called when user sets the time
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        mHour = hourOfDay;
+        mMinute = minute;
+        updateTimeDisplay();
+    }
+
+    // Update the time String in the TextView
+    private void updateTimeDisplay() {
+        eventTime.setText(new StringBuilder().append(pad(mHour)).append(":")
+                .append(pad(mMinute)));
+    }
+
+    // Prepends a "0" to 1-digit minutes
+    private static String pad(int c) {
+        if (c >= 10)
+            return String.valueOf(c);
+        else
+            return "0" + String.valueOf(c);
+    }
+
+    public static class TimePickerFragment extends DialogFragment implements
+            TimePickerDialog.OnTimeSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            final Calendar c = Calendar.getInstance();
+            int hourOfDay = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            // Create a new instance of TimePickerDialog and return it
+            return new TimePickerDialog(getActivity(), this, hourOfDay, minute,
+                    false);
+
+        }
+
+        // Callback to TimePickerFragmentActivity.onTimeSet() to update the UI
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            ((TimePickerDialog.OnTimeSetListener) getActivity()).onTimeSet(view, hourOfDay,
+                    minute);
+
+        }
+    }
+
     public static Event getEventCreated(Intent data) {
         return (Event)data.getSerializableExtra(EXTRA_EVENT_CREATED);
     }
@@ -187,7 +237,5 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
 //        Log.d(TAG, "ParseException");
 //    }
 
-
-//}
 
 
