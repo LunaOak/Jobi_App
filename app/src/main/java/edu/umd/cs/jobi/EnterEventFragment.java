@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import edu.umd.cs.jobi.model.Event;
@@ -55,6 +58,7 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
     // Date and Time pickers //
     private TextView eventDate;
     private TextView eventTime;
+    private Date newDate;
     private int mYear;
     private int mMonth;
     private int mDay;
@@ -154,7 +158,16 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (create) {
+                    event = new Event();
+                }
+                event.setTitle(eventName.getText().toString());
+                event.setCompany(companyName);
+                event.setPosition(positionTitle);
+                event.setType(eventTypeSpinner.getSelectedItemPosition());
+                newDate = getNewDate(mMonth, mDay, mYear, mHour, mMinute);
+                event.setDate(newDate);
+                event.setLocation(eventLocation.getText().toString());
 
                 Intent data = new Intent();
                 data.putExtra(EXTRA_EVENT_CREATED, event);
@@ -262,19 +275,25 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
         }
     }
 
+    public Date getNewDate(int month, int day, int year, int hour, int min) {
+        String s = new String();
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, MM/dd/yyyy HH:mm");
+        try {
+            date = simpleDateFormat.parse(s);
+        } catch (ParseException e) {
+            Log.d(TAG, "ParseException");
+        }
+        return date;
+    }
+
     public static Event getEventCreated(Intent data) {
         return (Event)data.getSerializableExtra(EXTRA_EVENT_CREATED);
     }
 }
 
 // Todo used for date and time
-//    String s = "01/02/2017 12:00";
-//    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
-//    try {
-//        Date date = simpleDateFormat.parse(s);
-//    } catch (ParseException e) {
-//        Log.d(TAG, "ParseException");
-//    }
+
 
 
 
