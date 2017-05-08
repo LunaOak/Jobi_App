@@ -64,6 +64,7 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
     private int mDay;
     private int mHour;
     private int mMinute;
+    private DatePickerDialog.OnDateSetListener listener;
 
     // Buttons //
     private Button eventDateButton;
@@ -133,10 +134,29 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
         eventDateButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                DialogFragment newFragment = new DatePickerFragment();
-                newFragment.show(getFragmentManager(), "DatePicker");
+                final Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), listener, year, month, day);
+                datePickerDialog.show();
+                
+//                DialogFragment newFragment = new DatePickerFragment();
+//                newFragment.show(getFragmentManager(), "DatePicker");
             }
         });
+
+        listener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                mYear = year;
+                mMonth = monthOfYear;
+                mDay = dayOfMonth;
+
+                ((TextView)getActivity().findViewById(R.id.event_date_text)).setText(new StringBuilder().append(monthOfYear + 1).append("-").append(dayOfMonth).append("-").append(year));
+            }
+        };
 
         // Event time text //
         eventTime = (TextView)view.findViewById(R.id.event_time_text);
@@ -203,31 +223,28 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
         .append(mYear).append(" "));
     }
 
-    public static class DatePickerFragment extends DialogFragment implements
-            DatePickerDialog.OnDateSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-            // Set the current date in the DatePickerFragment
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-//            return new DatePickerDialog(getActivity(), (EnterEventActivity)getActivity(), year, month, day);
-
-        }
-
-        // Callback to DatePickerActivity.onDateSet() to update the UI
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            ((TextView)getActivity().findViewById(R.id.event_date_text)).setText(new StringBuilder().append(monthOfYear + 1).append("-").append(dayOfMonth).append("-").append(year));
-//            ((DatePickerDialog.OnDateSetListener) getActivity()).onDateSet(view, year, monthOfYear, dayOfMonth);
-        }
-    }
+//    public static class DatePickerFragment extends DialogFragment implements
+//            DatePickerDialog.OnDateSetListener {
+//
+//        @Override
+//        public Dialog onCreateDialog(Bundle savedInstanceState) {
+//
+//            // Set the current date in the DatePickerFragment
+//            final Calendar c = Calendar.getInstance();
+//            int year = c.get(Calendar.YEAR);
+//            int month = c.get(Calendar.MONTH);
+//            int day = c.get(Calendar.DAY_OF_MONTH);
+//
+//            // Create a new instance of DatePickerDialog and return it
+//            return new DatePickerDialog(getActivity(), this, year, month, day);
+//        }
+//
+//        // Callback to DatePickerActivity.onDateSet() to update the UI
+//        @Override
+//        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//            ((TextView)getActivity().findViewById(R.id.event_date_text)).setText(new StringBuilder().append(monthOfYear + 1).append("-").append(dayOfMonth).append("-").append(year));
+//        }
+//    }
 
     // Callback called when user sets the time
     @Override
