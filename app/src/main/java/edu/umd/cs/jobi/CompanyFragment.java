@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import java.util.concurrent.RecursiveAction;
 
 import edu.umd.cs.jobi.model.Company;
 
+import static android.content.ContentValues.TAG;
+
 
 public class CompanyFragment extends Fragment {
 
@@ -24,6 +27,7 @@ public class CompanyFragment extends Fragment {
     private TextView companyNameLabel;
     private TextView companyLocationLabel;
     private TextView companyDescriptionLabel;
+    private static final String COMPANY_ID = "COMPANY_ID";
 
     private ImageButton editButton;
     private Button addContact;
@@ -32,8 +36,11 @@ public class CompanyFragment extends Fragment {
     private RecyclerView contactList;
     private RecyclerView.Recycler positionList;
 
-    public static CompanyFragment newInstance(){
+    public static CompanyFragment newInstance(String companyId){
+        Bundle args = new Bundle();
+        args.putString(COMPANY_ID, companyId);
         CompanyFragment fragment = new CompanyFragment();
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -41,6 +48,9 @@ public class CompanyFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        String companyId = getArguments().getString(COMPANY_ID);
+        Log.d(TAG, "We are about to query the database");
+        company = DependencyFactory.getCompanyService(getActivity().getApplicationContext()).getCompanyById(companyId);
     }
 
     @Nullable
