@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:padding="4dp"
         tools:text="Company"/>
 
@@ -19,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/list_item_position_company"
+        android:layout_toStartOf="@id/list_item_position_company"
         android:textStyle="bold"
         android:padding="4dp"
         tools:text="Position Title"
@@ -29,6 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/list_item_position_company"
+        android:layout_toStartOf="@id/list_item_position_company"
         android:layout_below="@id/list_item_position_title"
         android:padding="4dp"
         tools:text="Summary" />
@@ -37,7 +40,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorAccent2"
-        android:layout_below="@id/list_item_position_summary"/>
+        android:layout_below="@id/list_item_position_summary"
+        android:id="@+id/view" />
 
 
 </RelativeLayout>

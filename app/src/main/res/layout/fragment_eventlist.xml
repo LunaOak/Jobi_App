@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="35dp"
+            android:textSize="35sp"
             android:textColor="@color/home_date2"
             android:text="@string/event_list_label"
             android:layout_weight="0.75" />
@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:drawableLeft="@android:drawable/ic_menu_add"
+            android:drawableStart="@android:drawable/ic_menu_add"
             android:text="@string/add_new_button"
             android:background="@color/colorWhite"
             android:textColor="@color/colorAccent"/>
@@ -43,13 +44,13 @@
             android:id="@+id/all_companies_tab"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="All Events" />
+            android:text="@string/list_all" />
 
         <android.support.design.widget.TabItem
             android:id="@+id/current_companies_tab"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Interviews" />
+            android:text="@string/interviews" />
 
     </android.support.design.widget.TabLayout>
 

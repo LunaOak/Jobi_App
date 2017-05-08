@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.SharedPreferencesCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,7 +62,7 @@ public class EnterCompanyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_enter_company, container, false);
+        View view = inflater.inflate(R.layout.fragment_company_enter, container, false);
 
         companyName = (EditText)view.findViewById(R.id.company_name);
         companyLocation = (EditText)view.findViewById(R.id.company_location);
