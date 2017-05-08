@@ -140,9 +140,9 @@ public class CompanyListFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (resultCode != Activity.RESULT_OK){
+        /*if (resultCode != Activity.RESULT_OK){
             return;
-        }
+        }*/
 
         if (requestCode == REQUEST_CODE_CREATE_COMPANY) {
             if (data == null){
@@ -151,8 +151,9 @@ public class CompanyListFragment extends Fragment {
 
             Company companyCreated = EnterCompanyActivity.getCompanyCreated(data);
             companyService.addCompanyToDb(companyCreated);
-            updateUI();
+
         }
+        updateUI();
     }
 
 

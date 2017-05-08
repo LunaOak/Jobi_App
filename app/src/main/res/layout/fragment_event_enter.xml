@@ -39,7 +39,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/event_location_label"/>
+            android:text="Company" />
+
+        <EditText
+            android:id="@+id/event_company"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Company Name" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Position" />
+
+        <EditText
+            android:id="@+id/event_position"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Position Name" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/event_location_label" />
 
         <EditText
             android:id="@+id/event_location"

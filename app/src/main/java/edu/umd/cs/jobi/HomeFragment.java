@@ -88,7 +88,7 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        eventRecyclerView = (RecyclerView)view.findViewById(R.id.event_recycler_view);
+        eventRecyclerView = (RecyclerView)view.findViewById(R.id.home_event_recycler_view);
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         day = (TextView) view.findViewById(R.id.day);
@@ -254,6 +254,7 @@ public class HomeFragment extends Fragment {
 
 
 
+
     }
 
     @Override
@@ -279,6 +280,7 @@ public class HomeFragment extends Fragment {
 
     private class EventHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView dateTextView;
+        private TextView titleTextView;
         private TextView typeTextView;
 
         private Event event;
@@ -288,21 +290,23 @@ public class HomeFragment extends Fragment {
             itemView.setOnClickListener(this);
 
             dateTextView = (TextView)itemView.findViewById(R.id.list_item_event_date);
+            titleTextView = (TextView)itemView.findViewById(R.id.list_item_event_title);
             typeTextView = (TextView)itemView.findViewById(R.id.list_item_event_type);
         }
 
         public void bindEvent(Event event) {
             this.event = event;
 
-            dateTextView.setText(event.getDate().toString());
+            dateTextView.setText(new SimpleDateFormat("EEE, MMM d", Locale.ENGLISH).format(event.getDate()));
+            titleTextView.setText(event.getTitle());
             typeTextView.setText(event.getType().name());
 
         }
 
         @Override
         public void onClick(View view) {
-            //Intent intent = EventActivity.newIntent(getActivity(), event.getId());
-            //startActivityForResult(intent, REQUEST_CODE_CREATE_EVENT);
+            Intent intent = EventActivity.newIntent(getActivity(), event.getId());
+            startActivityForResult(intent, REQUEST_CODE_CREATE_EVENT);
         }
     }
  
@@ -357,4 +361,7 @@ public class HomeFragment extends Fragment {
             }
         return monthName;
     }
+
+
 }
+
