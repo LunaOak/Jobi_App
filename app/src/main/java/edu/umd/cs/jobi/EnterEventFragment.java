@@ -25,6 +25,9 @@ import java.util.Locale;
 
 import edu.umd.cs.jobi.model.Event;
 
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by Pauline on 5/6/2017.
  */
@@ -33,9 +36,16 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
     private final String TAG = getClass().getSimpleName();
 
     private static final String EXTRA_EVENT_CREATED = "EXTRA_EVENT_CREATED";
+
+    private static final String ARG_CREATE_BOOLEAN = "ARG_CREATE_BOOLEAN";
+    private static final String ARG_POSITION_TITLE = "ARG_POSITION_TITLE";
+    private static final String ARG_COMPANY_NAME = "ARG_COMPANY_NAME";
     private static final String ARG_EVENT_ID = "ARG_EVENT_ID";
 
     private Event event;
+    private Boolean create;
+    private String companyName;
+    private String positionTitle;
 
     // Interactive Elements //
     private EditText eventName;
@@ -57,8 +67,11 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
     private Button saveButton;
     private Button cancelButton;
 
-    public static EnterEventFragment newInstance(String eventId) {
+    public static EnterEventFragment newInstance(Boolean create, String positionTitle, String companyName, String eventId) {
         Bundle args = new Bundle();
+        args.putBoolean(ARG_CREATE_BOOLEAN, create);
+        args.putString(ARG_POSITION_TITLE, positionTitle);
+        args.putString(ARG_COMPANY_NAME, companyName);
         args.putString(ARG_EVENT_ID, eventId);
 
         EnterEventFragment fragment = new EnterEventFragment();
@@ -70,6 +83,10 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        create = getArguments().getBoolean(ARG_CREATE_BOOLEAN);
+        positionTitle = getArguments().getString(ARG_POSITION_TITLE);
+        companyName = getArguments().getString(ARG_COMPANY_NAME);
+
         String eventId = getArguments().getString(ARG_EVENT_ID);
         event = DependencyFactory.getEventService(getActivity().getApplicationContext()).getEventById(eventId);
     }
@@ -78,7 +95,7 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_position_enter, container, false);
+        View view = inflater.inflate(R.layout.fragment_event_enter, container, false);
 
         // Event name //
         eventName = (EditText)view.findViewById(R.id.event_name);
@@ -130,6 +147,28 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
             public void onClick(View view) {
                 DialogFragment newFragment = new TimePickerFragment();
                 newFragment.show(getFragmentManager(), "TimePicker");
+            }
+        });
+
+        saveButton = (Button)view.findViewById(R.id.save_event_button);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Intent data = new Intent();
+                data.putExtra(EXTRA_EVENT_CREATED, event);
+                getActivity().setResult(RESULT_OK, data);
+                getActivity().finish();
+            }
+        });
+
+        cancelButton = (Button)view.findViewById(R.id.cancel_event_button);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().setResult(RESULT_CANCELED);
+                getActivity().finish();
             }
         });
 
