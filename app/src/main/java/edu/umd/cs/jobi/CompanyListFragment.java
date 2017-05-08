@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +23,8 @@ import java.util.List;
 import edu.umd.cs.jobi.model.Company;
 import edu.umd.cs.jobi.service.CompanyService;
 
+import static android.content.ContentValues.TAG;
+
 
 public class CompanyListFragment extends Fragment {
 
@@ -32,7 +36,10 @@ public class CompanyListFragment extends Fragment {
     private List<Company> currentCompanies;
     private List<Company> favoriteCompanies;
 
+    private CompanyAdapter adapter;
+
     private static final int REQUEST_CODE_CREATE_COMPANY = 0;
+    private static final int REQUEST_CODE_VIEW_COMPANY = 11;
 
     public static CompanyListFragment newInstance() {
         CompanyListFragment fragment = new CompanyListFragment();
@@ -44,10 +51,12 @@ public class CompanyListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
+
         companyService = DependencyFactory.getCompanyService(getActivity().getApplicationContext());
         allCompanies = companyService.getAllCompanies();
-        currentCompanies = companyService.getCurrentCompanies();
-        favoriteCompanies = companyService.getFavoriteCompanies();
+       // adapter = new CompanyAdapter(allCompanies);
+       // currentCompanies = companyService.getCurrentCompanies();
+       // favoriteCompanies = companyService.getFavoriteCompanies();
     }
 
     @Nullable
@@ -57,15 +66,18 @@ public class CompanyListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_companylist, container, false);
 
-        tabLayout = (TabLayout)view.findViewById(R.id.company_tab_layout);
+        tabLayout = (TabLayout)view.findViewById(R.id.company_list_tab_layout);
         companyList = (RecyclerView)view.findViewById(R.id.company_list);
+        companyList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        updateUI();
         //companyList.setText(allCompanies.toString()); //TODO change this to be the list of all companies
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getText().equals(getString(R.string.list_all))) {
+                    //updateUI();
                     //companyList.setText("All Companies!");
                 } else {
                     //companyList.setText("Current Companies");
@@ -140,6 +152,80 @@ public class CompanyListFragment extends Fragment {
 
 
     private void updateUI(){
-        //TODO
+        Log.d(TAG, "updating UI of companies");
+        allCompanies = companyService.getAllCompanies();
+
+        if (adapter == null){
+            adapter = new CompanyAdapter(allCompanies);
+            companyList.setAdapter(adapter);
+        } else {
+            adapter.setStories(allCompanies);
+            adapter.notifyDataSetChanged();
+        }
+
+        }
+
+    // Recycler Views Adapters & Holders ////////////////////////////////////////////////////////
+    private class CompanyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private TextView companyName;
+        private Company company;
+
+        public CompanyHolder(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+
+            companyName = (TextView)itemView.findViewById(R.id.list_item_company_name);
+
+        }
+
+
+        public void bindCompany(Company company) {
+
+            this.company = company;
+            if (company != null) {
+                companyName.setText(company.getName());
+            }
+
+        }
+
+        @Override
+        public void onClick(View view) {
+            Log.d(TAG, "The id of this company is" + company.getId());
+            Log.d(TAG, "The name of this company is" + company.getName());
+           Intent intent = CompanyActivity.newIntent(getActivity(), company.getId());
+            startActivityForResult(intent, REQUEST_CODE_VIEW_COMPANY);
+        }
+    }
+
+    // Company Adapter ///////////////////////////////////////////////////////////////
+    private class CompanyAdapter extends RecyclerView.Adapter<CompanyHolder> {
+
+        private List<Company> companies;
+
+        public CompanyAdapter(List<Company> companies) {
+            this.companies = companies;
+        }
+
+        public void setStories(List<Company> companies) {
+            this.companies = companies;
+        }
+
+        @Override
+        public CompanyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            View view = layoutInflater.inflate(R.layout.list_item_company, parent, false);
+            return new CompanyHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(CompanyHolder holder, int list_position) {
+            Company position = companies.get(list_position);
+            holder.bindCompany(position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return companies.size();
+        }
     }
 }
