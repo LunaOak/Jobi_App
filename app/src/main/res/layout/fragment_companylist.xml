@@ -40,13 +40,13 @@
         app:tabIndicatorColor="@color/colorAccent">
 
         <android.support.design.widget.TabItem
-            android:id="@+id/all_companies_tab"
+            android:id="@+id/all_companies_list_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/list_all" />
 
         <android.support.design.widget.TabItem
-            android:id="@+id/current_companies_tab"
+            android:id="@+id/current_companies_list_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/current_companies" />

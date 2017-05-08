@@ -50,10 +50,12 @@ public class CompanyListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
+
         companyService = DependencyFactory.getCompanyService(getActivity().getApplicationContext());
         allCompanies = companyService.getAllCompanies();
-        currentCompanies = companyService.getCurrentCompanies();
-        favoriteCompanies = companyService.getFavoriteCompanies();
+       // adapter = new CompanyAdapter(allCompanies);
+       // currentCompanies = companyService.getCurrentCompanies();
+       // favoriteCompanies = companyService.getFavoriteCompanies();
     }
 
     @Nullable
@@ -65,9 +67,9 @@ public class CompanyListFragment extends Fragment {
 
         tabLayout = (TabLayout)view.findViewById(R.id.company_list_tab_layout);
         companyList = (RecyclerView)view.findViewById(R.id.company_list);
-        companyList.setAdapter(adapter);
         companyList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        updateUI();
         //companyList.setText(allCompanies.toString()); //TODO change this to be the list of all companies
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -179,7 +181,9 @@ public class CompanyListFragment extends Fragment {
         public void bindCompany(Company company) {
 
             this.company = company;
-            companyName.setText(company.getName());
+            if (company != null) {
+                companyName.setText(company.getName());
+            }
 
         }
 
@@ -205,7 +209,7 @@ public class CompanyListFragment extends Fragment {
         @Override
         public CompanyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            View view = layoutInflater.inflate(R.layout.list_item_position, parent, false);
+            View view = layoutInflater.inflate(R.layout.list_item_company, parent, false);
             return new CompanyHolder(view);
         }
 
