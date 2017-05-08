@@ -307,9 +307,9 @@ public class PositionFragment extends Fragment {
             contactDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                 public void onClick(DialogInterface dialog, int which) {
-                    // Todo delete
                     positionService.deleteContactById(contact.getId());
-                    Toast.makeText(getActivity().getApplicationContext(), "DELETED!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "Contact deleted!", Toast.LENGTH_SHORT).show();
+                    updateUI();
                     dialog.dismiss();
                 }
             });
