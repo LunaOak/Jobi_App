@@ -11,4 +11,5 @@ public interface CompanyService {
     public List<Company> getAllCompanies();
     public List<Company> getCurrentCompanies();
     public List<Company> getFavoriteCompanies();
+    public boolean deleteCompanyById(String id);
 }

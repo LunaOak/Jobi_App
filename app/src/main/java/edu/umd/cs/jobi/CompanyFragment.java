@@ -1,5 +1,6 @@
 package edu.umd.cs.jobi;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -45,6 +46,7 @@ public class CompanyFragment extends Fragment {
     private static final int REQUEST_CODE_CREATE_POSITION = 10;
     private static final int REQUEST_CODE_VIEW_POSITION = 11;
     private static final int REQUEST_CODE_CONTACT = 3;
+    private static final int REQUEST_CODE_EDIT_COMPANY = 5;
 
     private ImageButton editButton;
     //private Button addContact;
@@ -83,6 +85,7 @@ public class CompanyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_company, container, false);
 
+
         companyNameLabel = (TextView)view.findViewById(R.id.company_name_label);
         companyLocationLabel = (TextView)view.findViewById(R.id.company_location_label);
         companyDescriptionLabel = (TextView)view.findViewById(R.id.company_description_label);
@@ -94,6 +97,18 @@ public class CompanyFragment extends Fragment {
         }
 
         editButton = (ImageButton)view.findViewById(R.id.edit_company_info_button);
+        editButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+        public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), EnterCompanyActivity.class);
+                intent.putExtra(COMPANY_ID, company.getId());
+
+         //   Intent intent = EnterCompanyActivity.newIntent(getActivity().getApplicationContext(), company.getId());
+            startActivityForResult(intent, REQUEST_CODE_EDIT_COMPANY);
+        }}
+
+        );
         //addContact = (Button)view.findViewById(R.id.company_add_contact_button);
 
 
@@ -119,6 +134,11 @@ public class CompanyFragment extends Fragment {
     }
 
     private void updateUI() {
+        if (company != null){
+            companyNameLabel.setText(company.getName());
+            companyLocationLabel.setText(company.getLocation());
+            companyDescriptionLabel.setText(company.getDescription());
+        }
 
         List<Position> positions = positionService.getPositionsByCompany(company.getName());
 
@@ -149,6 +169,10 @@ public class CompanyFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
+        if (resultCode != Activity.RESULT_OK || data == null) {
+            return;
+        }
+
         if (requestCode == REQUEST_CODE_CREATE_POSITION) {
             if (data == null) {
                 return;
@@ -162,6 +186,9 @@ public class CompanyFragment extends Fragment {
                 Company newCompany = new Company(companyName, true);
                 companyService.addCompanyToDb(newCompany);
             }
+        } else if (requestCode == REQUEST_CODE_EDIT_COMPANY){
+            company = EnterCompanyActivity.getCompanyCreated(data);
+            companyService.addCompanyToDb(company);
         }
 
         updateUI();

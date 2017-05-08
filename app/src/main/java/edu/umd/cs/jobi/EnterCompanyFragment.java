@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.SharedPreferencesCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,7 @@ public class EnterCompanyFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String companyId = getArguments().getString(COMPANY_ID);
+        Log.d(TAG, "The company id is " + companyId);
         company = DependencyFactory.getCompanyService(getActivity().getApplicationContext()).getCompanyById(companyId);
 
 
@@ -66,6 +68,12 @@ public class EnterCompanyFragment extends Fragment {
         companyName = (EditText)view.findViewById(R.id.company_name);
         companyLocation = (EditText)view.findViewById(R.id.company_location);
         companyDescription=(EditText)view.findViewById(R.id.company_description);
+
+        if (company != null){
+            companyName.setText(company.getName());
+            companyLocation.setText(company.getLocation());
+            companyDescription.setText(company.getDescription());
+        }
 
         saveButton = (Button)view.findViewById(R.id.save_company_button);
         cancelButton = (Button)view.findViewById(R.id.cancel_company_button);
@@ -85,6 +93,7 @@ public class EnterCompanyFragment extends Fragment {
                     if (company == null) {
                         company = new Company(companyName.getText().toString(), true);
                     }
+                    company.setName(companyName.getText().toString());
                     company.setLocation(companyLocation.getText().toString());
                     company.setDescription(companyDescription.getText().toString());
 
