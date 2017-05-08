@@ -137,6 +137,14 @@ public class SQLitePositionService implements PositionService {
     }
 
     @Override
+    public List<Position> getPositionsByCompany(String name) {
+        List<Position> positions = queryPositions(JobiPositionDbSchema.PositionTable.Columns.COMPANY + "=?",
+                new String[]{name}, null);
+
+        return positions;
+    }
+
+    @Override
     public Contact getContactById(String id) {
         if (id == null) {
             return null;
