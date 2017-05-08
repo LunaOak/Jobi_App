@@ -141,17 +141,11 @@ public class SQLiteEventService implements EventService {
             return null;
         }
 
-        List<Event> events= queryEvents(JobiEventDbSchema.EventTable.Columns.ID + "=?", new String[]{id}, null);
+        List<Event> events = queryEvents(JobiEventDbSchema.EventTable.Columns.ID + "=?", new String[]{id}, null);
 
         if (events.size() == 0) {
             return null;
         }
-
-        /*
-        if (stories.size() != 1) {
-            throw new IllegalArgumentException();
-        }
-        */
 
         return events.get(0);
     }
@@ -183,12 +177,6 @@ public class SQLiteEventService implements EventService {
             return null;
         }
 
-        /*
-        if (stories.size() != 1) {
-            throw new IllegalArgumentException();
-        }
-        */
-
         return contacts.get(0);
     }
 
@@ -203,12 +191,6 @@ public class SQLiteEventService implements EventService {
         if (reminders.size() == 0) {
             return null;
         }
-
-        /*
-        if (stories.size() != 1) {
-            throw new IllegalArgumentException();
-        }
-        */
 
         return reminders.get(0);
     }

@@ -229,7 +229,6 @@ public class EnterEventFragment extends Fragment {
             return "0" + String.valueOf(c);
     }
 
-
     public Date getNewDate(int month, int day, int year, int hour, int min) {
         String s = new String();
         Date date = new Date();
@@ -249,8 +248,6 @@ public class EnterEventFragment extends Fragment {
         return (Event)data.getSerializableExtra(EXTRA_EVENT_CREATED);
     }
 }
-
-// Todo used for date and time
 
 
 
