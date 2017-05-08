@@ -216,7 +216,7 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
             int day = c.get(Calendar.DAY_OF_MONTH);
 
             // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
+            return new DatePickerDialog(getActivity(), (EnterEventActivity)getActivity(), year, month, day);
 
         }
 
@@ -261,7 +261,7 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
             int minute = c.get(Calendar.MINUTE);
 
             // Create a new instance of TimePickerDialog and return it
-            return new TimePickerDialog(getActivity(), this, hourOfDay, minute,
+            return new TimePickerDialog(getActivity(), (EnterEventActivity)getActivity(), hourOfDay, minute,
                     false);
 
         }
@@ -278,7 +278,10 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
     public Date getNewDate(int month, int day, int year, int hour, int min) {
         String s = new String();
         Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, MM/dd/yyyy HH:mm");
+        s += String.valueOf(month + 1) + "/" + String.valueOf(day) + "/" + String.valueOf(year)
+                + " " + String.valueOf(hour) + ":" + String.valueOf(min);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
         try {
             date = simpleDateFormat.parse(s);
         } catch (ParseException e) {
