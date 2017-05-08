@@ -25,6 +25,9 @@ import java.util.Locale;
 
 import edu.umd.cs.jobi.model.Event;
 
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by Pauline on 5/6/2017.
  */
@@ -130,6 +133,28 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
             public void onClick(View view) {
                 DialogFragment newFragment = new TimePickerFragment();
                 newFragment.show(getFragmentManager(), "TimePicker");
+            }
+        });
+
+        saveButton = (Button)view.findViewById(R.id.save_event_button);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Intent data = new Intent();
+                data.putExtra(EXTRA_EVENT_CREATED, event);
+                getActivity().setResult(RESULT_OK, data);
+                getActivity().finish();
+            }
+        });
+
+        cancelButton = (Button)view.findViewById(R.id.cancel_event_button);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().setResult(RESULT_CANCELED);
+                getActivity().finish();
             }
         });
 
