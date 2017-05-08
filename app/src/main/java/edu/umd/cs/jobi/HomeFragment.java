@@ -189,12 +189,6 @@ public class HomeFragment extends Fragment {
 
         // Reflect Events in Recycler View //
         if (requestCode == REQUEST_CODE_CREATE_EVENT) {
-            if (data == null) {
-                return;
-            }
-
-            //Event eventCreated = EventActivity.getEventCreated(data);
-            //eventService.addEventToDb(eventCreated);
             updateUI();
         }
 
@@ -240,8 +234,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateUI() {
-        //Log.d(TAG, "updating UI all stories");
-
         List<Event> events = eventService.getAllEvents();
 
         if (adapter == null) {
@@ -251,10 +243,6 @@ public class HomeFragment extends Fragment {
             adapter.setEvents(events);
             adapter.notifyDataSetChanged();
         }
-
-
-
-
     }
 
     @Override
