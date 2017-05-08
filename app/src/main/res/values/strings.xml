@@ -21,13 +21,6 @@
     <string name="radio_next">Next</string>
     <string name="radio_later">Later</string>
 
-    <!--  <string name="status_label">Status</string>
-      <string-array name="status_array">
-          <item>To Do</item>
-          <item>In Progress</item>
-          <item>Done</item>
-      </string-array>-->
-
     <string name="todo_label">To Do</string>
     <string name="inprogress_label">In Progress</string>
     <string name="done_label">Done</string>
@@ -99,6 +92,8 @@
     <string name="add_contact_button">Add a Contact</string>
     <string name="edit_event_button">Edit Event</string>
 
+    <string name="interviews">Interviews</string>
+
 
     <!-- Contact Activity/Fragment Strings -->
     <string name="contact_title">Contact</string>
@@ -159,5 +154,11 @@
     <string name="event_list_label">Events</string>
 
     <string name="add_new_button">Add new</string>
+
+    <!-- Company Activity/Fragment Strings -->
+    <string name="company_title">Company</string>
+    <string name="company_name">Company Name</string>
+    <string name="company_location">Location</string>
+    <string name="company_description">Description</string>
 
 </resources>
