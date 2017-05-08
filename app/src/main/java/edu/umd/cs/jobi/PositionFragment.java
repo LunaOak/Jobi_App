@@ -301,13 +301,14 @@ public class PositionFragment extends Fragment {
             contactEmail = (TextView)itemView.findViewById(R.id.list_item_contact_email);
             contactPhone = (TextView)itemView.findViewById(R.id.list_item_contact_phone);
 
+            // Delete Alert Dialog //
             contactDeleteBuilder = new AlertDialog.Builder(getActivity());
-
             contactDeleteBuilder.setTitle("Delete Contact?");
             contactDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                 public void onClick(DialogInterface dialog, int which) {
                     // Todo delete
+                    positionService.deleteContactById(contact.getId());
                     Toast.makeText(getActivity().getApplicationContext(), "DELETED!", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
