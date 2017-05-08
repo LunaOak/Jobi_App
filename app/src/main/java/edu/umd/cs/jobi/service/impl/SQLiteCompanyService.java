@@ -51,6 +51,17 @@ public class SQLiteCompanyService implements CompanyService {
 
     @Override
     public Company getCompanyByName(String name) {
+        if (name == null){
+            return null;
+        }
+        List<Company> companies = queryCompanies(JobiCompanyDbSchema.CompanyTable.Columns.TITLE + "=?", new String[]{name}, null);
+        for (Company company:companies){
+            if(company.getName().equals(name)){
+                return company;
+
+            }
+        }
+
         return null;
     }
 
