@@ -30,7 +30,6 @@ import edu.umd.cs.jobi.model.Event;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
-import static edu.umd.cs.jobi.R.id.month;
 
 /**
  * Created by Pauline on 5/6/2017.
@@ -225,7 +224,7 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
         // Callback to DatePickerActivity.onDateSet() to update the UI
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            ((TextView)getActivity().findViewById(R.id.event_date_text)).setText(new StringBuilder().append(month + 1).append("-").append(dayOfMonth).append("-").append(year));
+            ((TextView)getActivity().findViewById(R.id.event_date_text)).setText(new StringBuilder().append(monthOfYear + 1).append("-").append(dayOfMonth).append("-").append(year));
 //            ((DatePickerDialog.OnDateSetListener) getActivity()).onDateSet(view, year, monthOfYear, dayOfMonth);
         }
     }
