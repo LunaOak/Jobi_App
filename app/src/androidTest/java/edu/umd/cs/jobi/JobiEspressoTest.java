@@ -485,7 +485,7 @@ public class JobiEspressoTest extends BaseActivityEspressoTest {
                 }
         );
         onView(withText("Software Engineer 2A")).check(matches(isDisplayed()));
-
+  
         // Position 3 //
 
     }
