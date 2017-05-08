@@ -149,6 +149,7 @@ public class EnterPositionFragment extends Fragment {
                     position.setDescription(descriptionEditText.getText().toString());
                     position.setType(positionTypeSpinner.getSelectedItemPosition());
 
+
                     Intent data = new Intent();
                     data.putExtra(POSITION_CREATED, position);
                     getActivity().setResult(RESULT_OK, data);

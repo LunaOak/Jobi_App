@@ -53,6 +53,9 @@ public class EventFragment extends Fragment {
     private static final int HOUR = 60 * MINUTE;
     private static final int DAY = 24 * HOUR;
 
+    private static final String EVENT_CREATED = "EVENT_CREATED";
+
+
     public static EventFragment newInstance(String eventId) {
         Bundle args = new Bundle();
         args.putString(ARG_EVENT_ID, eventId);
@@ -98,7 +101,7 @@ public class EventFragment extends Fragment {
         editEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = EnterEventActivity.newIntent(getActivity().getApplicationContext(), event.getId()); //event might be null. SHOULDNT though
+                Intent intent = EnterEventActivity.newIntentEdit(getActivity().getApplicationContext(), event.getId()); //event might be null. SHOULDNT though
 
                 startActivityForResult(intent, REQUEST_CODE_EDIT_EVENT);
             }
@@ -364,4 +367,9 @@ public class EventFragment extends Fragment {
             startActivityForResult(intent, REQUEST_CODE_ADD_CONTACT);
         }
     }
+
+    public static Event getEventCreated(Intent data) {
+        return (Event)data.getSerializableExtra(EVENT_CREATED);
+    }
+
 }

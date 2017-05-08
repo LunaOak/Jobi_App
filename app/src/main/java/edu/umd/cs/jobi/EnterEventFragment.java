@@ -99,7 +99,7 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_position_enter, container, false);
+        View view = inflater.inflate(R.layout.fragment_event_enter, container, false);
 
         // Event name //
         eventName = (EditText)view.findViewById(R.id.event_name);

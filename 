@@ -1,0 +1,35 @@
+[33m7afa864[m HEAD@{0}: reset: moving to HEAD@{5}
+[33m7afa864[m HEAD@{1}: reset: moving to HEAD@{1}
+[33m4278000[m HEAD@{2}: pull: Merge made by the 'recursive' strategy.
+[33m7afa864[m HEAD@{3}: reset: moving to HEAD
+[33m7afa864[m HEAD@{4}: reset: moving to HEAD@{1}
+[33m47f8ad2[m HEAD@{5}: pull: Merge made by the 'recursive' strategy.
+[33m7afa864[m HEAD@{6}: commit: Associated positions with companies pt 1 -> when new positions are added with a company that doesn't exist, will automatically create a new company
+[33mca307b4[m HEAD@{7}: pull: Merge made by the 'recursive' strategy.
+[33mfe9e002[m HEAD@{8}: commit: Added functionality to company list so that when a company is clicked on, associated company page is brought up. Furthermore added functionality to company page to query information from database. Fixed error in company database where queries did not work correctly
+[33m5f81294[m HEAD@{9}: commit: Fixed a bug in company list when layout would not inflate correctly. Also company list will now show companies
+[33md2766dd[m HEAD@{10}: commit: Started working on listing things in the companylist
+[33m1b9f2aa[m HEAD@{11}: pull: Fast-forward
+[33m2a33827[m HEAD@{12}: pull: Fast-forward
+[33m27fab00[m HEAD@{13}: commit: Added company activity to manifest
+[33m7993ab4[m HEAD@{14}: pull: Fast-forward
+[33m18101e4[m HEAD@{15}: pull: Merge made by the 'recursive' strategy.
+[33m30b1873[m HEAD@{16}: commit: Fixed bug in add new contact button in position activity
+[33m4927447[m HEAD@{17}: pull: Fast-forward
+[33m9b46edf[m HEAD@{18}: commit: Added a list item company to be used for list along with more basic functionality of a company page
+[33m2672a8b[m HEAD@{19}: commit: Added database functionality related to companies, create company button functionality, create company page, company description page, database writing to companylist
+[33m43b4faa[m HEAD@{20}: pull: Fast-forward
+[33ma507089[m HEAD@{21}: pull: Fast-forward
+[33md2f8da5[m HEAD@{22}: pull: Fast-forward
+[33mce5f280[m HEAD@{23}: pull: Fast-forward
+[33m88faab2[m HEAD@{24}: pull: Fast-forward
+[33mb021822[m HEAD@{25}: pull: Merge made by the 'recursive' strategy.
+[33med27a8e[m HEAD@{26}: reset: moving to HEAD
+[33med27a8e[m HEAD@{27}: commit: Readded company activity/fragment, currently empty
+[33mdcd038f[m HEAD@{28}: checkout: moving from br-development to br-development
+[33mdcd038f[m HEAD@{29}: checkout: moving from br-development to br-development
+[33mdcd038f[m HEAD@{30}: pull: Fast-forward
+[33mc15530c[m HEAD@{31}: checkout: moving from master to br-development
+[33mcf4edae[m HEAD@{32}: reset: moving to HEAD
+[33mcf4edae[m HEAD@{33}: pull: Fast-forward
+[33m16113b3[m HEAD@{34}: clone: from https://github.com/LunaOak/Jobi_App.git

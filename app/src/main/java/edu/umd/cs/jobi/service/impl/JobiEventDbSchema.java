@@ -16,9 +16,7 @@ public class JobiEventDbSchema {
             public static final String POSITION = "POSITION";
             public static final String TYPE = "TYPE";
             public static final String DATE = "DATE";
-            public static final String ADDRESS = "ADDRESS";
-            public static final String CITY = "CITY";
-            public static final String STATE = "STATE";
+            public static final String LOCATION = "LOCATION";
         }
     }
 

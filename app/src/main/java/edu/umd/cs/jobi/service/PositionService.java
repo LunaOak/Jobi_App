@@ -12,6 +12,7 @@ public interface PositionService {
     public Position getPositionById(String id);
     public List<Position> getAllPositions();
     public List<Position> getFavoritePositions();
+    public List<Position> getPositionsByCompany(String name);
     public Contact getContactById(String id);
     public boolean deleteContactById(String id);
 }
