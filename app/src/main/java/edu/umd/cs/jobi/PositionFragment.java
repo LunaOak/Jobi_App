@@ -1,20 +1,18 @@
 package edu.umd.cs.jobi;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -74,6 +72,9 @@ public class PositionFragment extends Fragment {
     // Adapters //
     private ContactAdapter contactAdapter;
     private EventAdapter eventAdapter;
+
+    // Dialog boxes for deletion //
+    private AlertDialog.Builder contactDeleteBuilder;
 
     public static PositionFragment newInstance(String positionId) {
         Bundle args = new Bundle();
@@ -192,27 +193,6 @@ public class PositionFragment extends Fragment {
         return view;
     }
 
-    // Menu Inflates //
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.menu_deleting, menu);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        switch (item.getItemId()) {
-            case R.id.delete_option:
-                // Todo Delete from here
-                Toast.makeText(getActivity().getApplicationContext(), "DELETE!", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK || data == null) {
@@ -321,13 +301,31 @@ public class PositionFragment extends Fragment {
             contactEmail = (TextView)itemView.findViewById(R.id.list_item_contact_email);
             contactPhone = (TextView)itemView.findViewById(R.id.list_item_contact_phone);
 
+            contactDeleteBuilder = new AlertDialog.Builder(getActivity());
+
+            contactDeleteBuilder.setTitle("Delete Contact?");
+            contactDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+                    // Todo delete
+                    Toast.makeText(getActivity().getApplicationContext(), "DELETED!", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+            });
+
+            contactDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
             itemView.setOnLongClickListener(new View.OnLongClickListener(){
                 @Override
                 public boolean onLongClick(View view){
-                    registerForContextMenu(view);
-
-
-                    Toast.makeText(getActivity().getApplicationContext(), "YAY", Toast.LENGTH_SHORT).show();
+                    AlertDialog alert = contactDeleteBuilder.create();
+                    alert.show();
                     return true;
                 }
             });
