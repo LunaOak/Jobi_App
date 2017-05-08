@@ -30,6 +30,7 @@ import edu.umd.cs.jobi.model.Event;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
+import static edu.umd.cs.jobi.R.id.month;
 
 /**
  * Created by Pauline on 5/6/2017.
@@ -216,15 +217,16 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
             int day = c.get(Calendar.DAY_OF_MONTH);
 
             // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), (EnterEventActivity)getActivity(), year, month, day);
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+//            return new DatePickerDialog(getActivity(), (EnterEventActivity)getActivity(), year, month, day);
 
         }
 
         // Callback to DatePickerActivity.onDateSet() to update the UI
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            ((DatePickerDialog.OnDateSetListener) getActivity()).onDateSet(view, year,
-                    monthOfYear, dayOfMonth);
+            ((TextView)getActivity().findViewById(R.id.event_date_text)).setText(new StringBuilder().append(month + 1).append("-").append(dayOfMonth).append("-").append(year));
+//            ((DatePickerDialog.OnDateSetListener) getActivity()).onDateSet(view, year, monthOfYear, dayOfMonth);
         }
     }
 
@@ -261,16 +263,16 @@ public class EnterEventFragment extends Fragment implements DatePickerDialog.OnD
             int minute = c.get(Calendar.MINUTE);
 
             // Create a new instance of TimePickerDialog and return it
-            return new TimePickerDialog(getActivity(), (EnterEventActivity)getActivity(), hourOfDay, minute,
-                    false);
+            return new TimePickerDialog(getActivity(), this, hourOfDay, minute, false);
+//            return new TimePickerDialog(getActivity(), (EnterEventActivity)getActivity(), hourOfDay, minute, false);
 
         }
 
         // Callback to TimePickerFragmentActivity.onTimeSet() to update the UI
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            ((TimePickerDialog.OnTimeSetListener) getActivity()).onTimeSet(view, hourOfDay,
-                    minute);
+            ((TextView)getActivity().findViewById(R.id.event_time_text)).setText(new StringBuilder().append(pad(hourOfDay)).append(":").append(pad(minute)));
+//            ((TimePickerDialog.OnTimeSetListener) getActivity()).onTimeSet(view, hourOfDay, minute);
 
         }
     }

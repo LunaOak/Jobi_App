@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.widget.DatePicker;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import edu.umd.cs.jobi.model.Event;
@@ -56,12 +55,12 @@ public class EnterEventActivity extends SingleFragmentActivity implements DatePi
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        ((TextView)findViewById(R.id.event_date_text)).setText(new StringBuilder().append(month + 1).append("-").append(dayOfMonth).append("-").append(year));
+//        ((TextView)findViewById(R.id.event_date_text)).setText(new StringBuilder().append(month + 1).append("-").append(dayOfMonth).append("-").append(year));
     }
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        ((TextView)findViewById(R.id.event_time_text)).setText(new StringBuilder().append(pad(hourOfDay)).append(":").append(pad(minute)));
+//        ((TextView)findViewById(R.id.event_time_text)).setText(new StringBuilder().append(pad(hourOfDay)).append(":").append(pad(minute)));
     }
 
     // Prepends a "0" to 1-digit minutes
