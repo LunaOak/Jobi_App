@@ -39,6 +39,7 @@ public class CompanyListFragment extends Fragment {
     private CompanyAdapter adapter;
 
     private static final int REQUEST_CODE_CREATE_COMPANY = 0;
+    private static final int REQUEST_CODE_VIEW_COMPANY = 11;
 
     public static CompanyListFragment newInstance() {
         CompanyListFragment fragment = new CompanyListFragment();
@@ -189,7 +190,10 @@ public class CompanyListFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-           //TODO
+            Log.d(TAG, "The id of this company is" + company.getId());
+            Log.d(TAG, "The name of this company is" + company.getName());
+           Intent intent = CompanyActivity.newIntent(getActivity(), company.getId());
+            startActivityForResult(intent, REQUEST_CODE_VIEW_COMPANY);
         }
     }
 

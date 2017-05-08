@@ -60,7 +60,7 @@ public class SQLiteCompanyService implements CompanyService {
             return null;
         }
 
-        List<Company> companies = queryCompanies(JobiEventDbSchema.EventTable.Columns.ID + "=?", new String[]{id}, null);
+        List<Company> companies = queryCompanies(JobiCompanyDbSchema.CompanyTable.Columns.COMPANY_ID + "=?", new String[]{id}, null);
         for (Company company:companies){
             if(company.getId().equals(id)){
                 return company;
