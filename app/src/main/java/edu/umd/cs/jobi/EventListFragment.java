@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -68,6 +69,7 @@ public class EventListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_eventlist, container, false);
 
         eventList = (RecyclerView)view.findViewById(R.id.event_list);
+        eventList.setLayoutManager(new LinearLayoutManager(getActivity()));
         tabLayout = (TabLayout)view.findViewById(R.id.event_tab_layout);
 
         newEventButton = (Button)view.findViewById(R.id.add_new_event_button);
