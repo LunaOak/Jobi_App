@@ -1,6 +1,5 @@
 package edu.umd.cs.jobi;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -140,9 +139,9 @@ public class EventFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK) {
-            return;
-        }
+//        if (resultCode != Activity.RESULT_OK) {
+//            return;
+//        }
 
         if (requestCode == REQUEST_CODE_EDIT_EVENT) {
             if (data == null) {
@@ -151,7 +150,6 @@ public class EventFragment extends Fragment {
             //Todo
             event = EnterEventActivity.getEventCreated(data);
             eventService.addEventToDb(event);
-            updateUI();
         } else if(requestCode == REQUEST_CODE_ADD_REMINDER) {
             //Todo
 //            if (data == null) {
@@ -173,7 +171,6 @@ public class EventFragment extends Fragment {
 //
 //            event.getReminders().add(newReminder);
 //            eventService.addEventToDb(event);
-//            updateUI();
         } else if(requestCode == REQUEST_CODE_ADD_CONTACT) {
             if (data == null) {
                 return;
@@ -194,8 +191,8 @@ public class EventFragment extends Fragment {
 
             event.getContacts().add(newContact);
             eventService.addEventToDb(event);
-            updateUI();
         }
+        updateUI();
     }
 
     private void updateUI() {
