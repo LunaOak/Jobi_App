@@ -102,7 +102,6 @@ public class EventFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = EnterEventActivity.newIntentEdit(getActivity().getApplicationContext(), event.getId()); //event might be null. SHOULDNT though
-
                 startActivityForResult(intent, REQUEST_CODE_EDIT_EVENT);
             }
         });

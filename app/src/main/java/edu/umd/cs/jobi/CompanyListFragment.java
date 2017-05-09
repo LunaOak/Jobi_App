@@ -1,6 +1,5 @@
 package edu.umd.cs.jobi;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -189,6 +188,7 @@ public class CompanyListFragment extends Fragment {
                 public void onClick(DialogInterface dialog, int which) {
                     companyService.deleteCompanyById(company.getId());
                     Toast.makeText(getActivity().getApplicationContext(), "Company deleted!", Toast.LENGTH_SHORT).show();
+                    companyList.setLayoutManager(new LinearLayoutManager(getActivity()));
                     updateUI();
                     dialog.dismiss();
                 }

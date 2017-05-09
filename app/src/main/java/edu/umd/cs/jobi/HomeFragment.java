@@ -295,6 +295,7 @@ public class HomeFragment extends Fragment {
                 public void onClick(DialogInterface dialog, int which) {
                     eventService.deleteEventById(event.getId());
                     Toast.makeText(getActivity().getApplicationContext(), "Event deleted!", Toast.LENGTH_SHORT).show();
+                    eventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                     updateUI();
                     dialog.dismiss();
                 }
