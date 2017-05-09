@@ -11,7 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="4dp"
-        tools:text="Mon, Jan 01 - "/>
+        tools:text="Mon, Jan 01 - "
+        android:textColor="@color/colorAccent3"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/list_item_event_title"
@@ -20,7 +22,8 @@
         android:padding="4dp"
         tools:text="BIG INTERVIEW!"
         android:layout_toRightOf="@id/list_item_event_date"
-        android:layout_toEndOf="@id/list_item_event_date"/>
+        android:layout_toEndOf="@id/list_item_event_date"
+        android:textColor="@color/colorAccent"/>
 
     <TextView
         android:id="@+id/list_item_event_type"
