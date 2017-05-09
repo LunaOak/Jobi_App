@@ -288,30 +288,30 @@ public class HomeFragment extends Fragment {
             typeTextView = (TextView)itemView.findViewById(R.id.list_item_event_type);
 
             // Delete Alert Dialog //
-            eventDeleteBuilder = new AlertDialog.Builder(getActivity());
-            eventDeleteBuilder.setTitle("Delete Contact?");
-            eventDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-                public void onClick(DialogInterface dialog, int which) {
-                    eventService.deleteEventById(event.getId());
-                    Toast.makeText(getActivity().getApplicationContext(), "Event deleted!", Toast.LENGTH_SHORT).show();
-                    eventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    updateUI();
-                    dialog.dismiss();
-                }
-            });
-
-            eventDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-
             itemView.setOnLongClickListener(new View.OnLongClickListener(){
                 @Override
                 public boolean onLongClick(View view){
+                    eventDeleteBuilder = new AlertDialog.Builder(getActivity());
+                    eventDeleteBuilder.setTitle("Delete Contact?");
+                    eventDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            eventService.deleteEventById(event.getId());
+                            Toast.makeText(getActivity().getApplicationContext(), "Event deleted!", Toast.LENGTH_SHORT).show();
+                            eventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            updateUI();
+                            dialog.dismiss();
+                        }
+                    });
+
+                    eventDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
                     AlertDialog alert = eventDeleteBuilder.create();
                     alert.show();
                     return true;

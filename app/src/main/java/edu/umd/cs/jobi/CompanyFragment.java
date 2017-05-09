@@ -1,9 +1,8 @@
 package edu.umd.cs.jobi;
 
 import android.app.Activity;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,12 +16,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.RecursiveAction;
-import android.content.DialogInterface;
-import android.widget.Toast;
 
 import edu.umd.cs.jobi.model.Company;
 import edu.umd.cs.jobi.model.Contact;
@@ -31,7 +28,6 @@ import edu.umd.cs.jobi.service.CompanyService;
 import edu.umd.cs.jobi.service.PositionService;
 
 import static android.content.ContentValues.TAG;
-import static edu.umd.cs.jobi.R.id.position;
 
 
 public class CompanyFragment extends Fragment {
@@ -210,35 +206,35 @@ public class CompanyFragment extends Fragment {
             positionCompany = (TextView) itemView.findViewById(R.id.list_item_position_company);
 
             // Delete Alert Dialog //
-            positionDeleteBuilder = new AlertDialog.Builder(getActivity());
-            positionDeleteBuilder.setTitle("Delete Position?");
-            positionDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            itemView.setOnLongClickListener(new View.OnLongClickListener(){
+                @Override
+                public boolean onLongClick(View view){
+                    positionDeleteBuilder = new AlertDialog.Builder(getActivity());
+                    positionDeleteBuilder.setTitle("Delete Position?");
+                    positionDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
-                public void onClick(DialogInterface dialog, int which) {
-                    positionService.deletePositionById(position.getId());
-                    Toast.makeText(getActivity().getApplicationContext(), "Position deleted!", Toast.LENGTH_SHORT).show();
-                    updateUI();
-                dialog.dismiss();
-            }
-        });
+                        public void onClick(DialogInterface dialog, int which) {
+                            positionService.deletePositionById(position.getId());
+                            Toast.makeText(getActivity().getApplicationContext(), "Position deleted!", Toast.LENGTH_SHORT).show();
+                            updateUI();
+                            dialog.dismiss();
+                        }
+                    });
 
-        positionDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    positionDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
 
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
 
-        itemView.setOnLongClickListener(new View.OnLongClickListener(){
-            @Override
-            public boolean onLongClick(View view){
-                AlertDialog alert = positionDeleteBuilder.create();
-                alert.show();
-                return true;
-            }
-        });
-    }
+                    AlertDialog alert = positionDeleteBuilder.create();
+                    alert.show();
+                    return true;
+                }
+            });
+        }
 
     public void bindPosition(Position position) {
 
