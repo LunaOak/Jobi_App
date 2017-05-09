@@ -261,6 +261,7 @@ public class PositionFragment extends Fragment {
                     if (posExists == false){
                         // If position doesnt exist create it
                         Position position = new Position();
+                        position.setTitle(newEvent.getPosition());
                         position.setCompany(newEvent.getCompany());
                         positionService.addPositionToDb(position);
                     }

@@ -84,8 +84,9 @@ public class EventListFragment extends Fragment {
                 return;
             }
 
-            Event eventCreated = EventActivity.getEventEdit(data);
+            Event eventCreated = EnterEventActivity.getEventCreated(data);
             eventService.addEventToDb(eventCreated);
+
             // If a company was specified under the event
             if (eventCreated.getCompany() != null && eventCreated.getCompany() != "") {
 
@@ -110,11 +111,13 @@ public class EventListFragment extends Fragment {
                     if (posExists == false){
                         // If position doesnt exist create it
                         Position position = new Position();
+                        position.setTitle(eventCreated.getPosition());
                         position.setCompany(eventCreated.getCompany());
                         positionService.addPositionToDb(position);
                     }
                 }
             }
+
         }
 
         updateUI();

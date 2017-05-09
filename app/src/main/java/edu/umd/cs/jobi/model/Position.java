@@ -19,7 +19,7 @@ public class Position implements Serializable{
     private String location;
     private String description;
     private Favorite favorite = Favorite.NO;
-    private Type type;
+    private Type type = Type.FULL_TIME;
     private List<Contact> contacts;
     private String company;
 
