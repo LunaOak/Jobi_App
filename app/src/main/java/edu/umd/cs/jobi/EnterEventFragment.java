@@ -116,12 +116,16 @@ public class EnterEventFragment extends Fragment {
         // Event company
         eventCompany = (EditText)view.findViewById(R.id.event_company);
         if (event != null) {
+            eventCompany.setText(event.getCompany());
+        } else {
             eventCompany.setText(companyName);
         }
 
         // Event position
         eventPosition = (EditText)view.findViewById(R.id.event_position);
         if (event != null) {
+            eventPosition.setText(event.getPosition());
+        } else {
             eventPosition.setText(positionTitle);
         }
 
