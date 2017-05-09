@@ -411,7 +411,7 @@ public class PositionFragment extends Fragment {
         public void bindEvent(Event event) {
             this.event = event;
 
-            eventDate.setText(new SimpleDateFormat("EEE, MMM d", Locale.ENGLISH).format(event.getDate()));
+            eventDate.setText(new SimpleDateFormat("EEE, MMM d", Locale.ENGLISH).format(event.getDate()) + " - ");
             eventTitle.setText(event.getTitle());
             eventType.setText(event.getType().name());
         }
