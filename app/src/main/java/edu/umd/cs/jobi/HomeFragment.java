@@ -53,7 +53,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView eventRecyclerView;
     private RecyclerView favoritesRecyclerView;
     private EventAdapter adapter;
-    private PositionAdapter positionAdapater;
+    private PositionAdapter positionAdapter;
     private Settings settings;
 
     // Labels and Date
@@ -261,12 +261,12 @@ public class HomeFragment extends Fragment {
             adapter.notifyDataSetChanged();
         }
 
-        if (positionAdapater == null) {
-            positionAdapater = new PositionAdapter(positions);
-            favoritesRecyclerView.setAdapter(positionAdapater);
+        if (positionAdapter == null) {
+            positionAdapter = new PositionAdapter(positions);
+            favoritesRecyclerView.setAdapter(positionAdapter);
         } else {
-            positionAdapater.setPositions(positions);
-            positionAdapater.notifyDataSetChanged();
+            positionAdapter.setPositions(positions);
+            positionAdapter.notifyDataSetChanged();
         }
     }
 
