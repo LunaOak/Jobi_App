@@ -20,24 +20,28 @@
             android:layout_height="wrap_content"
             android:paddingBottom="15dp"
             android:text="@string/company_title"
-            android:textSize="28sp" />
+            android:textSize="28sp"
+            android:textColor="@color/home_date2"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/company_name" />
+            android:text="@string/company_name"
+            android:textColor="@color/colorAccent3"/>
 
         <EditText
             android:id="@+id/company_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/position_company_hint" />
+            android:hint="@string/position_company_hint"
+            />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
-            android:text="@string/company_location" />
+            android:text="@string/company_location"
+            android:textColor="@color/colorAccent3"/>
 
         <EditText
             android:id="@+id/company_location"
@@ -48,7 +52,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/company_description" />
+            android:text="@string/company_description"
+            android:textColor="@color/colorAccent3"/>
 
         <EditText
             android:id="@+id/company_description"
@@ -68,14 +73,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/save_button" />
+                android:text="@string/save_button"
+                android:textColor="@color/colorAccent"
+                android:background="@color/colorWhite"/>
 
             <Button
                 android:id="@+id/cancel_company_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/cancel_button" />
+                android:text="@string/cancel_button"
+                android:textColor="@color/colorAccent"
+                android:background="@color/colorWhite"/>
 
         </LinearLayout>
 

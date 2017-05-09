@@ -33,7 +33,7 @@
             android:id="@+id/event_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/event_name_hint"/>
+            android:hint="@string/event_name_hint" />
 
         <TextView
             android:layout_width="match_parent"

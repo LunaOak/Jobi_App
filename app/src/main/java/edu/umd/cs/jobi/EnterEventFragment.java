@@ -24,7 +24,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import edu.umd.cs.jobi.model.Company;
 import edu.umd.cs.jobi.model.Event;
+import edu.umd.cs.jobi.model.Position;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -47,11 +49,15 @@ public class EnterEventFragment extends Fragment {
     private Boolean create;
     private String companyName;
     private String positionTitle;
+    private Company company;
+    private Position position;
 
     // Interactive Elements //
     private EditText eventName;
     private EditText eventLocation;
     private Spinner eventTypeSpinner;
+    private EditText eventCompany;
+    private EditText eventPosition;
 
     // Date and Time pickers //
     private TextView eventDate;
@@ -105,6 +111,18 @@ public class EnterEventFragment extends Fragment {
         eventName = (EditText)view.findViewById(R.id.event_name);
         if (event != null) {
             eventName.setText(event.getTitle());
+        }
+
+        // Event company
+        eventCompany = (EditText)view.findViewById(R.id.event_company);
+        if (event != null) {
+            eventCompany.setText(companyName);
+        }
+
+        // Event position
+        eventPosition = (EditText)view.findViewById(R.id.event_position);
+        if (event != null) {
+            eventPosition.setText(positionTitle);
         }
 
         // Event location //
@@ -187,6 +205,8 @@ public class EnterEventFragment extends Fragment {
             }
         };
 
+
+
         saveButton = (Button)view.findViewById(R.id.save_event_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,8 +215,9 @@ public class EnterEventFragment extends Fragment {
                     event = new Event();
                 }
                 event.setTitle(eventName.getText().toString());
-                event.setCompany(companyName);
-                event.setPosition(positionTitle);
+
+                event.setCompany(eventCompany.getText().toString());
+                event.setPosition(eventPosition.getText().toString());
                 event.setType(eventTypeSpinner.getSelectedItemPosition());
                 newDate = getNewDate(mMonth, mDay, mYear, mHour, mMinute);
                 event.setDate(newDate);
