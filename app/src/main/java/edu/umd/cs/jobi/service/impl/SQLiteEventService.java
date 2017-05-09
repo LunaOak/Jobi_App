@@ -224,7 +224,7 @@ public class SQLiteEventService implements EventService {
     @Override
     public boolean deleteReminderById(String id) {
         if (id != null) {
-            if (reminderDb.delete(JobiEventDbSchema.ContactTable.NAME, JobiEventDbSchema.ContactTable.Columns.ID + "=?", new String[] {id}) == 0) {
+            if (reminderDb.delete(JobiEventDbSchema.ReminderTable.NAME, JobiEventDbSchema.ReminderTable.Columns.ID + "=?", new String[] {id}) == 0) {
                 return false;
             }
         }
