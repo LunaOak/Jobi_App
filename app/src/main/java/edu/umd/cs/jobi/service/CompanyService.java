@@ -15,6 +15,7 @@ public interface CompanyService {
     public List<Company> getAllCompanies();
     public List<Company> getCurrentCompanies();
     public List<Company> getFavoriteCompanies();
+    public List<Position> getFavoritePositions();
     public boolean deleteCompanyById(String id);
     public String getCompanyIdWithName(String name);
 
