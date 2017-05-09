@@ -29,8 +29,6 @@ import edu.umd.cs.jobi.model.Contact;
 import edu.umd.cs.jobi.model.Event;
 import edu.umd.cs.jobi.model.Position;
 import edu.umd.cs.jobi.service.CompanyService;
-import edu.umd.cs.jobi.service.EventService;
-import edu.umd.cs.jobi.service.PositionService;
 
 import static android.R.drawable.btn_star_big_off;
 import static android.R.drawable.btn_star_big_on;
@@ -65,9 +63,9 @@ public class PositionFragment extends Fragment {
     private Button addNewEventButton;
 
     // Services //
-    private PositionService positionService;
+
     private CompanyService companyService;
-    private EventService eventService;
+
 
     // RecyclerViews //
     private RecyclerView contactsRecyclerView;
@@ -94,8 +92,9 @@ public class PositionFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         String positionId = getArguments().getString(POSITION_ID);
-        position = DependencyFactory.getPositionService(getActivity().getApplicationContext()).getPositionById(positionId);
+
         companyService = DependencyFactory.getCompanyService(getActivity().getApplicationContext());
+        position = companyService.getPositionById(positionId);
     }
 
     @Nullable
@@ -103,10 +102,6 @@ public class PositionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_position, container, false);
-
-        // Services declaration //
-        eventService = DependencyFactory.getEventService(getActivity().getApplication().getApplicationContext());
-        positionService = DependencyFactory.getPositionService(getActivity().getApplication().getApplicationContext());
 
         // Position Title //
         positionTitle = (TextView) view.findViewById(R.id.positionTitle);
@@ -117,7 +112,7 @@ public class PositionFragment extends Fragment {
         companyName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Company companyToEnter = companyService.getCompanyByName(position.getCompany());
+                Company companyToEnter = companyService.getCompanyById(position.getCompany());
                 Intent intent = CompanyActivity.newIntent(getActivity(), companyToEnter.getId());
                 startActivityForResult(intent,REQUEST_CODE_VIEW_COMPANY);
             }
@@ -169,7 +164,7 @@ public class PositionFragment extends Fragment {
                     favoriteButton.setBackgroundDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(), btn_star_big_off));
                     position.setFavorite(Position.Favorite.NO);
                 }
-                positionService.addPositionToDb(position);
+                companyService.addPositionToDb(position);
             }
 
         });
@@ -215,71 +210,58 @@ public class PositionFragment extends Fragment {
         }
         if (requestCode == REQUEST_CODE_EDIT_POSITION) {
             position = EnterPositionActivity.getPositionCreated(data);
-            positionService.addPositionToDb(position);
+            String companyName = position.getCompany();
+            String companyId = companyService.getCompanyIdWithName(companyName);
+            if (companyId == null){ // If a company with the name doesn't exist, create it
+                Company newCompany = new Company(companyName, true);
+                companyId = newCompany.getId();
+                companyService.addCompanyToDb(newCompany);
+            }
+            position.setCompany(companyId);
+            companyService.addPositionToDb(position);
         } else if (requestCode == REQUEST_CODE_CONTACT) {
             Contact newContact = EnterContactActivity.getContactCreated(data);
-            Contact remContact = null;
-
-            for (Contact c: position.getContacts()) {
-                if (c.getId().equals(newContact.getId())){
-                    remContact = c;
-                }
-            }
-
-            if (remContact != null) {
-                position.getContacts().remove(remContact);
-            }
-
-            position.getContacts().add(newContact);
-            positionService.addPositionToDb(position);
+            newContact.setCompanyId(position.getCompany());
+            newContact.setPositionId(position.getId());
+            companyService.addContactToDb(newContact);
         } else if (requestCode == REQUEST_CODE_ADD_EVENT) {
-            Event newEvent = EnterEventActivity.getEventCreated(data);
-            eventService.addEventToDb(newEvent);
 
-            // If a company was specified under the event
-            if (newEvent.getCompany() != null && newEvent.getCompany() != "") {
-
-                // Update company database
-                if (companyService.getCompanyByName(newEvent.getCompany()) == null) {
-                    // If there is no company with the name specified on the event make it
-                    Company newCompany = new Company(newEvent.getCompany(), true);
-                    companyService.addCompanyToDb(newCompany);
-                }
-
-                // Update position database
-                if (newEvent.getPosition() != null && newEvent.getPosition() !="") {
-                    // If a position was specified
-                    List<Position> possiblePositions = positionService.getPositionsByCompany(newEvent.getCompany());
-                    boolean posExists = false;
-                    for (Position p:possiblePositions){
-                        if (p.getTitle().equals(newEvent.getPosition())){
-                            posExists = true;
-                        }
-                    }
-
-                    if (posExists == false){
-                        // If position doesnt exist create it
-                        Position position = new Position();
-                        position.setTitle(newEvent.getPosition());
-                        position.setCompany(newEvent.getCompany());
-                        positionService.addPositionToDb(position);
-                    }
-                }
+            Event eventCreated = EnterEventActivity.getEventCreated(data);
+            String companyName = eventCreated.getCompany();
+            companyService.addEventToDb(eventCreated);
+            String companyId = companyService.getCompanyIdWithName(companyName);
+            if (companyId == null){ // If a company with the name doesn't exist, create it
+                Company newCompany = new Company(companyName, true);
+                companyId = newCompany.getId();
+                companyService.addCompanyToDb(newCompany);
             }
+            eventCreated.setCompany(companyId);
+            String positionName = eventCreated.getPosition();
+            String positionId = companyService.getPositionIdWithName(positionName, companyId);
+            if (positionId == null){ // If a position with the name does't exist, create it
+                Position position = new Position();
+                position.setTitle(eventCreated.getPosition());
+                position.setCompany(companyId);
+                companyService.addPositionToDb(position);
+            }
+            eventCreated.setPosition(positionId);
+
+            companyService.addEventToDb(eventCreated);
+
         }
         updateUI();
     }
 
     private void updateUI() {
         positionTitle.setText(position.getTitle());
-        companyName.setText(position.getCompany());
+        companyName.setText(companyService.getCompanyNameById(position.getCompany()));
         companyLocation.setText(position.getLocation());
         positionType.setText(position.getType().name());
         positionStatus.setText(position.getStatus().name());
         positionDescription.setText(position.getDescription());
 
-        List<Contact> contacts = positionService.getPositionById(position.getId()).getContacts();
-        List<Event> events = eventService.getEventsByPositionAndCompany(position.getTitle(), position.getCompany());
+        List<Contact> contacts = companyService.getContactsByPositionId(position.getId());
+        List<Event> events = companyService.getEventsByPositionId(position.getId());
 
         if (contactAdapter == null) {
             contactAdapter = new ContactAdapter(contacts);
@@ -354,7 +336,7 @@ public class PositionFragment extends Fragment {
                     contactDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which) {
-                            positionService.deleteContactById(contact.getId());
+                            companyService.deleteContactById(contact.getId());
                             Toast.makeText(getActivity().getApplicationContext(), "Contact deleted!", Toast.LENGTH_SHORT).show();
                             contactsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             updateUI();

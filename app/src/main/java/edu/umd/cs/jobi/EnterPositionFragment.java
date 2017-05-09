@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import edu.umd.cs.jobi.model.Position;
+import edu.umd.cs.jobi.service.CompanyService;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -44,6 +45,9 @@ public class EnterPositionFragment extends Fragment {
     private Button saveButton;
     private Button cancelButton;
 
+    private CompanyService companyService;
+
+
     public static EnterPositionFragment newInstance(String positionId, String companyName, Boolean fromCompany) {
         Bundle args = new Bundle();
         args.putString(POSITION_ID, positionId);
@@ -63,7 +67,8 @@ public class EnterPositionFragment extends Fragment {
         fromCompany = getArguments().getBoolean(FROM_COMPANY_BOOLEAN);
         companyName = getArguments().getString(COMPANY_NAME);
 
-        position = DependencyFactory.getPositionService(getActivity().getApplicationContext()).getPositionById(positionId);
+        companyService = DependencyFactory.getCompanyService(getActivity().getApplicationContext());
+        position = companyService.getPositionById(positionId);
     }
 
     @Nullable
@@ -81,7 +86,7 @@ public class EnterPositionFragment extends Fragment {
         // Position Company //
         companyEditText = (EditText)view.findViewById(R.id.position_company);
         if (position != null) {
-            companyEditText.setText(position.getCompany());
+            companyEditText.setText(companyService.getCompanyNameById(position.getCompany()));
         } else if (fromCompany) {
             companyEditText.setText(companyName);
         }

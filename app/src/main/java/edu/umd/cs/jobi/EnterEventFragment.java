@@ -28,6 +28,8 @@ import edu.umd.cs.jobi.model.Company;
 import edu.umd.cs.jobi.model.Event;
 import edu.umd.cs.jobi.model.Position;
 
+import edu.umd.cs.jobi.service.CompanyService;
+
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 import static edu.umd.cs.jobi.R.id.day;
@@ -80,6 +82,8 @@ public class EnterEventFragment extends Fragment {
     private Button saveButton;
     private Button cancelButton;
 
+    private CompanyService companyService;
+
     public static EnterEventFragment newInstance(Boolean create, String positionTitle, String companyName, String eventId) {
         Bundle args = new Bundle();
         args.putBoolean(ARG_CREATE_BOOLEAN, create);
@@ -101,7 +105,8 @@ public class EnterEventFragment extends Fragment {
         companyName = getArguments().getString(ARG_COMPANY_NAME);
 
         String eventId = getArguments().getString(ARG_EVENT_ID);
-        event = DependencyFactory.getEventService(getActivity().getApplicationContext()).getEventById(eventId);
+        companyService = DependencyFactory.getCompanyService(getActivity().getApplicationContext());
+        event = companyService.getEventById(eventId);
     }
 
     @Nullable
@@ -119,17 +124,17 @@ public class EnterEventFragment extends Fragment {
         // Event company
         eventCompany = (EditText)view.findViewById(R.id.event_company);
         if (event != null) {
-            eventCompany.setText(event.getCompany());
+            eventCompany.setText(companyService.getCompanyNameById(event.getCompany()));
         } else {
-            eventCompany.setText(companyName);
+            eventCompany.setText(companyService.getCompanyNameById(companyName));
         }
 
         // Event position
         eventPosition = (EditText)view.findViewById(R.id.event_position);
         if (event != null) {
-            eventPosition.setText(event.getPosition());
+            eventPosition.setText(companyService.getPositionNameById(event.getPosition()));
         } else {
-            eventPosition.setText(positionTitle);
+            eventPosition.setText(companyService.getPositionNameById(positionTitle));
         }
 
         // Event location //

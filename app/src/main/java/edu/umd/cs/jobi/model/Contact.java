@@ -6,6 +6,34 @@ import java.util.UUID;
 public class Contact implements Serializable {
 
     private String id;
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    public String getPositionId() {
+        return positionId;
+    }
+
+    public void setPositionId(String positionId) {
+        this.positionId = positionId;
+    }
+
+    private String companyId;
+    private String eventId;
+    private String positionId;
     private String jobTitle;
     private String name;
     private String email;

@@ -32,8 +32,7 @@ import java.util.Locale;
 import edu.umd.cs.jobi.model.Event;
 import edu.umd.cs.jobi.model.Position;
 import edu.umd.cs.jobi.model.Settings;
-import edu.umd.cs.jobi.service.EventService;
-import edu.umd.cs.jobi.service.PositionService;
+import edu.umd.cs.jobi.service.CompanyService;
 import edu.umd.cs.jobi.service.SettingsService;
 
 public class HomeFragment extends Fragment {
@@ -45,8 +44,7 @@ public class HomeFragment extends Fragment {
     private static final int REQUEST_CODE_SETTINGS_UPDATED = 5;
     private static final int REQUEST_CODE_POSITION_CREATED = 10;
 
-    private EventService eventService;
-    private PositionService positionService;
+    private CompanyService companyService;
     private SettingsService settingsService;
 
 
@@ -84,8 +82,7 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        eventService = DependencyFactory.getEventService(getActivity().getApplicationContext());
-        positionService = DependencyFactory.getPositionService(getActivity().getApplicationContext());
+        companyService = DependencyFactory.getCompanyService(getActivity().getApplicationContext());
         //settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings();
     }
 
@@ -241,14 +238,14 @@ public class HomeFragment extends Fragment {
                 return;
             }
             Position positionCreated = PositionActivity.getPositionEdit(data);
-            positionService.addPositionToDb(positionCreated);
+            companyService.addPositionToDb(positionCreated);
         }
 
         updateUI();
     }
 
     private void updateUI() {
-        List<Event> events = eventService.getAllEvents();
+        List<Event> events = companyService.getAllEvents();
 
         if (adapter == null) {
             adapter = new EventAdapter(events);
@@ -304,7 +301,7 @@ public class HomeFragment extends Fragment {
                     eventDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which) {
-                            eventService.deleteEventById(event.getId());
+                            companyService.deleteEventById(event.getId());
                             Toast.makeText(getActivity().getApplicationContext(), "Event deleted!", Toast.LENGTH_SHORT).show();
                             eventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             updateUI();
