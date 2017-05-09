@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="4dp"
-        tools:text="Jan 01 - "/>
+        tools:text="Mon, Jan 01 - "/>
 
     <TextView
         android:id="@+id/list_item_event_title"
@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="4dp"
-        tools:text="Phone Interview"
+        tools:text="Technical Interview"
         android:layout_toRightOf="@id/list_item_event_date"
         android:layout_toEndOf="@id/list_item_event_date"
         android:layout_below="@id/list_item_event_title"/>
