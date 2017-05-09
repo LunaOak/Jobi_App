@@ -130,10 +130,6 @@ public class PositionListFragment extends Fragment {
         // Activity.RESULT_CANCEL. When pressing the back button from PositionFragment after a
         // position has been edited, I still want to updateUI here with the new info. - JUAN :P
 
-//        if (resultCode != Activity.RESULT_OK) {
-//            return;
-//        }
-
         if (requestCode == REQUEST_CODE_CREATE_POSITION) {
             if (data == null) {
                 return;
@@ -199,7 +195,7 @@ public class PositionListFragment extends Fragment {
             adapter = new PositionAdapter(positions);
             positionList.setAdapter(adapter);
         } else {
-            adapter.setStories(positions);
+            adapter.setPositions(positions);
             adapter.notifyDataSetChanged();
         }
     }
@@ -277,7 +273,7 @@ public class PositionListFragment extends Fragment {
             this.positions = positions;
         }
 
-        public void setStories(List<Position> positions) {
+        public void setPositions(List<Position> positions) {
             this.positions = positions;
         }
 

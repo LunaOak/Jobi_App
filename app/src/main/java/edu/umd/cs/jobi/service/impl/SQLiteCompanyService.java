@@ -463,6 +463,17 @@ public class SQLiteCompanyService implements CompanyService {
 
     }
 
+    @Override
+    public List<Position> getFavoritePositions() {
+        List<Position> positions = queryPositions(JobiCompanyDbSchema.PositionTable.Columns.FAVORITE + "=?", new String[]{Position.Favorite.YES.name()}, null);
+
+//        if (positions.size() == 0) {
+//            return null;
+//        }
+
+        return positions;
+    }
+
     private List<Event> queryEvents(String whereClause, String[] whereArgs, String orderBy){
         List<Event> events = new ArrayList<Event>();
         SQLiteDatabase compDb = getDatabase();
