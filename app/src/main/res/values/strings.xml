@@ -115,7 +115,7 @@
         <item>1 hour before</item>
     </string-array>
 
-    <!-- List of Companies and Positions Strings -->
+    <!-- List of Companies, Positions, and Events Strings -->
     <string name="list_all">All</string>
 
     <string name="company_list_label">Companies</string>
@@ -123,6 +123,10 @@
 
     <string name="position_list_label">Positions</string>
     <string name="events_list_label">Events</string>
+
+    <string name="event_interview_label">Interview</string>
+    <string name="event_email_label">Email</string>
+    <string name="event_deadline_label">Deadline</string>
 
 
     <!--Home Activity Strings-->
