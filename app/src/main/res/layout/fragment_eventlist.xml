@@ -51,19 +51,19 @@
             android:id="@+id/event_interview_tab"
             android:layout_height="wrap_content"
             android:layout_width="15sp"
-            android:text="Interview" />
+            android:text="@string/event_interview_label" />
 
         <android.support.design.widget.TabItem
             android:id="@+id/event_emails_tab"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Email" />
+            android:text="@string/event_email_label" />
 
         <android.support.design.widget.TabItem
             android:id="@+id/event_deadlines_tab"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Deadline" />
+            android:text="@string/event_deadline_label" />
 
     </android.support.design.widget.TabLayout>
 

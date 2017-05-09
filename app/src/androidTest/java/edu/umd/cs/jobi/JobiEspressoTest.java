@@ -4,26 +4,23 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
-import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.UiController;
+import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.View;
 
-import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.action.ViewActions.clearText;
-import static android.support.test.espresso.action.ViewActions.typeText;
-
-
+import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import edu.umd.cs.jobi.HomeActivity;
-
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.PositionAssertions.isLeftOf;
-import static android.support.test.espresso.assertion.PositionAssertions.isRightOf;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -34,15 +31,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import android.view.View;
-import android.support.test.espresso.ViewAction;
-import org.hamcrest.Matcher;
-import android.support.test.espresso.matcher.ViewMatchers;
-import android.support.test.espresso.UiController;
 
 @RunWith(AndroidJUnit4.class)
 
@@ -154,16 +145,97 @@ public class JobiEspressoTest extends BaseActivityEspressoTest {
 
     }
 
-//    @Test
-//    public void testEventListUI(){
-//
-//        // Test Event List //////////
-//        onView(withId(R.id.event_list_button)).perform(click());
-//
-//        Activity currentActivity = getActivityInstance();
-//        assertTrue(currentActivity.getClass().isAssignableFrom(EventListActivity.class));
-//
-//    }
+    @Test
+    public void testEventListUI(){
+
+        // Test Event List //////////
+        onView(withId(R.id.event_list_button)).perform(click());
+
+        Activity currentActivity = getActivityInstance();
+        assertTrue(currentActivity.getClass().isAssignableFrom(EventListActivity.class));
+
+        // Check that menu buttons are present ////////////
+        onView(withId(R.id.menu_item_home)).check(matches(isDisplayed()));
+        onView(withId(R.id.menu_item_settings)).check(matches(isDisplayed()));
+
+        // Check that labels are present //
+        onView(withText(R.string.event_list_label)).check(matches(isDisplayed()));
+        onView(withText(R.string.list_all)).check(matches(isDisplayed()));
+
+        onView(withText(R.string.event_interview_label)).check(matches(isDisplayed()));
+        onView(withText(R.string.event_email_label)).check(matches(isDisplayed()));
+        onView(withText(R.string.event_deadline_label)).check(matches(isDisplayed()));
+
+        // Add new event to list //
+        onView(withId(R.id.add_new_event_button)).check(matches(ViewMatchers.isDisplayed()));
+        onView(withId(R.id.add_new_event_button)).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click add event";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+
+        Espresso.closeSoftKeyboard();
+
+        onView(withId(R.id.event_name)).perform(typeText("First Round Phone Call"));
+        Espresso.closeSoftKeyboard();
+
+        onView(withId(R.id.event_company)).perform(typeText("Pinterest"));
+        Espresso.closeSoftKeyboard();
+
+        onView(withId(R.id.event_position)).perform(typeText("Cloud Engineer"));
+        Espresso.closeSoftKeyboard();
+
+        onView(withId(R.id.event_location)).perform(typeText("San Francisco"));
+        Espresso.closeSoftKeyboard();
+
+        onView(withId(R.id.event_date_button)).perform(click());
+
+        // PickerActions not supported
+        // onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2017, 5, 12));
+        onView(withText("OK")).perform(click());
+
+        onView(withId(R.id.event_time_button)).perform(click());
+        onView(withText("OK")).perform(click());
+
+        onView(withId(R.id.save_event_button)).perform(click());
+
+        // Check that added event is present and in correct tab
+        onView(withText("Pinterest")).check(matches(ViewMatchers.isDisplayed()));
+
+        onView(withText(R.string.event_interview_label)).perform(
+                new ViewAction() {
+
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+                    @Override
+                    public String getDescription() {
+                        return "click interviews tab";
+                    }
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+        onView(withText("Pinterest")).check(matches(ViewMatchers.isDisplayed()));
+
+
+    }
 
 //    @Test
 //    public void testCompanyListUI(){
