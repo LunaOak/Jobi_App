@@ -108,12 +108,14 @@ public class SQLiteSettingsService implements SettingsService {
     // update settings //////////////////////////////////////////////////////////////////////////////
     public void updateSettings(Settings settings) {
 
+        String[] IDs = new String[]{"1"};
+
         // If not present in the list at all, add //
         if (settings == null) {
             db.insert(JobiSettingsDbSchema.SettingsTable.NAME,null,getContentValues(settings));
             // Otherwise if it is then update it //
         } else {
-            db.update(JobiSettingsDbSchema.SettingsTable.NAME,getContentValues(settings),null,null);
+            db.update(JobiSettingsDbSchema.SettingsTable.NAME,getContentValues(settings),"ID=?",IDs);
         }
     }
 
@@ -124,8 +126,15 @@ public class SQLiteSettingsService implements SettingsService {
 
     // getSettings //////////////////////////////////////////////////////////////////////////////
     public Settings getSettings() {
-        Settings settings = querySettings();
-        return settings;
+
+
+//            for (Story story : queryStories("ID=?", new String[]{id}, null)) {
+//                if (story.getId().equals(id)) {
+//                    return story;
+//                }
+//            }
+        return null;
+
     }
 
 }
