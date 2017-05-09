@@ -1,9 +1,11 @@
 package edu.umd.cs.jobi;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -53,6 +56,10 @@ public class EventFragment extends Fragment {
     private static final int DAY = 24 * HOUR;
 
     private static final String EVENT_CREATED = "EVENT_CREATED";
+
+    // Dialog boxes for deletion //
+    private AlertDialog.Builder contactDeleteBuilder;
+    private AlertDialog.Builder reminderDeleteBuilder;
 
 
     public static EventFragment newInstance(String eventId) {
@@ -110,9 +117,8 @@ public class EventFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Todo
-//                Intent intent = new Intent(getActivity().getApplicationContext(), EnterEventReminderActivity.class);
-//
-//                startActivityForResult(intent, REQUEST_CODE_ADD_REMINDER);
+                Intent intent = new Intent(getActivity().getApplicationContext(), EnterEventReminderActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_ADD_REMINDER);
             }
         });
 
@@ -139,38 +145,33 @@ public class EventFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (resultCode != Activity.RESULT_OK) {
-//            return;
-//        }
-
         if (requestCode == REQUEST_CODE_EDIT_EVENT) {
             if (data == null) {
                 return;
             }
-            //Todo
+
             event = EnterEventActivity.getEventCreated(data);
             eventService.addEventToDb(event);
         } else if(requestCode == REQUEST_CODE_ADD_REMINDER) {
-            //Todo
-//            if (data == null) {
-//                return;
-//            }
-//
-//            Reminder newReminder = EnterEventReminderActivity.getReminderCreated(data);
-//            Reminder remReminder = null;
-//
-//            for (Reminder r : event.getReminders()) {
-//                if (r.getId().equals(newReminder.getId)) {
-//                    remReminder = r;
-//                }
-//            }
-//
-//            if (remContact != null) {
-//                event.getReminders().remove(remReminder);
-//            }
-//
-//            event.getReminders().add(newReminder);
-//            eventService.addEventToDb(event);
+            if (data == null) {
+                return;
+            }
+
+            Reminder newReminder = EnterEventReminderActivity.getReminderCreated(data);
+            Reminder remReminder = null;
+
+            for (Reminder r : event.getReminders()) {
+                if (r.getId().equals(newReminder.getId())) {
+                    remReminder = r;
+                }
+            }
+
+            if (remReminder != null) {
+                event.getReminders().remove(remReminder);
+            }
+
+            event.getReminders().add(newReminder);
+            eventService.addEventToDb(event);
         } else if(requestCode == REQUEST_CODE_ADD_CONTACT) {
             if (data == null) {
                 return;
@@ -267,6 +268,37 @@ public class EventFragment extends Fragment {
             itemView.setOnClickListener(this);
 
             reminderText = (TextView)itemView.findViewById(R.id.list_item_reminder);
+
+            // Delete Alert Dialog //
+            itemView.setOnLongClickListener(new View.OnLongClickListener(){
+                @Override
+                public boolean onLongClick(View view){
+                    reminderDeleteBuilder = new AlertDialog.Builder(getActivity());
+                    reminderDeleteBuilder.setTitle("Delete Reminder?");
+                    reminderDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            eventService.deleteReminderById(reminder.getId());
+                            Toast.makeText(getActivity().getApplicationContext(), "Reminder deleted!", Toast.LENGTH_SHORT).show();
+                            remindersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            updateUI();
+                            dialog.dismiss();
+                        }
+                    });
+
+                    reminderDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog alert = reminderDeleteBuilder.create();
+                    alert.show();
+                    return true;
+                }
+            });
         }
 
         public void bindReminder(Reminder reminder) {
@@ -295,8 +327,8 @@ public class EventFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-//            Intent intent = EnterEventReminderActivity.newIntent(getActivity().getApplicationContext(), reminder.getId(), event.getTitle(), eventDateMs);
-//            startActivityForResult(intent, REQUEST_CODE_ADD_REMINDER);
+            Intent intent = EnterEventReminderActivity.newIntent(getActivity().getApplicationContext(), reminder.getId(), event.getTitle(), event.getDate().getTime());
+            startActivityForResult(intent, REQUEST_CODE_ADD_REMINDER);
         }
     }
 
@@ -346,6 +378,37 @@ public class EventFragment extends Fragment {
             contactTitle = (TextView)itemView.findViewById(R.id.list_item_contact_title);
             contactEmail = (TextView)itemView.findViewById(R.id.list_item_contact_email);
             contactPhone = (TextView)itemView.findViewById(R.id.list_item_contact_phone);
+
+            // Delete Alert Dialog //
+            itemView.setOnLongClickListener(new View.OnLongClickListener(){
+                @Override
+                public boolean onLongClick(View view){
+                    contactDeleteBuilder = new AlertDialog.Builder(getActivity());
+                    contactDeleteBuilder.setTitle("Delete Contact?");
+                    contactDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            eventService.deleteContactById(contact.getId());
+                            Toast.makeText(getActivity().getApplicationContext(), "Contact deleted!", Toast.LENGTH_SHORT).show();
+                            contactsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            updateUI();
+                            dialog.dismiss();
+                        }
+                    });
+
+                    contactDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog alert = contactDeleteBuilder.create();
+                    alert.show();
+                    return true;
+                }
+            });
         }
 
         public void bindContact(Contact contact) {
@@ -359,7 +422,7 @@ public class EventFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Intent intent = EnterContactActivity.newIntent(getActivity(), contact.getId(), false);
+            Intent intent = EnterContactActivity.newIntent(getActivity(), contact.getId(), true);
             startActivityForResult(intent, REQUEST_CODE_ADD_CONTACT);
         }
     }

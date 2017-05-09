@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
-import edu.umd.cs.jobi.model.Contact;
+import edu.umd.cs.jobi.model.Reminder;
 
 /**
  * Created by Juan on 5/6/2017.
@@ -33,8 +33,7 @@ public class EnterEventReminderActivity extends SingleFragmentActivity {
         return intent;
     }
 
-    public static Contact getContactCreated(Intent data) {
-        //return EnterEventReminderFragment.getReminderCreated(data);
-        return null;
+    public static Reminder getReminderCreated(Intent data) {
+        return EnterEventReminderFragment.getReminderCreated(data);
     }
 }
