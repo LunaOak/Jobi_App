@@ -19,5 +19,6 @@ public interface EventService {
     public boolean deleteContactById(String id);
     public Reminder getReminderById(String id);
     public boolean deleteReminderById(String id);
-    public List<Event> getEventsByPositionTitle(String title);
+    public List<Event> getEventsByPositionAndCompany(String title, String name);
+    public List<Event> getEventsByCompanyName(String name);
 }
