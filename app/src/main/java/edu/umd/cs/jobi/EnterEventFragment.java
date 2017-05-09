@@ -30,6 +30,9 @@ import edu.umd.cs.jobi.model.Position;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
+import static edu.umd.cs.jobi.R.id.day;
+import static edu.umd.cs.jobi.R.id.month;
+import static edu.umd.cs.jobi.R.id.year;
 
 /**
  * Created by Pauline on 5/6/2017.
@@ -148,6 +151,9 @@ public class EnterEventFragment extends Fragment {
         eventDate = (TextView)view.findViewById(R.id.event_date_text);
         if (event != null) {
             eventDate.setText(new SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH).format(event.getDate()));
+            mYear = Integer.parseInt( new SimpleDateFormat("yyyy", Locale.ENGLISH).format(event.getDate()));
+            mMonth = Integer.parseInt( new SimpleDateFormat("MM", Locale.ENGLISH).format(event.getDate()));
+            mDay = Integer.parseInt( new SimpleDateFormat("d", Locale.ENGLISH).format(event.getDate()));
         }
 
         // Event date button //
@@ -159,6 +165,11 @@ public class EnterEventFragment extends Fragment {
                 int year = c.get(Calendar.YEAR);
                 int month = c.get(Calendar.MONTH);
                 int day = c.get(Calendar.DAY_OF_MONTH);
+                if (event != null) {
+                    year = mYear;
+                    month = mMonth;
+                    day = mDay;
+                }
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), listenerDate, year, month, day);
                 datePickerDialog.show();
@@ -181,6 +192,8 @@ public class EnterEventFragment extends Fragment {
         eventTime = (TextView)view.findViewById(R.id.event_time_text);
         if (event != null) {
             eventTime.setText(new SimpleDateFormat("HH:mm", Locale.ENGLISH).format(event.getDate()));
+            mHour = Integer.parseInt( new SimpleDateFormat("HH", Locale.ENGLISH).format(event.getDate()));
+            mMinute = Integer.parseInt( new SimpleDateFormat("mm", Locale.ENGLISH).format(event.getDate()));
         }
 
         // Event time button //
@@ -191,6 +204,10 @@ public class EnterEventFragment extends Fragment {
                 final Calendar c = Calendar.getInstance();
                 int hourOfDay = c.get(Calendar.HOUR_OF_DAY);
                 int minute = c.get(Calendar.MINUTE);
+                if (event != null) {
+                    hourOfDay = mHour;
+                    minute = mMinute;
+                }
 
                 TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), listenerTime, hourOfDay, minute, false);
                 timePickerDialog.show();
@@ -260,7 +277,7 @@ public class EnterEventFragment extends Fragment {
         s += String.valueOf(month + 1) + "/" + String.valueOf(day) + "/" + String.valueOf(year)
                 + " " + String.valueOf(hour) + ":" + String.valueOf(min);
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm a");
         try {
             date = simpleDateFormat.parse(s);
         } catch (ParseException e) {
