@@ -25,8 +25,12 @@ public class EnterPositionFragment extends Fragment {
 
     private static final String POSITION_CREATED = "POSITION_CREATED";
     private static final String POSITION_ID = "POSITION_ID";
+    private static final String COMPANY_NAME = "COMPANY_NAME";
+    private static final String FROM_COMPANY_BOOLEAN = "FROM_COMPANY_BOOLEAN";
 
     private Position position;
+    private String companyName;
+    private Boolean fromCompany;
 
     // Interactive Elements //
     private EditText positionTitleEditText;
@@ -40,9 +44,11 @@ public class EnterPositionFragment extends Fragment {
     private Button saveButton;
     private Button cancelButton;
 
-    public static EnterPositionFragment newInstance(String positionId) {
+    public static EnterPositionFragment newInstance(String positionId, String companyName, Boolean fromCompany) {
         Bundle args = new Bundle();
         args.putString(POSITION_ID, positionId);
+        args.putString(COMPANY_NAME, companyName);
+        args.putBoolean(FROM_COMPANY_BOOLEAN, fromCompany);
 
         EnterPositionFragment fragment = new EnterPositionFragment();
         fragment.setArguments(args);
@@ -54,6 +60,9 @@ public class EnterPositionFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         String positionId = getArguments().getString(POSITION_ID);
+        fromCompany = getArguments().getBoolean(FROM_COMPANY_BOOLEAN);
+        companyName = getArguments().getString(COMPANY_NAME);
+
         position = DependencyFactory.getPositionService(getActivity().getApplicationContext()).getPositionById(positionId);
     }
 
@@ -73,6 +82,8 @@ public class EnterPositionFragment extends Fragment {
         companyEditText = (EditText)view.findViewById(R.id.position_company);
         if (position != null) {
             companyEditText.setText(position.getCompany());
+        } else if (fromCompany) {
+            companyEditText.setText(companyName);
         }
 
         // Position Location //
