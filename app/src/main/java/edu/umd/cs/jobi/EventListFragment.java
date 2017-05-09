@@ -232,7 +232,12 @@ public class EventListFragment extends Fragment {
             super(itemView);
             itemView.setOnClickListener(this);
 
-            eventTitleText = (TextView)itemView.findViewById(R.id.list_item_event_name);
+            eventTitleText = (TextView)itemView.findViewById(R.id.list_item_event_title);
+            typeText = (TextView)itemView.findViewById(R.id.list_item_event_type);
+            companyText = (TextView)itemView.findViewById(R.id.list_item_event_company);
+            positionText = (TextView)itemView.findViewById(R.id.list_item_event_position);
+            dateText = (TextView)itemView.findViewById(R.id.list_item_event_date);
+
 
             /* Delete Alert Dialog
             eventDeleteBuilder = new AlertDialog.Builder(getActivity());
@@ -270,8 +275,11 @@ public class EventListFragment extends Fragment {
         public void bindEvent(Event event) {
 
             this.event = event;
-
             eventTitleText.setText(event.getTitle());
+            typeText.setText(event.getType().toString());
+            companyText.setText(event.getCompany());
+            positionText.setText(event.getPosition());
+            dateText.setText(event.getDate().toString());
         }
 
         @Override
