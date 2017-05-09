@@ -24,6 +24,7 @@ import static android.app.Activity.RESULT_OK;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.umd.cs.jobi.model.Position;
 import edu.umd.cs.jobi.model.Settings;
 
 public class SettingsFragment extends Fragment {
@@ -198,6 +199,10 @@ public class SettingsFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public static Settings getSettingsCreated(Intent data) {
+        return (Settings) data.getSerializableExtra(SETTINGS_UPDATED);
     }
 
     // Menu Bar Management //

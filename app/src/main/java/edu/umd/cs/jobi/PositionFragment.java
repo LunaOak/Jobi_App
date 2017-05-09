@@ -280,7 +280,7 @@ public class PositionFragment extends Fragment {
         positionDescription.setText(position.getDescription());
 
         List<Contact> contacts = positionService.getPositionById(position.getId()).getContacts();
-        List<Event> events = eventService.getEventsByPositionTitle(position.getTitle());
+        List<Event> events = eventService.getEventsByPositionAndCompany(position.getTitle(), position.getCompany());
 
         if (contactAdapter == null) {
             contactAdapter = new ContactAdapter(contacts);

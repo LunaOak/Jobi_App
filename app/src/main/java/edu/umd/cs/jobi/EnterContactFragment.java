@@ -100,7 +100,10 @@ public class EnterContactFragment extends Fragment {
                 if (contact == null) {
                     contact = new Contact(name, jobTitle, email, phone);
                 } else {
-
+                    contact.setName(name);
+                    contact.setEmail(email);
+                    contact.setPhone(phone);
+                    contact.setJobTitle(jobTitle);
                 }
 
                 Intent data = new Intent();
