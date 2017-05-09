@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/colorAccent5">
+
+    <ImageView
+        android:layout_height="650dp"
+        android:layout_width="match_parent"
+        android:id="@+id/imageView1"
+        android:src="@drawable/enter3"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+    </ImageView>
+
+    <Button
+        android:text="Enter"
+        android:layout_width="150sp"
+        android:layout_height="wrap_content"
+        android:id="@+id/Jobi_Enter"
+        android:textColor="@color/colorAccent"
+        android:background="@color/colorWhite"
+        android:layout_marginBottom="171dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:alpha="0.75">
+
+    </Button>
+
+</RelativeLayout>

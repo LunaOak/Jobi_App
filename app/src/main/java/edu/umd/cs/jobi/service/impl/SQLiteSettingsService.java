@@ -108,12 +108,11 @@ public class SQLiteSettingsService implements SettingsService {
     public void updateSettings(Settings settings) {
 
         // If not present in the list at all, add //
-        if (settings == null) {
+        if (getSettings(settings.getId()) == null) {
             db.insert(JobiSettingsDbSchema.SettingsTable.NAME,null,getContentValues(settings));
             // Otherwise if it is then update it //
         } else {
-            String[] IDs = new String[]{settings.getId()};
-            db.update(JobiSettingsDbSchema.SettingsTable.NAME,getContentValues(settings),"ID=?",IDs);
+            db.update(JobiSettingsDbSchema.SettingsTable.NAME,getContentValues(settings),JobiSettingsDbSchema.SettingsTable.Columns.ID + "=?",new String[]{settings.getId()});
         }
     }
 
@@ -128,14 +127,16 @@ public class SQLiteSettingsService implements SettingsService {
         if (id == null) {
             return null;
         } else {
-            for (Settings settings : querySettings("ID=?", new String[]{id}, null)) {
-                if (settings.getId().equals(id)) {
-                    return settings;
+            List<Settings> settings = querySettings(JobiSettingsDbSchema.SettingsTable.Columns.ID + "=?", new String[]{id}, null);
+            for (Settings s : settings) {
+                if (s.getId().equals(id)) {
+                    return s;
                 }
             }
 
             return null;
         }
     }
+
 
 }

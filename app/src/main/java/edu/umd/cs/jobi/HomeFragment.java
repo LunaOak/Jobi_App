@@ -91,12 +91,8 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         companyService = DependencyFactory.getCompanyService(getActivity().getApplicationContext());
-        if (savedInstanceState !=null) {
-            String settingsId = getArguments().getString(SETTINGS_ID);
-            settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings(settingsId);
-        } else {
-            settingsService = DependencyFactory.getSettingsService(getActivity().getApplicationContext());
-        }
+        settingsService = DependencyFactory.getSettingsService(getActivity().getApplicationContext());
+        settings = settingsService.getSettings("1");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

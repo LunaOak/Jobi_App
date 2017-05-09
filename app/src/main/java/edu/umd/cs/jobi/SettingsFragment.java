@@ -43,27 +43,26 @@ public class SettingsFragment extends Fragment {
     private CheckBox notificationsDeadlines;
     private List<Settings.Notifications> notificationsList;
     private static final String SETTINGS_UPDATED= "SETTINGS_UPDATED";
-    private static final String SETTINGS_ID = "SETTINGS_ID";
+    private static final String SETTINGS_ID = "1"; // There can only be one settings
     private SettingsService settingsService;
 
 
 
 
-    public static SettingsFragment newInstance(String settingsId) {
-        Bundle args = new Bundle();
-        args.putString(SETTINGS_ID, settingsId);
-
+    public static SettingsFragment newInstance() {
         SettingsFragment fragment = new SettingsFragment();
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String settingsId = getArguments().getString(SETTINGS_ID);
-
+        String settingsId = SETTINGS_ID;
         settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings(settingsId);
+        if (settings == null){
+            settings = new Settings();
+        }
+        DependencyFactory.getSettingsService(getActivity().getApplicationContext()).updateSettings(settings);
         setHasOptionsMenu(true);
     }
 
