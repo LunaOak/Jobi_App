@@ -465,7 +465,7 @@ public class CompanyFragment extends Fragment {
             typeText.setText(event.getType().toString());
             companyText.setText(event.getCompany());
             positionText.setText(event.getPosition());
-            dateText.setText(new SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH).format(event.getDate()));
+            dateText.setText(new SimpleDateFormat("EEE, d MMM yyyy, HH:mm", Locale.ENGLISH).format(event.getDate()));
         }
 
         @Override
