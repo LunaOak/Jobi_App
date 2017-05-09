@@ -158,7 +158,7 @@ public class Position implements Serializable{
     }
 
     public void addContact(Contact contact) {
-       // this.contacts.append(contact);
+        this.contacts.add(contact);
     }
 
     // TODO verify this works
