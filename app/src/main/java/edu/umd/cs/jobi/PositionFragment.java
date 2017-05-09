@@ -236,6 +236,36 @@ public class PositionFragment extends Fragment {
         } else if (requestCode == REQUEST_CODE_ADD_EVENT) {
             Event newEvent = EnterEventActivity.getEventCreated(data);
             eventService.addEventToDb(newEvent);
+
+            // If a company was specified under the event
+            if (newEvent.getCompany() != null && newEvent.getCompany() != "") {
+
+                // Update company database
+                if (companyService.getCompanyByName(newEvent.getCompany()) == null) {
+                    // If there is no company with the name specified on the event make it
+                    Company newCompany = new Company(newEvent.getCompany(), true);
+                    companyService.addCompanyToDb(newCompany);
+                }
+
+                // Update position database
+                if (newEvent.getPosition() != null && newEvent.getPosition() !="") {
+                    // If a position was specified
+                    List<Position> possiblePositions = positionService.getPositionsByCompany(newEvent.getCompany());
+                    boolean posExists = false;
+                    for (Position p:possiblePositions){
+                        if (p.getTitle().equals(newEvent.getPosition())){
+                            posExists = true;
+                        }
+                    }
+
+                    if (posExists == false){
+                        // If position doesnt exist create it
+                        Position position = new Position();
+                        position.setCompany(newEvent.getCompany());
+                        positionService.addPositionToDb(position);
+                    }
+                }
+            }
         }
         updateUI();
     }
