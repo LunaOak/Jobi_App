@@ -6,6 +6,7 @@ import java.util.*;
 
 public class Settings implements Serializable {
 
+    private String id;
     private Status status = Status.INTERVIEWING;
     private NotificationSwitch notificationSwitch = NotificationSwitch.ON;
     private List<Notifications> notifications = new ArrayList<>();
@@ -14,6 +15,7 @@ public class Settings implements Serializable {
         notifications.add(Notifications.INTERVIEWS);
         notifications.add(Notifications.EMAILS);
         notifications.add(Notifications.DEADLINES);
+        id = "1";
     }
 
     // Settings Status //
@@ -57,6 +59,14 @@ public class Settings implements Serializable {
     public void setNotifications(List<Notifications> new_notifications) {
         notifications.clear();
         notifications = new_notifications;
+    }
+
+    public String getId(){
+        return this.id;
+    }
+
+    public void setId(String i) {
+        this.id = i;
     }
 
 }
