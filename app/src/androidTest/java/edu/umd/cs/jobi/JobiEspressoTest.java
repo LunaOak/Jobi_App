@@ -237,19 +237,67 @@ public class JobiEspressoTest extends BaseActivityEspressoTest {
 
     }
 
-//    @Test
-//    public void testCompanyListUI(){
-//
-//        // Test Company List //////////
-//        onView(withId(R.id.company_list_button)).perform(click());
-//
-//        Activity currentActivity = getActivityInstance();
-//        assertTrue(currentActivity.getClass().isAssignableFrom(CompanyListActivity.class));
-//    }
+    @Test
+    public void testCompanyListUI(){
+
+        // Test Company List //////////
+        onView(withId(R.id.company_list_button)).perform(click());
+
+        Activity currentActivity = getActivityInstance();
+        assertTrue(currentActivity.getClass().isAssignableFrom(CompanyListActivity.class));
+
+        // Check that menu buttons are present ////////////
+        onView(withId(R.id.menu_item_home)).check(matches(isDisplayed()));
+        onView(withId(R.id.menu_item_settings)).check(matches(isDisplayed()));
+
+        // Check that labels are present //
+        onView(withText(R.string.company_list_label)).check(matches(isDisplayed()));
+        onView(withText(R.string.list_all)).check(matches(isDisplayed()));
+        onView(withText(R.string.current_companies)).check(matches(isDisplayed()));
+
+        // Add new company to list //
+        onView(withId(R.id.add_new_company_button)).check(matches(ViewMatchers.isDisplayed()));
+        onView(withId(R.id.add_new_company_button)).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click add company";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+
+        Espresso.closeSoftKeyboard();
+
+        onView(withId(R.id.company_name)).perform(typeText("Yahoo"));
+        Espresso.closeSoftKeyboard();
+
+        onView(withId(R.id.company_location)).perform(typeText("New York"));
+        Espresso.closeSoftKeyboard();
+
+        onView(withId(R.id.company_description)).perform(typeText("A search engine"));
+        Espresso.closeSoftKeyboard();
+
+        onView(withId(R.id.save_company_button)).perform(click());
+
+        // Check that added company is present and in correct tab
+        onView(withText("Yahoo")).check(matches(ViewMatchers.isDisplayed()));
+
+    }
 
 
     // This test will test creating various positions, updating them, and checking if changes are //
     // being reflected //
+
     @Test
     public void testPositionListUI(){
 
