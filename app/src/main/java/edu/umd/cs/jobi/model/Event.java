@@ -111,7 +111,7 @@ public class Event implements Serializable {
     }
 
     public List<Contact> getContacts() {
-        return new ArrayList<Contact>(contacts);
+        return contacts;
     }
 
     public void addContact(Contact contact) {
@@ -123,7 +123,7 @@ public class Event implements Serializable {
     }
 
     public List<Reminder> getReminders() {
-        return new ArrayList<Reminder>(reminders);
+        return reminders;
     }
 
     public void addReminder(Reminder reminder) {
