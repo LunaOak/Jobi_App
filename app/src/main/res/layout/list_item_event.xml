@@ -31,8 +31,7 @@
         android:id="@+id/list_item_event_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/list_item_position_company"
-        android:layout_toStartOf="@id/list_item_position_company"
+
         android:textStyle="bold"
         android:padding="4dp"
         tools:text="Event Title"
