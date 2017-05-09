@@ -83,15 +83,20 @@ public class HomeFragment extends Fragment {
         eventService = DependencyFactory.getEventService(getActivity().getApplicationContext());
         settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings();
         positionService = DependencyFactory.getPositionService(getActivity().getApplicationContext());
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,  Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+             if ((savedInstanceState != null)
+                     && (savedInstanceState.getSerializable("settings") != null)) {
+                     settings = (Settings) savedInstanceState
+                             .getSerializable("settings");
+                 }
 
         eventRecyclerView = (RecyclerView)view.findViewById(R.id.home_event_recycler_view);
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -386,7 +391,6 @@ public class HomeFragment extends Fragment {
             }
         return monthName;
     }
-
 
 }
 

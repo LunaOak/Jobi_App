@@ -14,7 +14,7 @@
         android:layout_alignParentEnd="true"
         android:padding="4dp"
         tools:text="Date"
-        android:textSize="25sp"/>
+        android:textSize="15sp"/>
 
     <TextView
         android:id="@+id/list_item_event_type"
@@ -31,7 +31,6 @@
         android:id="@+id/list_item_event_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:textStyle="bold"
         android:padding="4dp"
         tools:text="Event Title"
