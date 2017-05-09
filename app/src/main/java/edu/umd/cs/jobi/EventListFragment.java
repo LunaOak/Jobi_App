@@ -1,5 +1,6 @@
 package edu.umd.cs.jobi;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -242,35 +244,35 @@ public class EventListFragment extends Fragment {
             dateText = (TextView)itemView.findViewById(R.id.list_item_event_date);
 
             // Delete Alert Dialog //
-//            itemView.setOnLongClickListener(new View.OnLongClickListener(){
-//                @Override
-//                public boolean onLongClick(View view){
-//                    eventDeleteBuilder = new AlertDialog.Builder(getActivity());
-//                    eventDeleteBuilder.setTitle("Delete Contact?");
-//                    eventDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-//
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            eventService.deleteEventById(event.getId());
-//                            Toast.makeText(getActivity().getApplicationContext(), "Event deleted!", Toast.LENGTH_SHORT).show();
-//                            eventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//                            updateUI();
-//                            dialog.dismiss();
-//                        }
-//                    });
-//
-//                    eventDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-//
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-//                        }
-//                    });
-//
-//                    AlertDialog alert = eventDeleteBuilder.create();
-//                    alert.show();
-//                    return true;
-//                }
-//            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener(){
+                @Override
+                public boolean onLongClick(View view){
+                    eventDeleteBuilder = new AlertDialog.Builder(getActivity());
+                    eventDeleteBuilder.setTitle("Delete Event?");
+                    eventDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            eventService.deleteEventById(event.getId());
+                            Toast.makeText(getActivity().getApplicationContext(), "Event deleted!", Toast.LENGTH_SHORT).show();
+                            eventList.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            updateUI();
+                            dialog.dismiss();
+                        }
+                    });
+
+                    eventDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog alert = eventDeleteBuilder.create();
+                    alert.show();
+                    return true;
+                }
+            });
 
         }
 
