@@ -134,6 +134,22 @@ public class SQLiteEventService implements EventService {
         }
     }
 
+    @Override
+    public boolean deleteEventById(String id) {
+        if (id != null) {
+            for (Contact contact : getEventById(id).getContacts()){
+                deleteContactById(contact.getId());
+            }
+            for (Reminder reminder : getEventById(id).getReminders()){
+                deleteReminderById(reminder.getId());
+            }
+            if (eventDb.delete(JobiEventDbSchema.EventTable.NAME, JobiEventDbSchema.EventTable.Columns.ID + "=?", new String[]{id}) == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     @Override
     public Event getEventById(String id) {
@@ -181,6 +197,16 @@ public class SQLiteEventService implements EventService {
     }
 
     @Override
+    public boolean deleteContactById(String id) {
+        if (id != null) {
+            if (contactDb.delete(JobiEventDbSchema.ContactTable.NAME, JobiEventDbSchema.ContactTable.Columns.ID + "=?", new String[] {id}) == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
     public Reminder getReminderById(String id) {
         if (id == null) {
             return null;
@@ -193,6 +219,16 @@ public class SQLiteEventService implements EventService {
         }
 
         return reminders.get(0);
+    }
+
+    @Override
+    public boolean deleteReminderById(String id) {
+        if (id != null) {
+            if (reminderDb.delete(JobiEventDbSchema.ContactTable.NAME, JobiEventDbSchema.ContactTable.Columns.ID + "=?", new String[] {id}) == 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
