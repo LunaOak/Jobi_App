@@ -238,8 +238,11 @@ public class EnterEventFragment extends Fragment {
                 }
                 event.setTitle(eventName.getText().toString());
 
-                event.setCompany(eventCompany.getText().toString());
-                event.setPosition(eventPosition.getText().toString());
+                if (create) {
+                    event.setCompany(eventCompany.getText().toString());
+                    event.setPosition(eventPosition.getText().toString());
+                }
+
                 event.setType(eventTypeSpinner.getSelectedItemPosition());
                 newDate = getNewDate(mMonth, mDay, mYear, mHour, mMinute);
                 event.setDate(newDate);
