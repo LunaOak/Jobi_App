@@ -184,7 +184,7 @@ public class PositionFragment extends Fragment {
         addNewEventButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = EnterEventActivity.newIntentCreate(getActivity().getApplicationContext(), position.getTitle(), position.getCompany());
+                Intent intent = EnterEventActivity.newIntentCreate(getActivity().getApplicationContext(), position.getId(), position.getCompany());
                 startActivityForResult(intent, REQUEST_CODE_ADD_EVENT);
             }
         });
