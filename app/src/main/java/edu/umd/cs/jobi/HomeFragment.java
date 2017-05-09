@@ -380,6 +380,7 @@ public class HomeFragment extends Fragment {
             holder.bindPosition(position);
         }
 
+
         @Override
         public int getItemCount() {
             return positions.size();
