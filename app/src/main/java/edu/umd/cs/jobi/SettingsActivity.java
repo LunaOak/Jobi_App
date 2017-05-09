@@ -14,7 +14,7 @@ public class SettingsActivity extends SingleFragmentActivity {
     @Override
     protected Fragment createFragment() {
         String settingsId = getIntent().getStringExtra(SETTINGS_ID);
-        return SettingsFragment.newInstance(settingsId);
+        return SettingsFragment.newInstance();
     }
 
     public static Intent newIntent(Context context, String settingsId) {
