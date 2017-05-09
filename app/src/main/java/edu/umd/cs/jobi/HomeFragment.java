@@ -91,7 +91,6 @@ public class HomeFragment extends Fragment {
         //settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings();
         if (savedInstanceState !=null) {
             String settingsId = getArguments().getString(SETTINGS_ID);
-            //settingsService =  DependencyFactory.getSettingsService(getActivity().getApplicationContext());
             settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings(settingsId);
         } else {
             settingsService = DependencyFactory.getSettingsService(getActivity().getApplicationContext());
