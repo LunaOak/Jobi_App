@@ -81,7 +81,6 @@ public class PositionListFragment extends Fragment {
             }
         });
 
-
         currentTab = "All";
         updateUI();
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -222,7 +221,6 @@ public class PositionListFragment extends Fragment {
             positionCompany = (TextView)itemView.findViewById(R.id.list_item_position_company);
 
             // Delete Alert Dialog //
-
             itemView.setOnLongClickListener(new View.OnLongClickListener(){
                 @Override
                 public boolean onLongClick(View view){
