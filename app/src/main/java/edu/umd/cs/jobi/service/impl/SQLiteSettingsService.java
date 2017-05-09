@@ -105,8 +105,8 @@ public class SQLiteSettingsService implements SettingsService {
         return contentValues;
     }
 
-    // addStoryToBacklog //////////////////////////////////////////////////////////////////////////////
-    public void addStoryToBacklog(Settings settings) {
+    // update settings //////////////////////////////////////////////////////////////////////////////
+    public void updateSettings(Settings settings) {
 
         // If not present in the list at all, add //
         if (settings == null) {

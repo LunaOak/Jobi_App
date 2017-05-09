@@ -9,7 +9,7 @@ import edu.umd.cs.jobi.service.PositionService;
 import edu.umd.cs.jobi.service.StoryService;
 import edu.umd.cs.jobi.service.SettingsService;
 import edu.umd.cs.jobi.service.impl.InMemoryStoryService;
-import edu.umd.cs.jobi.service.impl.InMemorySettingsService;
+//import edu.umd.cs.jobi.service.impl.InMemorySettingsService;
 import edu.umd.cs.jobi.service.impl.SQLiteCompanyService;
 import edu.umd.cs.jobi.service.impl.SQLiteEventService;
 import edu.umd.cs.jobi.service.impl.SQLitePositionService;
