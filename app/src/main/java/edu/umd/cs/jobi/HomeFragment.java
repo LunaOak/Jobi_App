@@ -1,7 +1,6 @@
 package edu.umd.cs.jobi;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -183,14 +182,14 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (resultCode != Activity.RESULT_OK) {
-            return;
-        }
+//        if (resultCode != Activity.RESULT_OK) {
+//            return;
+//        }
 
         // Reflect Events in Recycler View //
-        if (requestCode == REQUEST_CODE_EDIT_EVENT) {
-            updateUI();
-        }
+//        if (requestCode == REQUEST_CODE_EDIT_EVENT) {
+//
+//        }
 
         // Update view from settings //
         if (requestCode == REQUEST_CODE_SETTINGS_UPDATED) {
@@ -231,6 +230,7 @@ public class HomeFragment extends Fragment {
             positionService.addPositionToDb(positionCreated);
         }
 
+        updateUI();
     }
 
     private void updateUI() {
@@ -285,7 +285,7 @@ public class HomeFragment extends Fragment {
         public void bindEvent(Event event) {
             this.event = event;
 
-            dateTextView.setText(new SimpleDateFormat("EEE, MMM d", Locale.ENGLISH).format(event.getDate()));
+            dateTextView.setText(new SimpleDateFormat("EEE, MMM d", Locale.ENGLISH).format(event.getDate()) + " - ");
             titleTextView.setText(event.getTitle());
             typeTextView.setText(event.getType().name());
 
