@@ -86,8 +86,7 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
         eventService = DependencyFactory.getEventService(getActivity().getApplicationContext());
         positionService = DependencyFactory.getPositionService(getActivity().getApplicationContext());
-        settingsService = DependencyFactory.getSettingsService(getActivity().getApplicationContext());
-        settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings();
+        //settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -96,12 +95,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,  Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-             if ((savedInstanceState != null)
-                     && (savedInstanceState.getSerializable("settings") != null)) {
-                     settings = (Settings) savedInstanceState
-                             .getSerializable("settings");
-                 }
 
         eventRecyclerView = (RecyclerView)view.findViewById(R.id.home_event_recycler_view);
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -129,6 +122,8 @@ public class HomeFragment extends Fragment {
         notSearchingColor = getActivity().getApplicationContext().getColor(R.color.not_searching);
 
         statusText = (TextView) view.findViewById(R.id.status_text);
+
+        //settingsService = DependencyFactory.getSettingsService(getActivity().getApplicationContext());
 
         if (settings != null) {
 
