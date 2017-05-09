@@ -27,7 +27,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/contact_name_label"/>
+            android:text="@string/contact_name_label"
+            android:textColor="@color/colorAccent3"/>
 
         <EditText
             android:id="@+id/contact_name"
@@ -39,7 +40,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/contact_email_label"/>
+            android:text="@string/contact_email_label"
+            android:textColor="@color/colorAccent3"/>
 
         <EditText
             android:id="@+id/contact_email"
@@ -51,7 +53,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/contact_jobtitle_label"/>
+            android:text="@string/contact_jobtitle_label"
+            android:textColor="@color/colorAccent3"/>
 
         <EditText
             android:id="@+id/contact_jobtitle"
@@ -62,7 +65,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/contact_phone_label"/>
+            android:text="@string/contact_phone_label"
+            android:textColor="@color/colorAccent3"/>
 
         <EditText
             android:id="@+id/contact_phone"
