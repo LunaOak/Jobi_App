@@ -2,6 +2,7 @@ package edu.umd.cs.jobi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.umd.cs.jobi.model.Company;
@@ -32,6 +34,9 @@ public class EventListFragment extends Fragment {
     private RecyclerView eventList;
     private EventAdapter adapter;
     private Button newEventButton;
+    private String currentTab;
+    private TabLayout tabLayout;
+
 
     private static final int REQUEST_CODE_CREATE_EVENT = 12;
     private static final int REQUEST_CODE_VIEW_EVENT = 13;
@@ -62,6 +67,7 @@ public class EventListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_eventlist, container, false);
 
         eventList = (RecyclerView)view.findViewById(R.id.event_list);
+        tabLayout = (TabLayout)view.findViewById(R.id.event_tab_layout);
 
         newEventButton = (Button)view.findViewById(R.id.add_new_event_button);
         newEventButton.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +76,44 @@ public class EventListFragment extends Fragment {
                 Intent enterEventIntent = new Intent(getActivity(),
                         EnterEventActivity.class);
                 startActivityForResult(enterEventIntent,REQUEST_CODE_CREATE_EVENT);
+            }
+        });
+
+        currentTab = "All";
+        updateUI();
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                String tabText = tab.getText().toString();
+
+                if (tabText.equals(getString(R.string.list_all))) {
+                    currentTab = "All";
+                    updateUI();
+                    //positionList.setText("All positions!");
+                } else if (tabText.equals("Interview")) {
+                    currentTab = "Interview";
+                    updateUI();
+                    //positionList.setText("Need to do these applications");
+                } else if (tabText.equals("Email")) {
+                    currentTab = "Email";
+                    updateUI();
+                    //positionList.setText("These are in progress");
+                } else {
+                    currentTab = "Deadline";
+                    updateUI();
+                    // R.string.positions_done
+                    //positionList.setText("These are all done!");
+                }
+
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                // do nothing
+            }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                onTabSelected(tab);
             }
         });
 
@@ -127,11 +171,47 @@ public class EventListFragment extends Fragment {
 
         List<Event> allEvents = eventService.getAllEvents();
 
+        List<Event> events = new ArrayList<Event>();
+        List<Event> interview_events = new ArrayList<Event>();
+        List<Event> email_events = new ArrayList<Event>();
+        List<Event> deadline_events = new ArrayList<Event>();
+
+        if (currentTab.equals("Interview") == true) {
+
+            for (Event e : allEvents) {
+                if (e.getType() == Event.Type.INTERVIEW) {
+                    interview_events.add(e);
+                }
+            }
+            events = interview_events;
+
+        } else if (currentTab.equals("Email") == true) {
+
+            for (Event e : allEvents) {
+                if (e.getType() == Event.Type.EMAIL) {
+                    email_events.add(e);
+                }
+            }
+            events = email_events;
+
+        } else if (currentTab.equals("Deadline") == true) {
+
+            for (Event e : allEvents) {
+                if (e.getType() == Event.Type.DEADLINE){
+                    deadline_events.add(e);
+                }
+            }
+            events = deadline_events;
+
+        } else {
+            events = allEvents;
+        }
+
         if (adapter == null) {
-            adapter = new EventAdapter(allEvents);
+            adapter = new EventAdapter(events);
             eventList.setAdapter(adapter);
         } else {
-            adapter.setStories(allEvents);
+            adapter.setStories(events);
             adapter.notifyDataSetChanged();
         }
     }

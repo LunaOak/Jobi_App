@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp">
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,22 +35,35 @@
     </LinearLayout>
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/company_tab_layout"
+        android:id="@+id/event_tab_layout"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        app:tabIndicatorColor="@color/colorAccent">
+        app:tabIndicatorColor="@color/colorAccent"
+        app:tabTextAppearance="@style/CustomTextStyle">
 
         <android.support.design.widget.TabItem
-            android:id="@+id/all_companies_tab"
+            android:id="@+id/event_all_tab"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="@string/list_all" />
 
         <android.support.design.widget.TabItem
-            android:id="@+id/current_companies_tab"
+            android:id="@+id/event_interview_tab"
+            android:layout_height="wrap_content"
+            android:layout_width="15sp"
+            android:text="Interview" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/event_emails_tab"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/interviews" />
+            android:text="Email" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/event_deadlines_tab"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Deadline" />
 
     </android.support.design.widget.TabLayout>
 
