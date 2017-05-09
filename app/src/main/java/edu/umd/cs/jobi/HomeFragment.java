@@ -149,7 +149,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent eventListIntent = new Intent(getActivity(),
                         EventListActivity.class);
-                startActivity(eventListIntent);
+                startActivityForResult(eventListIntent, REQUEST_CODE_EDIT_EVENT);
             }
         });
         companyListButton = (Button)view.findViewById(R.id.company_list_button);
@@ -292,7 +292,7 @@ public class HomeFragment extends Fragment {
                 @Override
                 public boolean onLongClick(View view){
                     eventDeleteBuilder = new AlertDialog.Builder(getActivity());
-                    eventDeleteBuilder.setTitle("Delete Contact?");
+                    eventDeleteBuilder.setTitle("Delete Event?");
                     eventDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which) {
