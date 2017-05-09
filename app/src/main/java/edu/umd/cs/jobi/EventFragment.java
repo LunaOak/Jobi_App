@@ -203,9 +203,8 @@ public class EventFragment extends Fragment {
             companyText.setText(event.getCompany());
             locationText.setText(event.getLocation());
             positionText.setText(event.getPosition());
-            dateText.setText(new SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH).format(event.getDate())); // Need to format date prettier!
-            //"EEE, d MMM yyyy HH:mm:ss Z"
-            timeText.setText(new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).format(event.getDate()));
+            dateText.setText(new SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH).format(event.getDate()));
+            timeText.setText(new SimpleDateFormat("HH:mm", Locale.ENGLISH).format(event.getDate()));
 
             List<Reminder> reminders = eventService.getEventById(event.getId()).getReminders();
             List<Contact> contacts = eventService.getEventById(event.getId()).getContacts();
