@@ -85,7 +85,7 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         eventService = DependencyFactory.getEventService(getActivity().getApplicationContext());
-        //settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings();
+        settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings();
         positionService = DependencyFactory.getPositionService(getActivity().getApplicationContext());
         settingsService = DependencyFactory.getSettingsService(getActivity().getApplicationContext());
     }
