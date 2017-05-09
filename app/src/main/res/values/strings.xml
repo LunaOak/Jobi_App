@@ -135,6 +135,7 @@
     <string name="manage_label">Manage</string>
     <string name="status_label">Status</string>
     <string name="coming_up_label">Coming Up</string>
+    <string name="favorite_positions_label">Favorite Positions</string>
 
     <!--Global Menu Buttons-->
     <string name="settings_button">Settings</string>

@@ -51,7 +51,9 @@ public class HomeFragment extends Fragment {
 
 
     private RecyclerView eventRecyclerView;
+    private RecyclerView favoritesRecyclerView;
     private EventAdapter adapter;
+    private PositionAdapter positionAdapater;
     private Settings settings;
 
     // Labels and Date
@@ -74,6 +76,7 @@ public class HomeFragment extends Fragment {
 
     // Dialog boxes for deletion //
     private AlertDialog.Builder eventDeleteBuilder;
+    private AlertDialog.Builder positionDeleteBuilder;
 
     public static HomeFragment newInstance(String settingsId) {
         Bundle args = new Bundle();
@@ -88,7 +91,6 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         companyService = DependencyFactory.getCompanyService(getActivity().getApplicationContext());
-        //settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings();
         if (savedInstanceState !=null) {
             String settingsId = getArguments().getString(SETTINGS_ID);
             settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings(settingsId);
@@ -106,6 +108,9 @@ public class HomeFragment extends Fragment {
 
         eventRecyclerView = (RecyclerView)view.findViewById(R.id.home_event_recycler_view);
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        favoritesRecyclerView = (RecyclerView)view.findViewById(R.id.favorite_recycler_view);
+        favoritesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         day = (TextView) view.findViewById(R.id.day);
         month = (TextView) view.findViewById(R.id.month);
@@ -201,16 +206,6 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-//        if (resultCode != Activity.RESULT_OK) {
-//            return;
-//        }
-
-        // Reflect Events in Recycler View //
-//        if (requestCode == REQUEST_CODE_EDIT_EVENT) {
-//
-//        }
-
         // Update view from settings //
         if (requestCode == REQUEST_CODE_SETTINGS_UPDATED) {
             if (data == null) {
@@ -260,6 +255,7 @@ public class HomeFragment extends Fragment {
 
     private void updateUI() {
         List<Event> events = companyService.getAllEvents();
+        List<Position> positions = companyService.getFavoritePositions();
 
         if (adapter == null) {
             adapter = new EventAdapter(events);
@@ -267,6 +263,14 @@ public class HomeFragment extends Fragment {
         } else {
             adapter.setEvents(events);
             adapter.notifyDataSetChanged();
+        }
+
+        if (positionAdapater == null) {
+            positionAdapater = new PositionAdapter(positions);
+            favoritesRecyclerView.setAdapter(positionAdapater);
+        } else {
+            positionAdapater.setPositions(positions);
+            positionAdapater.notifyDataSetChanged();
         }
     }
 
@@ -288,6 +292,101 @@ public class HomeFragment extends Fragment {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    // Recycler Views Adapters & Holders ////////////////////////////////////////////////////////
+    private class PositionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private TextView positionTitle;
+        private TextView positionSummary;
+        private TextView positionCompany;
+
+        private Position position;
+
+        public PositionHolder(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+
+            positionTitle = (TextView)itemView.findViewById(R.id.list_item_position_title);
+            positionSummary = (TextView)itemView.findViewById(R.id.list_item_position_summary);
+            positionCompany = (TextView)itemView.findViewById(R.id.list_item_position_company);
+
+            // Delete Alert Dialog //
+            itemView.setOnLongClickListener(new View.OnLongClickListener(){
+                @Override
+                public boolean onLongClick(View view){
+                    positionDeleteBuilder = new AlertDialog.Builder(getActivity());
+                    positionDeleteBuilder.setTitle("Delete Position?");
+                    positionDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            companyService.deletePositionById(position.getId());
+                            Toast.makeText(getActivity().getApplicationContext(), "Position deleted!", Toast.LENGTH_SHORT).show();
+                            favoritesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            updateUI();
+                            dialog.dismiss();
+                        }
+                    });
+
+                    positionDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog alert = positionDeleteBuilder.create();
+                    alert.show();
+                    return true;
+                }
+            });
+        }
+
+        public void bindPosition(Position position) {
+            this.position = position;
+
+            positionTitle.setText(position.getTitle());
+            positionSummary.setText(position.getDescription());
+            positionCompany.setText(companyService.getCompanyNameById(position.getCompany()));
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = PositionActivity.newIntent(getActivity(), position.getId());
+            startActivityForResult(intent, REQUEST_CODE_VIEW_POSITIONS);
+        }
+    }
+
+    // Position Adapter ///////////////////////////////////////////////////////////////
+    private class PositionAdapter extends RecyclerView.Adapter<PositionHolder> {
+
+        private List<Position> positions;
+
+        public PositionAdapter(List<Position> positions) {
+            this.positions = positions;
+        }
+
+        public void setPositions(List<Position> positions) {
+            this.positions = positions;
+        }
+
+        @Override
+        public PositionHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            View view = layoutInflater.inflate(R.layout.list_item_position, parent, false);
+            return new PositionHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(PositionHolder holder, int list_position) {
+            Position position = positions.get(list_position);
+            holder.bindPosition(position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return positions.size();
         }
     }
 
