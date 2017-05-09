@@ -59,6 +59,7 @@ public class EventFragment extends Fragment {
 
     // Dialog boxes for deletion //
     private AlertDialog.Builder contactDeleteBuilder;
+    private AlertDialog.Builder reminderDeleteBuilder;
 
 
     public static EventFragment newInstance(String eventId) {
@@ -148,29 +149,29 @@ public class EventFragment extends Fragment {
             if (data == null) {
                 return;
             }
-            //Todo
+
             event = EnterEventActivity.getEventCreated(data);
             eventService.addEventToDb(event);
         } else if(requestCode == REQUEST_CODE_ADD_REMINDER) {
-//            if (data == null) {
-//                return;
-//            }
-//
-//            Reminder newReminder = EnterEventReminderActivity.getReminderCreated(data);
-//            Reminder remReminder = null;
-//
-//            for (Reminder r : event.getReminders()) {
-//                if (r.getId().equals(newReminder.getId())) {
-//                    remReminder = r;
-//                }
-//            }
-//
-//            if (remContact != null) {
-//                event.getReminders().remove(remReminder);
-//            }
-//
-//            event.getReminders().add(newReminder);
-//            eventService.addEventToDb(event);
+            if (data == null) {
+                return;
+            }
+
+            Reminder newReminder = EnterEventReminderActivity.getReminderCreated(data);
+            Reminder remReminder = null;
+
+            for (Reminder r : event.getReminders()) {
+                if (r.getId().equals(newReminder.getId())) {
+                    remReminder = r;
+                }
+            }
+
+            if (remReminder != null) {
+                event.getReminders().remove(remReminder);
+            }
+
+            event.getReminders().add(newReminder);
+            eventService.addEventToDb(event);
         } else if(requestCode == REQUEST_CODE_ADD_CONTACT) {
             if (data == null) {
                 return;
@@ -267,6 +268,37 @@ public class EventFragment extends Fragment {
             itemView.setOnClickListener(this);
 
             reminderText = (TextView)itemView.findViewById(R.id.list_item_reminder);
+
+            // Delete Alert Dialog //
+            itemView.setOnLongClickListener(new View.OnLongClickListener(){
+                @Override
+                public boolean onLongClick(View view){
+                    reminderDeleteBuilder = new AlertDialog.Builder(getActivity());
+                    reminderDeleteBuilder.setTitle("Delete Reminder?");
+                    reminderDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            eventService.deleteReminderById(reminder.getId());
+                            Toast.makeText(getActivity().getApplicationContext(), "Reminder deleted!", Toast.LENGTH_SHORT).show();
+                            remindersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            updateUI();
+                            dialog.dismiss();
+                        }
+                    });
+
+                    reminderDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog alert = reminderDeleteBuilder.create();
+                    alert.show();
+                    return true;
+                }
+            });
         }
 
         public void bindReminder(Reminder reminder) {
@@ -295,8 +327,8 @@ public class EventFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-//            Intent intent = EnterEventReminderActivity.newIntent(getActivity().getApplicationContext(), reminder.getId(), event.getTitle(), eventDateMs);
-//            startActivityForResult(intent, REQUEST_CODE_ADD_REMINDER);
+            Intent intent = EnterEventReminderActivity.newIntent(getActivity().getApplicationContext(), reminder.getId(), event.getTitle(), event.getDate().getTime());
+            startActivityForResult(intent, REQUEST_CODE_ADD_REMINDER);
         }
     }
 
