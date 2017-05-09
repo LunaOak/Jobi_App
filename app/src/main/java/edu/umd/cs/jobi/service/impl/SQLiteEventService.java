@@ -232,9 +232,24 @@ public class SQLiteEventService implements EventService {
     }
 
     @Override
-    public List<Event> getEventsByPositionTitle(String title) {
-        List<Event> prioritizedEvents = queryEvents(JobiEventDbSchema.EventTable.Columns.POSITION + "=?", new String[]{title}, null);
+    public List<Event> getEventsByPositionAndCompany(String title, String name) {
+        List<Event> prioritizedEvents = queryEvents(JobiEventDbSchema.EventTable.Columns.POSITION + "=?" +
+                " and " + JobiEventDbSchema.EventTable.Columns.COMPANY + "=?", new String[]{title, name}, null);
 
+        Collections.sort(prioritizedEvents, new Comparator<Event>() {
+
+            @Override
+            public int compare(Event event1, Event event2) {
+                return event1.getDate().compareTo(event2.getDate());
+            }
+        });
+
+        return prioritizedEvents;
+    }
+
+    @Override
+    public List<Event> getEventsByCompanyName(String name){
+        List<Event> prioritizedEvents = queryEvents(JobiEventDbSchema.EventTable.Columns.COMPANY + "=?", new String[]{name}, null);
         Collections.sort(prioritizedEvents, new Comparator<Event>() {
 
             @Override
