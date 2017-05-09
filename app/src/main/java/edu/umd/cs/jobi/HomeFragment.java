@@ -37,7 +37,7 @@ import edu.umd.cs.jobi.service.PositionService;
 public class HomeFragment extends Fragment {
 
     private final String TAG = getClass().getSimpleName();
-    private static final int REQUEST_CODE_CREATE_EVENT = 0;
+    private static final int REQUEST_CODE_EDIT_EVENT = 0;
     private static final int REQUEST_CODE_SETTINGS_UPDATED = 5;
     private static final int REQUEST_CODE_POSITION_CREATED = 10;
 
@@ -88,7 +88,7 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        eventRecyclerView = (RecyclerView)view.findViewById(R.id.event_recycler_view);
+        eventRecyclerView = (RecyclerView)view.findViewById(R.id.home_event_recycler_view);
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         day = (TextView) view.findViewById(R.id.day);
@@ -188,13 +188,7 @@ public class HomeFragment extends Fragment {
         }
 
         // Reflect Events in Recycler View //
-        if (requestCode == REQUEST_CODE_CREATE_EVENT) {
-            if (data == null) {
-                return;
-            }
-
-            //Event eventCreated = EventActivity.getEventCreated(data);
-            //eventService.addEventToDb(eventCreated);
+        if (requestCode == REQUEST_CODE_EDIT_EVENT) {
             updateUI();
         }
 
@@ -240,8 +234,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateUI() {
-        //Log.d(TAG, "updating UI all stories");
-
         List<Event> events = eventService.getAllEvents();
 
         if (adapter == null) {
@@ -251,9 +243,6 @@ public class HomeFragment extends Fragment {
             adapter.setEvents(events);
             adapter.notifyDataSetChanged();
         }
-
-
-
     }
 
     @Override
@@ -279,6 +268,7 @@ public class HomeFragment extends Fragment {
 
     private class EventHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView dateTextView;
+        private TextView titleTextView;
         private TextView typeTextView;
 
         private Event event;
@@ -288,21 +278,23 @@ public class HomeFragment extends Fragment {
             itemView.setOnClickListener(this);
 
             dateTextView = (TextView)itemView.findViewById(R.id.list_item_event_date);
+            titleTextView = (TextView)itemView.findViewById(R.id.list_item_event_title);
             typeTextView = (TextView)itemView.findViewById(R.id.list_item_event_type);
         }
 
         public void bindEvent(Event event) {
             this.event = event;
 
-            dateTextView.setText(event.getDate().toString());
+            dateTextView.setText(new SimpleDateFormat("EEE, MMM d", Locale.ENGLISH).format(event.getDate()));
+            titleTextView.setText(event.getTitle());
             typeTextView.setText(event.getType().name());
 
         }
 
         @Override
         public void onClick(View view) {
-            //Intent intent = EventActivity.newIntent(getActivity(), event.getId());
-            //startActivityForResult(intent, REQUEST_CODE_CREATE_EVENT);
+            Intent intent = EventActivity.newIntent(getActivity(), event.getId());
+            startActivityForResult(intent, REQUEST_CODE_EDIT_EVENT);
         }
     }
  
@@ -357,4 +349,7 @@ public class HomeFragment extends Fragment {
             }
         return monthName;
     }
+
+
 }
+
