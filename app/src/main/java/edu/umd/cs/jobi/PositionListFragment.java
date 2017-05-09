@@ -246,7 +246,7 @@ public class PositionListFragment extends Fragment {
                             dialog.dismiss();
                         }
                     });
-                    
+
                     AlertDialog alert = positionDeleteBuilder.create();
                     alert.show();
                     return true;
