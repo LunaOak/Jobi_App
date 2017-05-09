@@ -118,19 +118,19 @@ public class EnterEventReminderFragment extends Fragment {
                 Date newDate = new Date();
                 switch(pos) {
                     case 0:
-                        newDate.setTime(REMINDER_ARRAY_ELEM_1 * MINUTE);
+                        newDate.setTime(eventDateMs - REMINDER_ARRAY_ELEM_1 * MINUTE);
                         reminder.setDate(newDate);
                         break;
                     case 1:
-                        newDate.setTime(REMINDER_ARRAY_ELEM_2 * MINUTE);
+                        newDate.setTime(eventDateMs - REMINDER_ARRAY_ELEM_2 * MINUTE);
                         reminder.setDate(newDate);
                         break;
                     case 2:
-                        newDate.setTime(REMINDER_ARRAY_ELEM_3 * MINUTE);
+                        newDate.setTime(eventDateMs - REMINDER_ARRAY_ELEM_3 * MINUTE);
                         reminder.setDate(newDate);
                         break;
                     default:
-                        newDate.setTime(REMINDER_ARRAY_ELEM_1 * MINUTE);
+                        newDate.setTime(eventDateMs - REMINDER_ARRAY_ELEM_1 * MINUTE);
                         reminder.setDate(newDate);
                         break;
                 }

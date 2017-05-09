@@ -27,14 +27,10 @@ import java.util.Locale;
 import edu.umd.cs.jobi.model.Company;
 import edu.umd.cs.jobi.model.Event;
 import edu.umd.cs.jobi.model.Position;
-
 import edu.umd.cs.jobi.service.CompanyService;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
-import static edu.umd.cs.jobi.R.id.day;
-import static edu.umd.cs.jobi.R.id.month;
-import static edu.umd.cs.jobi.R.id.year;
 
 /**
  * Created by Pauline on 5/6/2017.
@@ -282,7 +278,7 @@ public class EnterEventFragment extends Fragment {
         s += String.valueOf(month + 1) + "/" + String.valueOf(day) + "/" + String.valueOf(year)
                 + " " + String.valueOf(hour) + ":" + String.valueOf(min);
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm a");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
         try {
             date = simpleDateFormat.parse(s);
         } catch (ParseException e) {

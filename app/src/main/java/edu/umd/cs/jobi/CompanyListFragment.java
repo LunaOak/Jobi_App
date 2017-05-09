@@ -154,7 +154,7 @@ public class CompanyListFragment extends Fragment {
             companyName = (TextView)itemView.findViewById(R.id.list_item_company_name);
 
             companyDeleteBuilder = new AlertDialog.Builder(getActivity());
-            companyDeleteBuilder.setTitle("Delete Company");
+            companyDeleteBuilder.setTitle("Delete Company?");
             companyDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                 public void onClick(DialogInterface dialog, int which) {
