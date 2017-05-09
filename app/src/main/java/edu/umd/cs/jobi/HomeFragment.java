@@ -43,6 +43,8 @@ public class HomeFragment extends Fragment {
     private static final int REQUEST_CODE_VIEW_COMPANIES = 4;
     private static final int REQUEST_CODE_SETTINGS_UPDATED = 5;
     private static final int REQUEST_CODE_POSITION_CREATED = 10;
+    private static final String SETTINGS_ID = "SettingsId";
+
 
     private CompanyService companyService;
     private SettingsService settingsService;
@@ -73,7 +75,10 @@ public class HomeFragment extends Fragment {
     // Dialog boxes for deletion //
     private AlertDialog.Builder eventDeleteBuilder;
 
-    public static HomeFragment newInstance() {
+    public static HomeFragment newInstance(String settingsId) {
+        Bundle args = new Bundle();
+        args.putString(SETTINGS_ID, settingsId);
+
         HomeFragment fragment = new HomeFragment();
         return fragment;
     }
@@ -84,6 +89,13 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
         companyService = DependencyFactory.getCompanyService(getActivity().getApplicationContext());
         //settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings();
+        if (savedInstanceState !=null) {
+            String settingsId = getArguments().getString(SETTINGS_ID);
+            //settingsService =  DependencyFactory.getSettingsService(getActivity().getApplicationContext());
+            settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings(settingsId);
+        } else {
+            settingsService = DependencyFactory.getSettingsService(getActivity().getApplicationContext());
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -120,8 +132,6 @@ public class HomeFragment extends Fragment {
 
         statusText = (TextView) view.findViewById(R.id.status_text);
 
-        //settingsService = DependencyFactory.getSettingsService(getActivity().getApplicationContext());
-
         if (settings != null) {
 
             // Status //
@@ -143,6 +153,9 @@ public class HomeFragment extends Fragment {
                     statusText.setText(R.string.status_interviewing);
                     break;
             }
+        } else {
+            statusColor.setColorFilter(interviewColor,PorterDuff.Mode.SRC_ATOP);
+            statusText.setText(R.string.status_interviewing);
         }
 
         eventListButton = (Button)view.findViewById(R.id.event_list_button);
@@ -208,10 +221,12 @@ public class HomeFragment extends Fragment {
             Settings settingsCreated = SettingsActivity.getSettingsEdit(data);
             settingsService.updateSettings(settingsCreated);
 
-            if (settingsCreated != null) {
+            settings = settingsCreated;
+
+            if (settings != null) {
 
                 // Status //
-                switch (settingsCreated.getStatus()) {
+                switch (settings.getStatus()) {
                     case INTERVIEWING:
                         statusColor.getDrawable().setColorFilter(interviewColor,PorterDuff.Mode.SRC_ATOP);
                         statusText.setText(R.string.status_interviewing);

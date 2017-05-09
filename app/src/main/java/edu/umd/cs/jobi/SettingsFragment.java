@@ -19,6 +19,8 @@ import android.widget.Toast;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.Toolbar;
+
+import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ import java.util.List;
 
 import edu.umd.cs.jobi.model.Position;
 import edu.umd.cs.jobi.model.Settings;
+import edu.umd.cs.jobi.service.SettingsService;
 
 public class SettingsFragment extends Fragment {
 
@@ -39,17 +42,28 @@ public class SettingsFragment extends Fragment {
     private CheckBox notificationsEmails;
     private CheckBox notificationsDeadlines;
     private List<Settings.Notifications> notificationsList;
-    private static final String SETTINGS_UPDATED= "SettingsUpdated";
+    private static final String SETTINGS_UPDATED= "SETTINGS_UPDATED";
+    private static final String SETTINGS_ID = "SETTINGS_ID";
+    private SettingsService settingsService;
 
 
-    public static SettingsFragment newInstance() {
-        return new SettingsFragment();
+
+
+    public static SettingsFragment newInstance(String settingsId) {
+        Bundle args = new Bundle();
+        args.putString(SETTINGS_ID, settingsId);
+
+        SettingsFragment fragment = new SettingsFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings();
+        String settingsId = getArguments().getString(SETTINGS_ID);
+
+        settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings(settingsId);
         setHasOptionsMenu(true);
     }
 
@@ -194,6 +208,7 @@ public class SettingsFragment extends Fragment {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                getActivity().setResult(RESULT_CANCELED);
                 getActivity().finish();
             }
         });
