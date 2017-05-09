@@ -252,8 +252,6 @@ public class JobiEspressoTest extends BaseActivityEspressoTest {
 
         // Check that labels are present //
         onView(withText(R.string.company_list_label)).check(matches(isDisplayed()));
-        onView(withText(R.string.list_all)).check(matches(isDisplayed()));
-        onView(withText(R.string.current_companies)).check(matches(isDisplayed()));
 
         // Add new company to list //
         onView(withId(R.id.add_new_company_button)).check(matches(ViewMatchers.isDisplayed()));
