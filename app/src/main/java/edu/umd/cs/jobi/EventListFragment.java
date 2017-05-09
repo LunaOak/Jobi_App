@@ -294,7 +294,7 @@ public class EventListFragment extends Fragment {
         }
     }
 
-    // Position Adapter ///////////////////////////////////////////////////////////////
+    // Event Adapter ///////////////////////////////////////////////////////////////
     private class EventAdapter extends RecyclerView.Adapter<EventHolder> {
 
         private List<Event> events;

@@ -23,8 +23,10 @@ import java.util.List;
 
 import edu.umd.cs.jobi.model.Company;
 import edu.umd.cs.jobi.model.Contact;
+import edu.umd.cs.jobi.model.Event;
 import edu.umd.cs.jobi.model.Position;
 import edu.umd.cs.jobi.service.CompanyService;
+import edu.umd.cs.jobi.service.EventService;
 import edu.umd.cs.jobi.service.PositionService;
 
 import static android.content.ContentValues.TAG;
@@ -38,11 +40,13 @@ public class CompanyFragment extends Fragment {
     private TextView companyDescriptionLabel;
     private PositionService positionService;
     private CompanyService companyService;
+    private EventService eventService;
     private static final String COMPANY_ID = "COMPANY_ID";
     private static final int REQUEST_CODE_CREATE_POSITION = 10;
     private static final int REQUEST_CODE_VIEW_POSITION = 11;
     private static final int REQUEST_CODE_CONTACT = 3;
     private static final int REQUEST_CODE_EDIT_COMPANY = 5;
+    private static final int REQUEST_CODE_VIEW_EVENT = 4;
 
     private ImageButton editButton;
     //private Button addContact;
@@ -50,12 +54,15 @@ public class CompanyFragment extends Fragment {
 
     private RecyclerView contactList;
     private RecyclerView positionList;
+    private RecyclerView eventList;
 
     private PositionAdapter posAdapter;
     private ContactAdapter contactAdapter;
+    private EventAdapter eventAdapter;
     // Dialog boxes for deletion //
     private AlertDialog.Builder positionDeleteBuilder;
     private AlertDialog.Builder contactDeleteBuilder;
+    private AlertDialog.Builder eventDeleteBuilder;
 
     public static CompanyFragment newInstance(String companyId){
         Bundle args = new Bundle();
@@ -73,6 +80,7 @@ public class CompanyFragment extends Fragment {
         Log.d(TAG, "We are about to query the database");
         positionService = DependencyFactory.getPositionService(getActivity().getApplicationContext());
         companyService = DependencyFactory.getCompanyService(getActivity().getApplicationContext());
+        eventService = DependencyFactory.getEventService(getActivity().getApplicationContext());
         company = companyService.getCompanyById(companyId);
     }
 
@@ -112,8 +120,7 @@ public class CompanyFragment extends Fragment {
         addPosition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent enterPositionIntent = new Intent(getActivity(),
-                        EnterPositionActivity.class);
+                Intent enterPositionIntent = EnterPositionActivity.newIntentFromCompany(getActivity(), company.getName());
                 startActivityForResult(enterPositionIntent,REQUEST_CODE_CREATE_POSITION);
             }
         });
@@ -124,6 +131,9 @@ public class CompanyFragment extends Fragment {
 
         contactList = (RecyclerView)view.findViewById(R.id.company_contact_list);
         contactList.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        eventList = (RecyclerView)view.findViewById(R.id.company_event_list);
+        eventList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         updateUI();
         return view;
@@ -159,6 +169,16 @@ public class CompanyFragment extends Fragment {
             contactAdapter.setContacts(all_contacts);
             contactAdapter.notifyDataSetChanged();
         }
+
+        List<Event> events = eventService.getEventsByCompanyName(company.getName());
+        if (eventAdapter == null){
+            eventAdapter = new EventAdapter(events);
+            eventList.setAdapter(eventAdapter);
+        } else {
+            eventAdapter.setStories(events);
+            eventAdapter.notifyDataSetChanged();
+        }
+
     }
 
     @Override
@@ -380,6 +400,110 @@ public class CompanyFragment extends Fragment {
         }
     }
 
+    // Recycler Views Adapters & Holders ////////////////////////////////////////////////////////
+    private class EventHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private TextView eventTitleText;
+        private TextView typeText;
+        private TextView companyText;
+        private TextView locationText;
+        private TextView positionText;
+        private TextView dateText;
+        private TextView timeText;
+
+        private Event event;
+
+        public EventHolder(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+
+            eventTitleText = (TextView)itemView.findViewById(R.id.list_item_event_title);
+            typeText = (TextView)itemView.findViewById(R.id.list_item_event_type);
+            companyText = (TextView)itemView.findViewById(R.id.list_item_event_company);
+            positionText = (TextView)itemView.findViewById(R.id.list_item_event_position);
+            dateText = (TextView)itemView.findViewById(R.id.list_item_event_date);
+
+            // Delete Alert Dialog //
+            itemView.setOnLongClickListener(new View.OnLongClickListener(){
+                @Override
+                public boolean onLongClick(View view){
+                    eventDeleteBuilder = new AlertDialog.Builder(getActivity());
+                    eventDeleteBuilder.setTitle("Delete Event?");
+                    eventDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            eventService.deleteEventById(event.getId());
+                            Toast.makeText(getActivity().getApplicationContext(), "Event deleted!", Toast.LENGTH_SHORT).show();
+                            eventList.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            updateUI();
+                            dialog.dismiss();
+                        }
+                    });
+
+                    eventDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog alert = eventDeleteBuilder.create();
+                    alert.show();
+                    return true;
+                }
+            });
+
+        }
+
+
+        public void bindEvent(Event event) {
+
+            this.event = event;
+            eventTitleText.setText(event.getTitle());
+            typeText.setText(event.getType().toString());
+            companyText.setText(event.getCompany());
+            positionText.setText(event.getPosition());
+            dateText.setText(event.getDate().toString());
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = EventActivity.newIntent(getActivity(), event.getId());
+            startActivityForResult(intent, REQUEST_CODE_VIEW_EVENT);
+        }
+    }
+
+    // Event Adapter ///////////////////////////////////////////////////////////////
+    private class EventAdapter extends RecyclerView.Adapter<EventHolder> {
+
+        private List<Event> events;
+
+        public EventAdapter(List<Event> events) {
+            this.events = events;
+        }
+
+        public void setStories(List<Event> events) {
+            this.events = events;
+        }
+
+        @Override
+        public EventHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            View view = layoutInflater.inflate(R.layout.list_item_event, parent, false);
+            return new EventHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(EventHolder holder, int list_event) {
+            Event event = events.get(list_event);
+            holder.bindEvent(event);
+        }
+
+        @Override
+        public int getItemCount() {
+            return events.size();
+        }
+    }
 
 
 }

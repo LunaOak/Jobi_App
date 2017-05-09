@@ -34,17 +34,21 @@ import edu.umd.cs.jobi.model.Position;
 import edu.umd.cs.jobi.model.Settings;
 import edu.umd.cs.jobi.service.EventService;
 import edu.umd.cs.jobi.service.PositionService;
-
+import edu.umd.cs.jobi.service.SettingsService;
 
 public class HomeFragment extends Fragment {
 
     private final String TAG = getClass().getSimpleName();
     private static final int REQUEST_CODE_EDIT_EVENT = 0;
+    private static final int REQUEST_CODE_VIEW_POSITIONS = 3;
+    private static final int REQUEST_CODE_VIEW_COMPANIES = 4;
     private static final int REQUEST_CODE_SETTINGS_UPDATED = 5;
     private static final int REQUEST_CODE_POSITION_CREATED = 10;
 
     private EventService eventService;
     private PositionService positionService;
+    private SettingsService settingsService;
+
 
     private RecyclerView eventRecyclerView;
     private EventAdapter adapter;
@@ -83,6 +87,7 @@ public class HomeFragment extends Fragment {
         eventService = DependencyFactory.getEventService(getActivity().getApplicationContext());
         settings = DependencyFactory.getSettingsService(getActivity().getApplicationContext()).getSettings();
         positionService = DependencyFactory.getPositionService(getActivity().getApplicationContext());
+        settingsService = DependencyFactory.getSettingsService(getActivity().getApplicationContext());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -163,7 +168,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent companyListIntent = new Intent(getActivity(),
                         CompanyListActivity.class);
-                startActivity(companyListIntent);
+                startActivityForResult(companyListIntent, REQUEST_CODE_VIEW_COMPANIES);
             }
         });
         positionListButton = (Button)view.findViewById(R.id.position_list_button);
@@ -172,7 +177,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent positionListIntent = new Intent(getActivity(),
                         PositionListActivity.class);
-                startActivity(positionListIntent);
+                startActivityForResult(positionListIntent, REQUEST_CODE_VIEW_POSITIONS);
             }
         });
         createPositionButton = (Button)view.findViewById(R.id.create_position_button);
@@ -208,10 +213,13 @@ public class HomeFragment extends Fragment {
                 return;
             }
 
-            if (settings != null) {
+            Settings settingsCreated = SettingsActivity.getSettingsEdit(data);
+            settingsService.updateSettings(settingsCreated);
+
+            if (settingsCreated != null) {
 
                 // Status //
-                switch (settings.getStatus()) {
+                switch (settingsCreated.getStatus()) {
                     case INTERVIEWING:
                         statusColor.getDrawable().setColorFilter(interviewColor,PorterDuff.Mode.SRC_ATOP);
                         statusText.setText(R.string.status_interviewing);
