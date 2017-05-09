@@ -143,7 +143,7 @@ public class EnterEventFragment extends Fragment {
         // Event date text //
         eventDate = (TextView)view.findViewById(R.id.event_date_text);
         if (event != null) {
-            eventDate.setText(new SimpleDateFormat("EEE, d MMM YYYY", Locale.ENGLISH).format(event.getDate()));
+            eventDate.setText(new SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH).format(event.getDate()));
         }
 
         // Event date button //
