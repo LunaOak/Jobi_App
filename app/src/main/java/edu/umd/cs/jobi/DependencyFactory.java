@@ -13,6 +13,7 @@ import edu.umd.cs.jobi.service.impl.InMemorySettingsService;
 import edu.umd.cs.jobi.service.impl.SQLiteCompanyService;
 import edu.umd.cs.jobi.service.impl.SQLiteEventService;
 import edu.umd.cs.jobi.service.impl.SQLitePositionService;
+import edu.umd.cs.jobi.service.impl.SQLiteSettingsService;
 
 public class DependencyFactory {
 
@@ -53,7 +54,8 @@ public class DependencyFactory {
 
     public static SettingsService getSettingsService(Context context) {
         if (settingsService == null) {
-            settingsService = new InMemorySettingsService(context);
+            settingsService = new SQLiteSettingsService(context);
+            //settingsService = new InMemorySettingsService(context);
         }
         return settingsService;
     }
