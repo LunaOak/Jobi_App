@@ -285,7 +285,7 @@ public class HomeFragment extends Fragment {
         public void bindEvent(Event event) {
             this.event = event;
 
-            dateTextView.setText(new SimpleDateFormat("EEE, MMM d", Locale.ENGLISH).format(event.getDate()));
+            dateTextView.setText(new SimpleDateFormat("EEE, MMM d", Locale.ENGLISH).format(event.getDate()) + " - ");
             titleTextView.setText(event.getTitle());
             typeTextView.setText(event.getType().name());
 
