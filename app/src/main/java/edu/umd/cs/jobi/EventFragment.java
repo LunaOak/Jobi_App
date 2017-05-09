@@ -130,7 +130,7 @@ public class EventFragment extends Fragment {
         setReminderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity().getApplicationContext(), EnterEventReminderActivity.class);
+                Intent intent = EnterEventReminderActivity.newIntent(getActivity().getApplicationContext(), "", event.getTitle(), event.getDate().getTime());
                 startActivityForResult(intent, REQUEST_CODE_ADD_REMINDER);
             }
         });
@@ -312,17 +312,17 @@ public class EventFragment extends Fragment {
             long ms = event.getDate().getTime() - reminder.getDate().getTime();
             String timeBefore= "";
 
-            if (ms > DAY) {
+            if (ms >= DAY) {
                 timeBefore += (Long.toString(ms/DAY) + " days ");
                 ms %= DAY;
             }
 
-            if (ms > HOUR) {
+            if (ms >= HOUR) {
                 timeBefore += (Long.toString(ms/HOUR) + " hours ");
                 ms %= HOUR;
             }
 
-            if (ms > MINUTE) {
+            if (ms >= MINUTE) {
                 timeBefore += (Long.toString(ms/MINUTE) + " minutes ");
                 ms %= MINUTE;
             }

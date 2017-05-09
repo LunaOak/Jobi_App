@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,7 +27,6 @@ import edu.umd.cs.jobi.model.Event;
 import edu.umd.cs.jobi.model.Position;
 import edu.umd.cs.jobi.service.CompanyService;
 
-import static android.app.Activity.RESULT_CANCELED;
 import static android.content.ContentValues.TAG;
 
 
@@ -237,6 +235,7 @@ public class CompanyFragment extends Fragment {
                         public void onClick(DialogInterface dialog, int which) {
                             companyService.deletePositionById(position.getId());
                             Toast.makeText(getActivity().getApplicationContext(), "Position deleted!", Toast.LENGTH_SHORT).show();
+                            positionList.setLayoutManager(new LinearLayoutManager(getActivity()));
                             updateUI();
                             dialog.dismiss();
                         }
@@ -325,29 +324,29 @@ public class CompanyFragment extends Fragment {
             contactPhone = (TextView)itemView.findViewById(R.id.list_item_contact_phone);
 
             // Delete Alert Dialog //
-            contactDeleteBuilder = new AlertDialog.Builder(getActivity());
-            contactDeleteBuilder.setTitle("Delete Contact?");
-            contactDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-                public void onClick(DialogInterface dialog, int which) {
-                    companyService.deleteContactById(contact.getId());
-                    Toast.makeText(getActivity().getApplicationContext(), "Contact deleted!", Toast.LENGTH_SHORT).show();
-                    updateUI();
-                    dialog.dismiss();
-                }
-            });
-
-            contactDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-
             itemView.setOnLongClickListener(new View.OnLongClickListener(){
                 @Override
                 public boolean onLongClick(View view){
+                    contactDeleteBuilder = new AlertDialog.Builder(getActivity());
+                    contactDeleteBuilder.setTitle("Delete Contact?");
+                    contactDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            companyService.deleteContactById(contact.getId());
+                            Toast.makeText(getActivity().getApplicationContext(), "Contact deleted!", Toast.LENGTH_SHORT).show();
+                            contactList.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            updateUI();
+                            dialog.dismiss();
+                        }
+                    });
+
+                    contactDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
                     AlertDialog alert = contactDeleteBuilder.create();
                     alert.show();
                     return true;
