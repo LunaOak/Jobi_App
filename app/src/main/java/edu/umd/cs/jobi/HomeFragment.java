@@ -40,6 +40,8 @@ public class HomeFragment extends Fragment {
 
     private final String TAG = getClass().getSimpleName();
     private static final int REQUEST_CODE_EDIT_EVENT = 0;
+    private static final int REQUEST_CODE_VIEW_POSITIONS = 3;
+    private static final int REQUEST_CODE_VIEW_COMPANIES = 4;
     private static final int REQUEST_CODE_SETTINGS_UPDATED = 5;
     private static final int REQUEST_CODE_POSITION_CREATED = 10;
 
@@ -154,7 +156,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent eventListIntent = new Intent(getActivity(),
                         EventListActivity.class);
-                startActivity(eventListIntent);
+                startActivityForResult(eventListIntent, REQUEST_CODE_EDIT_EVENT);
             }
         });
         companyListButton = (Button)view.findViewById(R.id.company_list_button);
@@ -163,7 +165,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent companyListIntent = new Intent(getActivity(),
                         CompanyListActivity.class);
-                startActivity(companyListIntent);
+                startActivityForResult(companyListIntent, REQUEST_CODE_VIEW_COMPANIES);
             }
         });
         positionListButton = (Button)view.findViewById(R.id.position_list_button);
@@ -172,7 +174,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent positionListIntent = new Intent(getActivity(),
                         PositionListActivity.class);
-                startActivity(positionListIntent);
+                startActivityForResult(positionListIntent, REQUEST_CODE_VIEW_POSITIONS);
             }
         });
         createPositionButton = (Button)view.findViewById(R.id.create_position_button);
@@ -297,7 +299,7 @@ public class HomeFragment extends Fragment {
                 @Override
                 public boolean onLongClick(View view){
                     eventDeleteBuilder = new AlertDialog.Builder(getActivity());
-                    eventDeleteBuilder.setTitle("Delete Contact?");
+                    eventDeleteBuilder.setTitle("Delete Event?");
                     eventDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which) {
