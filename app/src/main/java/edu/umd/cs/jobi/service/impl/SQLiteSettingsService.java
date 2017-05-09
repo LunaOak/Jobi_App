@@ -33,6 +33,7 @@ public class SQLiteSettingsService implements SettingsService {
         }
 
         public Settings getSettings() {
+            String id = getString(getColumnIndex(JobiSettingsDbSchema.SettingsTable.Columns.ID));
             String status = getString(getColumnIndex(JobiSettingsDbSchema.SettingsTable.Columns.STATUS));
             String notifications_switch = getString(getColumnIndex(JobiSettingsDbSchema.SettingsTable.Columns.NOTIFICATIONS_SWITCH));
             String interview = getString(getColumnIndex(JobiSettingsDbSchema.SettingsTable.Columns.NOTIFICATION_INTERVIEW));
@@ -40,6 +41,7 @@ public class SQLiteSettingsService implements SettingsService {
             String deadlines = getString(getColumnIndex(JobiSettingsDbSchema.SettingsTable.Columns.NOTIFICATION_DEADLINES));
 
             Settings settings = new Settings();
+            settings.setId(id);
             settings.setStatus(Settings.Status.valueOf(status));
             settings.setSwitch(Settings.NotificationSwitch.valueOf(notifications_switch));
 
@@ -62,28 +64,31 @@ public class SQLiteSettingsService implements SettingsService {
     }
 
     // queryStories //////////////////////////////////////////////////////////////////////////////
-    private Settings querySettings() {
+    private List<Settings> querySettings(String whereClause, String[] whereArgs, String orderBy) {
         
-        Settings settings = new Settings();
-        Cursor cursor = db.query(JobiSettingsDbSchema.SettingsTable.NAME, null, null, null, null, null, null);
+        List<Settings> settings_list = new ArrayList<Settings>();
+
+        Cursor cursor = db.query(JobiSettingsDbSchema.SettingsTable.NAME, null, whereClause, whereArgs, null, null, orderBy);
         SettingsCursorWrapper settings_cursor = new SettingsCursorWrapper(cursor);
         try {
             settings_cursor.moveToFirst();
             while (!settings_cursor.isAfterLast()) {
-                settings = settings_cursor.getSettings();
+                settings_list.add(settings_cursor.getSettings());
+                settings_cursor.moveToNext();
             }
 
         } finally {
             settings_cursor.close();
         }
 
-        return settings;
+        return settings_list;
     }
 
     // getContentValues //////////////////////////////////////////////////////////////////////////////
     private static ContentValues getContentValues(Settings settings) {
         ContentValues contentValues = new ContentValues();
 
+        contentValues.put(JobiSettingsDbSchema.SettingsTable.Columns.ID,"1");
         contentValues.put(JobiSettingsDbSchema.SettingsTable.Columns.STATUS,settings.getStatus().toString());
         contentValues.put(JobiSettingsDbSchema.SettingsTable.Columns.NOTIFICATIONS_SWITCH,settings.getSwitch().toString());
         contentValues.put(JobiSettingsDbSchema.SettingsTable.Columns.NOTIFICATION_INTERVIEW, "");
@@ -128,11 +133,12 @@ public class SQLiteSettingsService implements SettingsService {
     public Settings getSettings() {
 
 
-//            for (Story story : queryStories("ID=?", new String[]{id}, null)) {
-//                if (story.getId().equals(id)) {
-//                    return story;
-//                }
-//            }
+            for (Settings settings : querySettings("ID=?", new String[]{"1"}, null)) {
+                if ("1".equals("1")) {
+                    return settings;
+                }
+            }
+
         return null;
 
     }
