@@ -7,6 +7,7 @@ public class JobiSettingsDbSchema {
         static final String NAME = "SETTINGS";
 
         static final class Columns {
+            public static final String ID = "ID";
             public static final String STATUS = "STATUS";
             public static final String NOTIFICATIONS_SWITCH = "NOTIFICATIONS_SWITCH";
             public static final String NOTIFICATION_INTERVIEW = "NOTIFICATION_INTERVIEW";

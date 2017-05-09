@@ -15,6 +15,8 @@ public class JobiSettingsDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database) {
         database.execSQL("create table " + JobiSettingsDbSchema.SettingsTable.NAME + "(" +
+                " _id integer primary key autoincrement, " +
+                JobiSettingsDbSchema.SettingsTable.Columns.ID + ", " +
                 JobiSettingsDbSchema.SettingsTable.Columns.STATUS + ", " +
                 JobiSettingsDbSchema.SettingsTable.Columns.NOTIFICATIONS_SWITCH + ", " +
                 JobiSettingsDbSchema.SettingsTable.Columns.NOTIFICATION_INTERVIEW + ", " +

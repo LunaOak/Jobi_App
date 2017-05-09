@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,13 +29,10 @@ import static android.content.ContentValues.TAG;
 
 public class CompanyListFragment extends Fragment {
 
-    private TabLayout tabLayout;
     private RecyclerView companyList;
     private Button newCompanyButton;
     private CompanyService companyService;
     private List<Company> allCompanies;
-    private List<Company> currentCompanies;
-    private List<Company> favoriteCompanies;
 
     private CompanyAdapter adapter;
 
@@ -59,8 +55,6 @@ public class CompanyListFragment extends Fragment {
         companyService = DependencyFactory.getCompanyService(getActivity().getApplicationContext());
         allCompanies = companyService.getAllCompanies();
        // adapter = new CompanyAdapter(allCompanies);
-       // currentCompanies = companyService.getCurrentCompanies();
-       // favoriteCompanies = companyService.getFavoriteCompanies();
     }
 
     @Nullable
@@ -70,32 +64,10 @@ public class CompanyListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_companylist, container, false);
 
-        tabLayout = (TabLayout)view.findViewById(R.id.company_list_tab_layout);
         companyList = (RecyclerView)view.findViewById(R.id.company_list);
         companyList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         updateUI();
-        //companyList.setText(allCompanies.toString()); //TODO change this to be the list of all companies
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getText().equals(getString(R.string.list_all))) {
-                    //updateUI();
-                    //companyList.setText("All Companies!");
-                } else {
-                    //companyList.setText("Current Companies");
-                }
-            }
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                // do nothing
-            }
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                onTabSelected(tab);
-            }
-        });
 
         newCompanyButton = (Button)view.findViewById(R.id.add_new_company_button);
 
