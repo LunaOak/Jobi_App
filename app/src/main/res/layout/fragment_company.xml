@@ -1,3 +1,7 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -70,7 +74,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/company_contact_list"
         android:layout_width="match_parent"
-        android:layout_height="100sp"
+        android:layout_height="150sp"
         android:layout_marginBottom="5dp"
         android:background="@color/colorAccent5">
 
@@ -106,11 +110,31 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/company_position_list"
         android:layout_width="match_parent"
-        android:layout_height="100sp"
-        android:background="@color/colorAccent5">
+        android:layout_height="150sp"
+        android:background="@color/colorAccent5"
+        android:layout_marginBottom="10sp">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.75"
+        android:text="@string/event_list_label"
+        android:textColor="@color/colorAccent3"
+        android:textSize="17sp"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/company_event_list"
+        android:layout_width="match_parent"
+        android:layout_height="150sp"
+        android:background="@color/colorAccent5"
+        android:layout_marginBottom="40sp">
 
     </android.support.v7.widget.RecyclerView>
 
 
-
 </LinearLayout>
+</ScrollView>
