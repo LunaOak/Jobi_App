@@ -21,7 +21,8 @@
             android:textSize="28sp"
             android:layout_weight="5"
             android:layout_marginBottom="15dp"
-            android:text="@string/reminder_title"/>
+            android:text="@string/reminder_title"
+            android:textColor="@color/home_date2"/>
 
         <Spinner
             android:id="@+id/reminder_spinner"
@@ -42,14 +43,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/save_button"/>
+                android:text="@string/save_button"
+                android:textColor="@color/colorAccent"
+                android:background="@color/colorWhite"/>
 
             <Button
                 android:id="@+id/cancel_reminder_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/cancel_button"/>
+                android:text="@string/cancel_button"
+                android:textColor="@color/colorAccent"
+                android:background="@color/colorWhite"/>
 
         </LinearLayout>
 

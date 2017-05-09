@@ -21,11 +21,13 @@
 
             <TextView
                 android:id="@+id/event_title"
-                android:layout_width="match_parent"
+                android:layout_width="270sp"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
+                android:textSize="29sp"
                 android:layout_weight="5"
-                android:text=""/>
+                android:text=""
+                android:textColor="@color/home_date2"
+                />
 
             <ImageButton
                 android:id="@+id/event_edit_event_button"
@@ -41,23 +43,25 @@
             android:id="@+id/event_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:text=""/>
 
         <TextView
             android:id="@+id/event_company"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text=""/>
+            android:textSize="20sp"
+            android:text=""
+            android:textColor="@color/colorAccent2"/>
 
         <TextView
             android:id="@+id/event_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
-            android:textSize="18sp"
-            android:text=""/>
+            android:textSize="20sp"
+            android:text=""
+            android:textColor="@color/colorAccent"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,7 +73,8 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
                 android:textSize="16sp"
-                android:text="@string/position_type_text"/>
+                android:text="Position Type: "
+                android:textColor="@color/colorAccent3"/>
 
             <TextView
                 android:id="@+id/event_position"
@@ -89,7 +94,8 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
                 android:textSize="16sp"
-                android:text="@string/date_text"/>
+                android:text="Date: "
+                android:textColor="@color/colorAccent3"/>
 
             <TextView
                 android:id="@+id/event_date"
@@ -110,14 +116,16 @@
             android:layout_height="wrap_content"
             android:paddingBottom="15dp"
             android:textSize="16sp"
-            android:text="@string/time_text"/>
+            android:text="@string/time_text"
+            android:textColor="@color/colorAccent3"/>
 
         <TextView
             android:id="@+id/event_time"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="15dp"
             android:textSize="16sp" />
+
     </LinearLayout>
 
         <View
@@ -129,24 +137,27 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:layout_marginBottom="10dp"
-            android:text="@string/reminders_label"/>
+            android:text="@string/reminders_label"
+            android:textColor="@color/colorAccent3"/>
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/event_reminder_recycler_view">
+            android:id="@+id/event_reminder_recycler_view"
+            android:background="@color/colorAccent5">
         </android.support.v7.widget.RecyclerView>
 
         <Button
             android:id="@+id/event_set_reminder_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/ic_add_alert_white_24dp"
             android:drawableStart="@drawable/ic_add_alert_white_24dp"
-            android:text="@string/set_reminder_button"/>
+            android:text="@string/set_reminder_button"
+            android:textColor="@color/colorAccent"
+            android:background="@color/colorAccent6"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -154,22 +165,25 @@
             android:textSize="20sp"
             android:paddingTop="15dp"
             android:paddingBottom="10dp"
-            android:text="@string/contacts_label"/>
+            android:text="@string/contacts_label"
+            android:textColor="@color/colorAccent3"/>
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/event_contact_recycler_view">
+            android:id="@+id/event_contact_recycler_view"
+            android:background="@color/colorAccent5">
         </android.support.v7.widget.RecyclerView>
 
         <Button
             android:id="@+id/event_add_contact_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/ic_person_add_white_24dp"
             android:drawableStart="@drawable/ic_person_add_white_24dp"
-            android:text="@string/add_contact_button"/>
+            android:text="@string/add_contact_button"
+            android:textColor="@color/colorAccent"
+            android:background="@color/colorAccent6"/>
 
     </LinearLayout>
 
