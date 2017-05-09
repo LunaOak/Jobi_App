@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
 
         <!-- Jobi: Home/Main Activity -->
-        <activity android:name=".HomeActivity">
+        <activity android:name=".EnterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,6 +32,7 @@
         <activity android:name=".EnterEventActivity"></activity>
         <activity android:name=".EnterEventReminderActivity"></activity>
         <activity android:name=".CompanyActivity"></activity>
+        <activity android:name=".HomeActivity"></activity>
     </application>
 
 </manifest>
