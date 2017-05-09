@@ -102,7 +102,7 @@ public class EnterEventReminderFragment extends Fragment {
             }
         }
 
-        saveButton = (Button)view.findViewById(R.id.save_story_button);
+        saveButton = (Button)view.findViewById(R.id.save_reminder_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
