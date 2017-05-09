@@ -1,6 +1,5 @@
 package edu.umd.cs.jobi;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -210,10 +209,6 @@ public class PositionFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK || data == null) {
-            return;
-        }
-
         if (requestCode == REQUEST_CODE_EDIT_POSITION) {
             position = EnterPositionActivity.getPositionCreated(data);
             positionService.addPositionToDb(position);
