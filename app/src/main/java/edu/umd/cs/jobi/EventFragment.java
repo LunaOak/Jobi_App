@@ -116,7 +116,6 @@ public class EventFragment extends Fragment {
         setReminderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Todo
                 Intent intent = new Intent(getActivity().getApplicationContext(), EnterEventReminderActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_ADD_REMINDER);
             }
@@ -204,7 +203,7 @@ public class EventFragment extends Fragment {
             locationText.setText(event.getLocation());
             positionText.setText(event.getPosition());
             dateText.setText(new SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH).format(event.getDate()));
-            timeText.setText(new SimpleDateFormat("HH:mm", Locale.ENGLISH).format(event.getDate()));
+            timeText.setText(new SimpleDateFormat("HH:mm a", Locale.ENGLISH).format(event.getDate()));
 
             List<Reminder> reminders = eventService.getEventById(event.getId()).getReminders();
             List<Contact> contacts = eventService.getEventById(event.getId()).getContacts();
