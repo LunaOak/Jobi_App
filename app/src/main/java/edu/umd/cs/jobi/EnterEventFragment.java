@@ -153,7 +153,7 @@ public class EnterEventFragment extends Fragment {
         if (event != null) {
             eventDate.setText(new SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH).format(event.getDate()));
             mYear = Integer.parseInt( new SimpleDateFormat("yyyy", Locale.ENGLISH).format(event.getDate()));
-            mMonth = Integer.parseInt( new SimpleDateFormat("MM", Locale.ENGLISH).format(event.getDate()));
+            mMonth = Integer.parseInt( new SimpleDateFormat("MM", Locale.ENGLISH).format(event.getDate())) - 1;
             mDay = Integer.parseInt( new SimpleDateFormat("d", Locale.ENGLISH).format(event.getDate()));
         }
 
