@@ -22,12 +22,14 @@
             android:layout_height="wrap_content"
             android:paddingBottom="15dp"
             android:textSize="28sp"
-            android:text="@string/event_title"/>
+            android:text="@string/event_title"
+            android:textColor="@color/home_date2"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/event_name_label"/>
+            android:text="@string/event_name_label"
+            android:textColor="@color/colorAccent3"/>
 
         <EditText
             android:id="@+id/event_name"
@@ -39,7 +41,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Company" />
+            android:text="Company"
+            android:textColor="@color/colorAccent3"/>
 
         <EditText
             android:id="@+id/event_company"
@@ -52,7 +55,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Position" />
+            android:text="Position"
+            android:textColor="@color/colorAccent3"/>
 
         <EditText
             android:id="@+id/event_position"
@@ -65,7 +69,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/event_location_label" />
+            android:text="@string/event_location_label"
+            android:textColor="@color/colorAccent3"/>
 
         <EditText
             android:id="@+id/event_location"
@@ -82,7 +87,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:text="@string/event_type_label"/>
+                android:text="@string/event_type_label"
+                android:textColor="@color/colorAccent3"/>
 
             <Spinner
                 android:id="@+id/event_type_spinner"
@@ -103,6 +109,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:text="@string/event_date_label"
+                android:textColor="@color/colorAccent3"
                 android:layout_alignBottom="@+id/event_date_text"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -120,7 +127,8 @@
                 android:layout_toRightOf="@+id/event_date_label"
                 android:layout_toEndOf="@+id/event_date_label"
                 android:layout_marginLeft="17dp"
-                android:layout_marginStart="17dp" />
+                android:layout_marginStart="17dp"
+                android:textColor="@color/colorAccent2"/>
 
             <Button
                 android:id="@+id/event_date_button"
@@ -129,7 +137,9 @@
                 android:text="@string/event_date_button"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/colorAccent"
+                android:background="@color/colorWhite"/>
 
         </RelativeLayout>
 
@@ -145,7 +155,8 @@
                 android:textSize="18sp"
                 android:text="@string/event_time_label"
                 android:id="@+id/textView2"
-                android:layout_alignTop="@+id/event_time_text" />
+                android:layout_alignTop="@+id/event_time_text"
+                android:textColor="@color/colorAccent3"/>
 
             <TextView
                 android:id="@+id/event_time_text"
@@ -158,7 +169,8 @@
                 android:layout_alignBaseline="@+id/event_time_button"
                 android:layout_alignBottom="@+id/event_time_button"
                 android:layout_toRightOf="@+id/textView2"
-                android:layout_toEndOf="@+id/textView2" />
+                android:layout_toEndOf="@+id/textView2"
+                android:textColor="@color/colorAccent2"/>
 
             <Button
                 android:id="@+id/event_time_button"
@@ -168,7 +180,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                tools:ignore="RelativeOverlap" />
+                tools:ignore="RelativeOverlap"
+                android:textColor="@color/colorAccent"
+                android:background="@color/colorWhite"/>
 
         </RelativeLayout>
 
@@ -184,14 +198,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/save_button"/>
+                android:text="@string/save_button"
+                android:textColor="@color/colorAccent"
+                android:background="@color/colorWhite"/>
 
             <Button
                 android:id="@+id/cancel_event_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/cancel_button"/>
+                android:text="@string/cancel_button"
+                android:textColor="@color/colorAccent"
+                android:background="@color/colorWhite"/>
 
         </LinearLayout>
 
