@@ -347,30 +347,30 @@ public class PositionFragment extends Fragment {
             contactPhone = (TextView)itemView.findViewById(R.id.list_item_contact_phone);
 
             // Delete Alert Dialog //
-            contactDeleteBuilder = new AlertDialog.Builder(getActivity());
-            contactDeleteBuilder.setTitle("Delete Contact?");
-            contactDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-                public void onClick(DialogInterface dialog, int which) {
-                    positionService.deleteContactById(contact.getId());
-                    Toast.makeText(getActivity().getApplicationContext(), "Contact deleted!", Toast.LENGTH_SHORT).show();
-                    contactsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    updateUI();
-                    dialog.dismiss();
-                }
-            });
-
-            contactDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-
             itemView.setOnLongClickListener(new View.OnLongClickListener(){
                 @Override
                 public boolean onLongClick(View view){
+                    contactDeleteBuilder = new AlertDialog.Builder(getActivity());
+                    contactDeleteBuilder.setTitle("Delete Contact?");
+                    contactDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            positionService.deleteContactById(contact.getId());
+                            Toast.makeText(getActivity().getApplicationContext(), "Contact deleted!", Toast.LENGTH_SHORT).show();
+                            contactsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            updateUI();
+                            dialog.dismiss();
+                        }
+                    });
+
+                    contactDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
                     AlertDialog alert = contactDeleteBuilder.create();
                     alert.show();
                     return true;
