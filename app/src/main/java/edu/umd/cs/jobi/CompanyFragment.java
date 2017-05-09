@@ -120,8 +120,7 @@ public class CompanyFragment extends Fragment {
         addPosition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent enterPositionIntent = new Intent(getActivity(),
-                        EnterPositionActivity.class);
+                Intent enterPositionIntent = EnterPositionActivity.newIntentFromCompany(getActivity(), company.getName());
                 startActivityForResult(enterPositionIntent,REQUEST_CODE_CREATE_POSITION);
             }
         });
