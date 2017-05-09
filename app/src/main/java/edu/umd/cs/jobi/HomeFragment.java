@@ -293,7 +293,7 @@ public class HomeFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Intent intent = EnterEventActivity.newIntentEdit(getActivity(), event.getId());
+            Intent intent = EventActivity.newIntent(getActivity(), event.getId());
             startActivityForResult(intent, REQUEST_CODE_EDIT_EVENT);
         }
     }

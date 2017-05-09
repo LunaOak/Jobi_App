@@ -16,12 +16,18 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import edu.umd.cs.jobi.model.Company;
 import edu.umd.cs.jobi.model.Event;
+import edu.umd.cs.jobi.model.Position;
+import edu.umd.cs.jobi.service.CompanyService;
 import edu.umd.cs.jobi.service.EventService;
+import edu.umd.cs.jobi.service.PositionService;
 
 public class EventListFragment extends Fragment {
 
     private EventService eventService;
+    private PositionService positionService;
+    private CompanyService companyService;
     private List<Event> allEvents;
     private RecyclerView eventList;
     private EventAdapter adapter;
@@ -43,6 +49,8 @@ public class EventListFragment extends Fragment {
         setHasOptionsMenu(true);
 
         eventService = DependencyFactory.getEventService(getActivity().getApplicationContext());
+        companyService = DependencyFactory.getCompanyService(getActivity().getApplicationContext());
+        positionService = DependencyFactory.getPositionService(getActivity().getApplicationContext());
         allEvents = eventService.getAllEvents();
     }
 
@@ -78,6 +86,35 @@ public class EventListFragment extends Fragment {
 
             Event eventCreated = EventActivity.getEventEdit(data);
             eventService.addEventToDb(eventCreated);
+            // If a company was specified under the event
+            if (eventCreated.getCompany() != null && eventCreated.getCompany() != "") {
+
+                // Update company database
+                if (companyService.getCompanyByName(eventCreated.getCompany()) == null) {
+                    // If there is no company with the name specified on the event make it
+                    Company newCompany = new Company(eventCreated.getCompany(), true);
+                    companyService.addCompanyToDb(newCompany);
+                }
+
+                // Update position database
+                if (eventCreated.getPosition() != null && eventCreated.getPosition() !="") {
+                    // If a position was specified
+                    List<Position> possiblePositions = positionService.getPositionsByCompany(eventCreated.getCompany());
+                    boolean posExists = false;
+                    for (Position p:possiblePositions){
+                        if (p.getTitle().equals(eventCreated.getPosition())){
+                            posExists = true;
+                        }
+                    }
+
+                    if (posExists == false){
+                        // If position doesnt exist create it
+                        Position position = new Position();
+                        position.setCompany(eventCreated.getCompany());
+                        positionService.addPositionToDb(position);
+                    }
+                }
+            }
         }
 
         updateUI();
