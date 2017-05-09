@@ -19,8 +19,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import edu.umd.cs.jobi.model.Company;
 import edu.umd.cs.jobi.model.Event;
@@ -284,7 +286,7 @@ public class EventListFragment extends Fragment {
             typeText.setText(event.getType().toString());
             companyText.setText(event.getCompany());
             positionText.setText(event.getPosition());
-            dateText.setText(event.getDate().toString());
+            dateText.setText(new SimpleDateFormat("EEE, d MMM yyyy, HH:mm a", Locale.ENGLISH).format(event.getDate()));
         }
 
         @Override
