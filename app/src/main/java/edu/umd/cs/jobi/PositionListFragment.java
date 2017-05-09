@@ -222,29 +222,31 @@ public class PositionListFragment extends Fragment {
             positionCompany = (TextView)itemView.findViewById(R.id.list_item_position_company);
 
             // Delete Alert Dialog //
-            positionDeleteBuilder = new AlertDialog.Builder(getActivity());
-            positionDeleteBuilder.setTitle("Delete Position?");
-            positionDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-                public void onClick(DialogInterface dialog, int which) {
-                    positionService.deletePositionById(position.getId());
-                    Toast.makeText(getActivity().getApplicationContext(), "Position deleted!", Toast.LENGTH_SHORT).show();
-                    updateUI();
-                    dialog.dismiss();
-                }
-            });
-
-            positionDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
 
             itemView.setOnLongClickListener(new View.OnLongClickListener(){
                 @Override
                 public boolean onLongClick(View view){
+                    positionDeleteBuilder = new AlertDialog.Builder(getActivity());
+                    positionDeleteBuilder.setTitle("Delete Position?");
+                    positionDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            positionService.deletePositionById(position.getId());
+                            Toast.makeText(getActivity().getApplicationContext(), "Position deleted!", Toast.LENGTH_SHORT).show();
+                            positionList.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            updateUI();
+                            dialog.dismiss();
+                        }
+                    });
+
+                    positionDeleteBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    
                     AlertDialog alert = positionDeleteBuilder.create();
                     alert.show();
                     return true;
