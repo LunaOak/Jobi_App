@@ -37,7 +37,7 @@ import edu.umd.cs.jobi.service.PositionService;
 public class HomeFragment extends Fragment {
 
     private final String TAG = getClass().getSimpleName();
-    private static final int REQUEST_CODE_CREATE_EVENT = 0;
+    private static final int REQUEST_CODE_EDIT_EVENT = 0;
     private static final int REQUEST_CODE_SETTINGS_UPDATED = 5;
     private static final int REQUEST_CODE_POSITION_CREATED = 10;
 
@@ -188,13 +188,7 @@ public class HomeFragment extends Fragment {
         }
 
         // Reflect Events in Recycler View //
-        if (requestCode == REQUEST_CODE_CREATE_EVENT) {
-            if (data == null) {
-                return;
-            }
-
-            Event eventCreated = EventActivity.getEventEdit(data);
-            eventService.addEventToDb(eventCreated);
+        if (requestCode == REQUEST_CODE_EDIT_EVENT) {
             updateUI();
         }
 
@@ -240,8 +234,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateUI() {
-        //Log.d(TAG, "updating UI all stories");
-
         List<Event> events = eventService.getAllEvents();
 
         if (adapter == null) {
@@ -251,10 +243,6 @@ public class HomeFragment extends Fragment {
             adapter.setEvents(events);
             adapter.notifyDataSetChanged();
         }
-
-
-
-
     }
 
     @Override
@@ -305,8 +293,8 @@ public class HomeFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Intent intent = EventActivity.newIntent(getActivity(), event.getId());
-            startActivityForResult(intent, REQUEST_CODE_CREATE_EVENT);
+            Intent intent = EnterEventActivity.newIntentEdit(getActivity(), event.getId());
+            startActivityForResult(intent, REQUEST_CODE_EDIT_EVENT);
         }
     }
  
