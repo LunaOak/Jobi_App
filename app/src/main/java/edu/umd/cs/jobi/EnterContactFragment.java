@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import edu.umd.cs.jobi.model.Contact;
+import edu.umd.cs.jobi.service.CompanyService;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -35,6 +36,8 @@ public class EnterContactFragment extends Fragment {
 
     private Contact contact;
 
+    private CompanyService companyService;
+
     public static EnterContactFragment newInstance(String contactId, Boolean fromEvent) {
         Bundle args = new Bundle();
         args.putString(ARG_CONTACT_ID, contactId);
@@ -52,13 +55,8 @@ public class EnterContactFragment extends Fragment {
 
         String contactId = getArguments().getString(ARG_CONTACT_ID);
         Boolean fromEvent = getArguments().getBoolean(ARG_FROM_EVENT);
-
-        if(fromEvent) {
-            contact = DependencyFactory.getEventService(getActivity().getApplicationContext()).getContactById(contactId);
-        } else {
-            contact = DependencyFactory.getPositionService(getActivity().getApplicationContext()).getContactById(contactId);
-        }
-
+        companyService = DependencyFactory.getCompanyService(getActivity().getApplicationContext());
+        contact = companyService.getContactById(contactId);
     }
 
     @Nullable

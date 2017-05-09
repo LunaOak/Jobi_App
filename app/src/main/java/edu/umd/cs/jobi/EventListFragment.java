@@ -28,13 +28,10 @@ import edu.umd.cs.jobi.model.Company;
 import edu.umd.cs.jobi.model.Event;
 import edu.umd.cs.jobi.model.Position;
 import edu.umd.cs.jobi.service.CompanyService;
-import edu.umd.cs.jobi.service.EventService;
-import edu.umd.cs.jobi.service.PositionService;
+
 
 public class EventListFragment extends Fragment {
 
-    private EventService eventService;
-    private PositionService positionService;
     private CompanyService companyService;
     private List<Event> allEvents;
     private RecyclerView eventList;
@@ -59,10 +56,8 @@ public class EventListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        eventService = DependencyFactory.getEventService(getActivity().getApplicationContext());
         companyService = DependencyFactory.getCompanyService(getActivity().getApplicationContext());
-        positionService = DependencyFactory.getPositionService(getActivity().getApplicationContext());
-        allEvents = eventService.getAllEvents();
+        allEvents = companyService.getAllEvents();
     }
 
     @Nullable
@@ -136,38 +131,30 @@ public class EventListFragment extends Fragment {
             }
 
             Event eventCreated = EnterEventActivity.getEventCreated(data);
-            eventService.addEventToDb(eventCreated);
-
-            // If a company was specified under the event
-            if (eventCreated.getCompany() != null && eventCreated.getCompany() != "") {
-
-                // Update company database
-                if (companyService.getCompanyByName(eventCreated.getCompany()) == null) {
-                    // If there is no company with the name specified on the event make it
-                    Company newCompany = new Company(eventCreated.getCompany(), true);
-                    companyService.addCompanyToDb(newCompany);
-                }
-
-                // Update position database
-                if (eventCreated.getPosition() != null && eventCreated.getPosition() !="") {
-                    // If a position was specified
-                    List<Position> possiblePositions = positionService.getPositionsByCompany(eventCreated.getCompany());
-                    boolean posExists = false;
-                    for (Position p:possiblePositions){
-                        if (p.getTitle().equals(eventCreated.getPosition())){
-                            posExists = true;
-                        }
-                    }
-
-                    if (posExists == false){
-                        // If position doesnt exist create it
-                        Position position = new Position();
-                        position.setTitle(eventCreated.getPosition());
-                        position.setCompany(eventCreated.getCompany());
-                        positionService.addPositionToDb(position);
-                    }
-                }
+            String companyName = eventCreated.getCompany();
+            companyService.addEventToDb(eventCreated);
+            String companyId = companyService.getCompanyIdWithName(companyName);
+            if (companyId == null){ // If a company with the name doesn't exist, create it
+                Company newCompany = new Company(companyName, true);
+                companyId = newCompany.getId();
+                companyService.addCompanyToDb(newCompany);
             }
+            eventCreated.setCompany(companyId);
+            String positionName = eventCreated.getPosition();
+            String positionId = companyService.getPositionIdWithName(positionName, companyId);
+            if (positionId == null){ // If a position with the name does't exist, create it
+                Position position = new Position();
+                position.setTitle(eventCreated.getPosition());
+                position.setCompany(companyId);
+                positionId = position.getId();
+                companyService.addPositionToDb(position);
+            }
+            eventCreated.setPosition(positionId);
+
+            companyService.addEventToDb(eventCreated);
+
+
+
 
         }
 
@@ -176,7 +163,7 @@ public class EventListFragment extends Fragment {
 
     private void updateUI() {
 
-        List<Event> allEvents = eventService.getAllEvents();
+        List<Event> allEvents = companyService.getAllEvents();
 
         List<Event> events = new ArrayList<Event>();
         List<Event> interview_events = new ArrayList<Event>();
@@ -254,7 +241,7 @@ public class EventListFragment extends Fragment {
                     eventDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which) {
-                            eventService.deleteEventById(event.getId());
+                            companyService.deleteEventById(event.getId());
                             Toast.makeText(getActivity().getApplicationContext(), "Event deleted!", Toast.LENGTH_SHORT).show();
                             eventList.setLayoutManager(new LinearLayoutManager(getActivity()));
                             updateUI();
@@ -284,8 +271,8 @@ public class EventListFragment extends Fragment {
             this.event = event;
             eventTitleText.setText(event.getTitle());
             typeText.setText(event.getType().toString());
-            companyText.setText(event.getCompany());
-            positionText.setText(event.getPosition());
+            companyText.setText(companyService.getCompanyNameById(event.getCompany()));
+            positionText.setText(companyService.getPositionNameById(event.getPosition()));
             dateText.setText(new SimpleDateFormat("EEE, d MMM yyyy, HH:mm a", Locale.ENGLISH).format(event.getDate()));
         }
 

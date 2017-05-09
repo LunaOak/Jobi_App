@@ -27,9 +27,8 @@ import edu.umd.cs.jobi.model.Contact;
 import edu.umd.cs.jobi.model.Event;
 import edu.umd.cs.jobi.model.Position;
 import edu.umd.cs.jobi.service.CompanyService;
-import edu.umd.cs.jobi.service.EventService;
-import edu.umd.cs.jobi.service.PositionService;
 
+import static android.app.Activity.RESULT_CANCELED;
 import static android.content.ContentValues.TAG;
 
 
@@ -39,13 +38,13 @@ public class CompanyFragment extends Fragment {
     private TextView companyNameLabel;
     private TextView companyLocationLabel;
     private TextView companyDescriptionLabel;
-    private PositionService positionService;
+
     private CompanyService companyService;
-    private EventService eventService;
+
     private static final String COMPANY_ID = "COMPANY_ID";
     private static final int REQUEST_CODE_CREATE_POSITION = 10;
     private static final int REQUEST_CODE_VIEW_POSITION = 11;
-    private static final int REQUEST_CODE_CONTACT = 3;
+    private static final int REQUEST_CODE_CONTACT = 13;
     private static final int REQUEST_CODE_EDIT_COMPANY = 5;
     private static final int REQUEST_CODE_VIEW_EVENT = 4;
 
@@ -79,9 +78,8 @@ public class CompanyFragment extends Fragment {
         super.onCreate(savedInstanceState);
         String companyId = getArguments().getString(COMPANY_ID);
         Log.d(TAG, "We are about to query the database");
-        positionService = DependencyFactory.getPositionService(getActivity().getApplicationContext());
+
         companyService = DependencyFactory.getCompanyService(getActivity().getApplicationContext());
-        eventService = DependencyFactory.getEventService(getActivity().getApplicationContext());
         company = companyService.getCompanyById(companyId);
     }
 
@@ -147,7 +145,8 @@ public class CompanyFragment extends Fragment {
             companyDescriptionLabel.setText(company.getDescription());
         }
 
-        List<Position> positions = positionService.getPositionsByCompany(company.getName());
+        String companyId = company.getId();
+        List<Position> positions = companyService.getPositionsByCompanyId(companyId);
 
         if (posAdapter == null) {
             posAdapter = new PositionAdapter(positions);
@@ -157,11 +156,7 @@ public class CompanyFragment extends Fragment {
             posAdapter.notifyDataSetChanged();
         }
 
-        List<Contact> all_contacts = new ArrayList<Contact>();
-        for (Position p:positions){
-            List<Contact> posContacts = positionService.getContactsByPosition(p);
-            all_contacts.addAll(posContacts);
-        }
+        List<Contact> all_contacts = companyService.getContactsByCompanyId(companyId);
 
         if (contactAdapter == null) {
             contactAdapter = new ContactAdapter(all_contacts);
@@ -171,7 +166,8 @@ public class CompanyFragment extends Fragment {
             contactAdapter.notifyDataSetChanged();
         }
 
-        List<Event> events = eventService.getEventsByCompanyName(company.getName());
+        List<Event> events = companyService.getEventsByCompanyId(companyId);
+
         if (eventAdapter == null){
             eventAdapter = new EventAdapter(events);
             eventList.setAdapter(eventAdapter);
@@ -184,22 +180,32 @@ public class CompanyFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (requestCode == REQUEST_CODE_CREATE_POSITION) {
             if (data == null) {
                 return;
             }
 
             Position positionCreated = PositionActivity.getPositionEdit(data);
-            positionService.addPositionToDb(positionCreated);
             String companyName = positionCreated.getCompany();
-            if (companyService.getCompanyByName(companyName) == null){
-                // If there is no company with the name specified on the position, make a new company
+            String companyId = companyService.getCompanyIdWithName(companyName);
+            if (companyId == null){ // If a company with the name doesn't exist, create it
                 Company newCompany = new Company(companyName, true);
+                companyId = newCompany.getId();
                 companyService.addCompanyToDb(newCompany);
             }
+            positionCreated.setCompany(companyId);
+            companyService.addPositionToDb(positionCreated);
+
         } else if (requestCode == REQUEST_CODE_EDIT_COMPANY){
-            company = EnterCompanyActivity.getCompanyCreated(data);
-            companyService.addCompanyToDb(company);
+            if (data != null) {
+                company = EnterCompanyActivity.getCompanyCreated(data);
+                companyService.addCompanyToDb(company);
+            }
+        } else if (requestCode == REQUEST_CODE_CONTACT){
+            Contact newContact = EnterContactActivity.getContactCreated(data);
+            newContact.setCompanyId(company.getId());
+            companyService.addContactToDb(newContact);
         }
 
         updateUI();
@@ -229,7 +235,7 @@ public class CompanyFragment extends Fragment {
                     positionDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which) {
-                            positionService.deletePositionById(position.getId());
+                            companyService.deletePositionById(position.getId());
                             Toast.makeText(getActivity().getApplicationContext(), "Position deleted!", Toast.LENGTH_SHORT).show();
                             updateUI();
                             dialog.dismiss();
@@ -257,7 +263,7 @@ public class CompanyFragment extends Fragment {
 
         positionTitle.setText(position.getTitle());
         positionSummary.setText(position.getDescription());
-        positionCompany.setText(position.getCompany());
+        positionCompany.setText(companyService.getCompanyNameById(position.getCompany()));
     }
 
     @Override
@@ -324,7 +330,7 @@ public class CompanyFragment extends Fragment {
             contactDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                 public void onClick(DialogInterface dialog, int which) {
-                    positionService.deleteContactById(contact.getId());
+                    companyService.deleteContactById(contact.getId());
                     Toast.makeText(getActivity().getApplicationContext(), "Contact deleted!", Toast.LENGTH_SHORT).show();
                     updateUI();
                     dialog.dismiss();
@@ -426,7 +432,7 @@ public class CompanyFragment extends Fragment {
                     eventDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which) {
-                            eventService.deleteEventById(event.getId());
+                            companyService.deleteEventById(event.getId());
                             Toast.makeText(getActivity().getApplicationContext(), "Event deleted!", Toast.LENGTH_SHORT).show();
                             eventList.setLayoutManager(new LinearLayoutManager(getActivity()));
                             updateUI();
@@ -456,8 +462,8 @@ public class CompanyFragment extends Fragment {
             this.event = event;
             eventTitleText.setText(event.getTitle());
             typeText.setText(event.getType().toString());
-            companyText.setText(event.getCompany());
-            positionText.setText(event.getPosition());
+            companyText.setText(companyService.getCompanyNameById(event.getCompany()));
+            positionText.setText(companyService.getPositionNameById(event.getPosition()));
             dateText.setText(new SimpleDateFormat("EEE, d MMM yyyy, HH:mm a", Locale.ENGLISH).format(event.getDate()));
         }
 

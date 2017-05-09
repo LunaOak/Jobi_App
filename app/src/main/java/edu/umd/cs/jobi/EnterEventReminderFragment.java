@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import java.util.Date;
 
 import edu.umd.cs.jobi.model.Reminder;
+import edu.umd.cs.jobi.service.CompanyService;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -32,6 +33,8 @@ public class EnterEventReminderFragment extends Fragment {
     private Reminder reminder;
     private String eventTitle;
     private long eventDateMs;
+
+    private CompanyService companyService;
 
 
     // Interactive Elements //
@@ -68,8 +71,8 @@ public class EnterEventReminderFragment extends Fragment {
         String reminderId = getArguments().getString(ARG_REMINDER_ID);
         eventTitle = getArguments().getString(ARG_EVENT_TITLE);
         eventDateMs = getArguments().getLong(ARG_EVENT_DATE_MS);
-
-        reminder = DependencyFactory.getEventService(getActivity().getApplicationContext()).getReminderById(reminderId);
+        companyService = DependencyFactory.getCompanyService(getActivity().getApplicationContext());
+        reminder = companyService.getReminderById(reminderId);
 
     }
 

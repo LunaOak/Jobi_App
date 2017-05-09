@@ -20,10 +20,11 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+import edu.umd.cs.jobi.model.Company;
 import edu.umd.cs.jobi.model.Contact;
 import edu.umd.cs.jobi.model.Event;
 import edu.umd.cs.jobi.model.Reminder;
-import edu.umd.cs.jobi.service.EventService;
+import edu.umd.cs.jobi.service.CompanyService;
 
 
 public class EventFragment extends Fragment {
@@ -33,10 +34,12 @@ public class EventFragment extends Fragment {
     private static final int REQUEST_CODE_EDIT_EVENT = 0;
     private static final int REQUEST_CODE_ADD_REMINDER = 1;
     private static final int REQUEST_CODE_ADD_CONTACT = 2;
+    private static final int REQUEST_CODE_VIEW_COMPANY = 3;
 
     private Event event;
 
-    private EventService eventService;
+
+    private CompanyService companyService;
 
     private TextView titleText;
     private TextView typeText;
@@ -85,7 +88,9 @@ public class EventFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         String eventId = getArguments().getString(ARG_EVENT_ID);
-        event = DependencyFactory.getEventService(getActivity().getApplicationContext()).getEventById(eventId);
+
+        companyService = DependencyFactory.getCompanyService(getActivity().getApplicationContext());
+        event = companyService.getEventById(eventId);
     }
 
     @Nullable
@@ -93,11 +98,20 @@ public class EventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event, container, false);
 
-        eventService = DependencyFactory.getEventService(getActivity().getApplication().getApplicationContext());
 
         titleText = (TextView) view.findViewById(R.id.event_title);
         typeText = (TextView) view.findViewById(R.id.event_type);
         companyText = (TextView) view.findViewById(R.id.event_company);
+
+        companyText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Company companyToEnter = companyService.getCompanyById(event.getCompany());
+                Intent intent = CompanyActivity.newIntent(getActivity(), companyToEnter.getId());
+                startActivityForResult(intent,REQUEST_CODE_VIEW_COMPANY);
+            }
+        });
+
         locationText = (TextView) view.findViewById(R.id.event_location);
         positionText = (TextView) view.findViewById(R.id.event_position);
         dateText = (TextView) view.findViewById(R.id.event_date);
@@ -150,7 +164,7 @@ public class EventFragment extends Fragment {
             }
 
             event = EnterEventActivity.getEventCreated(data);
-            eventService.addEventToDb(event);
+            companyService.addEventToDb(event);
         } else if(requestCode == REQUEST_CODE_ADD_REMINDER) {
             if (data == null) {
                 return;
@@ -170,27 +184,20 @@ public class EventFragment extends Fragment {
             }
 
             event.getReminders().add(newReminder);
-            eventService.addEventToDb(event);
+            companyService.addEventToDb(event);
+            newReminder.setEventId(event.getId());
+            companyService.addReminderToDb(newReminder);
         } else if(requestCode == REQUEST_CODE_ADD_CONTACT) {
             if (data == null) {
                 return;
             }
 
             Contact newContact = EnterContactActivity.getContactCreated(data);
-            Contact remContact = null;
 
-            for (Contact c : event.getContacts()) {
-                if (c.getId().equals(newContact.getId())) {
-                    remContact = c;
-                }
-            }
-
-            if (remContact != null) {
-                event.getContacts().remove(remContact);
-            }
-
-            event.getContacts().add(newContact);
-            eventService.addEventToDb(event);
+            newContact.setEventId(event.getId());
+            newContact.setPositionId(event.getPosition());
+            newContact.setCompanyId(event.getCompany());
+            companyService.addContactToDb(newContact);
         }
         updateUI();
     }
@@ -199,14 +206,14 @@ public class EventFragment extends Fragment {
         if (event != null) {
             titleText.setText(event.getTitle());
             typeText.setText(event.getType().name());
-            companyText.setText(event.getCompany());
+            companyText.setText(companyService.getCompanyNameById(event.getCompany()));
             locationText.setText(event.getLocation());
-            positionText.setText(event.getPosition());
+            positionText.setText(companyService.getPositionNameById(event.getPosition()));
             dateText.setText(new SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH).format(event.getDate()));
             timeText.setText(new SimpleDateFormat("HH:mm a", Locale.ENGLISH).format(event.getDate()));
 
-            List<Reminder> reminders = eventService.getEventById(event.getId()).getReminders();
-            List<Contact> contacts = eventService.getEventById(event.getId()).getContacts();
+            List<Reminder> reminders = companyService.getRemindersByEvent(event.getId());
+            List<Contact> contacts = companyService.getContactsByEventId(event.getId());
 
             if (reminderAdapter == null) {
                 reminderAdapter = new ReminderAdapter(reminders);
@@ -276,7 +283,7 @@ public class EventFragment extends Fragment {
                     reminderDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which) {
-                            eventService.deleteReminderById(reminder.getId());
+                            companyService.deleteReminderById(reminder.getId());
                             Toast.makeText(getActivity().getApplicationContext(), "Reminder deleted!", Toast.LENGTH_SHORT).show();
                             remindersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             updateUI();
@@ -386,7 +393,7 @@ public class EventFragment extends Fragment {
                     contactDeleteBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which) {
-                            eventService.deleteContactById(contact.getId());
+                            companyService.deleteContactById(contact.getId());
                             Toast.makeText(getActivity().getApplicationContext(), "Contact deleted!", Toast.LENGTH_SHORT).show();
                             contactsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             updateUI();

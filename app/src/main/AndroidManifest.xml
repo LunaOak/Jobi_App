@@ -25,9 +25,7 @@
         <activity android:name=".PositionListActivity"></activity>
         <activity android:name=".EnterPositionActivity"></activity>
         <activity android:name=".PositionActivity"></activity>
-        <activity android:name=".StoryActivity"></activity>
         <activity android:name=".SettingsActivity"></activity>
-        <activity android:name=".SprintActivity"></activity>
         <activity android:name=".EnterCompanyActivity"></activity>
         <activity android:name=".EnterContactActivity"></activity>
         <activity android:name=".EventActivity"></activity>
