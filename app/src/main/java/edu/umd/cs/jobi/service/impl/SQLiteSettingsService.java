@@ -44,16 +44,10 @@ public class SQLiteSettingsService implements SettingsService {
             settings.setId(id);
             settings.setStatus(Settings.Status.valueOf(status));
             settings.setSwitch(Settings.NotificationSwitch.valueOf(notifications_switch));
+            settings.getNotifications().add(Settings.Notifications.INTERVIEWS);
+            settings.getNotifications().add(Settings.Notifications.EMAILS);
+            settings.getNotifications().add(Settings.Notifications.DEADLINES);
 
-            if (!interview.equals("")) {
-                settings.getNotifications().add(Settings.Notifications.INTERVIEWS);
-            }
-            if (!emails.equals("")) {
-                settings.getNotifications().add(Settings.Notifications.EMAILS);
-            }
-            if (!deadlines.equals("")) {
-                settings.getNotifications().add(Settings.Notifications.DEADLINES);
-            }
             return settings;
         }
 
@@ -88,9 +82,9 @@ public class SQLiteSettingsService implements SettingsService {
     private static ContentValues getContentValues(Settings settings) {
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(JobiSettingsDbSchema.SettingsTable.Columns.ID,"1");
-        contentValues.put(JobiSettingsDbSchema.SettingsTable.Columns.STATUS,settings.getStatus().toString());
-        contentValues.put(JobiSettingsDbSchema.SettingsTable.Columns.NOTIFICATIONS_SWITCH,settings.getSwitch().toString());
+        contentValues.put(JobiSettingsDbSchema.SettingsTable.Columns.ID,settings.getId());
+        contentValues.put(JobiSettingsDbSchema.SettingsTable.Columns.STATUS,settings.getStatus().name());
+        contentValues.put(JobiSettingsDbSchema.SettingsTable.Columns.NOTIFICATIONS_SWITCH,settings.getSwitch().name());
         contentValues.put(JobiSettingsDbSchema.SettingsTable.Columns.NOTIFICATION_INTERVIEW, "");
         contentValues.put(JobiSettingsDbSchema.SettingsTable.Columns.NOTIFICATION_EMAILS, "");
         contentValues.put(JobiSettingsDbSchema.SettingsTable.Columns.NOTIFICATION_DEADLINES, "");
@@ -98,11 +92,11 @@ public class SQLiteSettingsService implements SettingsService {
         for (Settings.Notifications notif : settings.getNotifications()) {
 
             if (notif.equals(Settings.Notifications.INTERVIEWS)) {
-                contentValues.put(JobiSettingsDbSchema.SettingsTable.Columns.NOTIFICATION_INTERVIEW, Settings.Notifications.INTERVIEWS.toString());
+                contentValues.put(JobiSettingsDbSchema.SettingsTable.Columns.NOTIFICATION_INTERVIEW, Settings.Notifications.INTERVIEWS.name());
             } else if (notif.equals(Settings.Notifications.EMAILS)) {
-                contentValues.put(JobiSettingsDbSchema.SettingsTable.Columns.NOTIFICATION_EMAILS, Settings.Notifications.EMAILS.toString());
+                contentValues.put(JobiSettingsDbSchema.SettingsTable.Columns.NOTIFICATION_EMAILS, Settings.Notifications.EMAILS.name());
             } else if (notif.equals(Settings.Notifications.DEADLINES)) {
-                contentValues.put(JobiSettingsDbSchema.SettingsTable.Columns.NOTIFICATION_DEADLINES, Settings.Notifications.DEADLINES.toString());
+                contentValues.put(JobiSettingsDbSchema.SettingsTable.Columns.NOTIFICATION_DEADLINES, Settings.Notifications.DEADLINES.name());
             }
 
         }
@@ -113,13 +107,12 @@ public class SQLiteSettingsService implements SettingsService {
     // update settings //////////////////////////////////////////////////////////////////////////////
     public void updateSettings(Settings settings) {
 
-        String[] IDs = new String[]{"1"};
-
         // If not present in the list at all, add //
         if (settings == null) {
             db.insert(JobiSettingsDbSchema.SettingsTable.NAME,null,getContentValues(settings));
             // Otherwise if it is then update it //
         } else {
+            String[] IDs = new String[]{settings.getId()};
             db.update(JobiSettingsDbSchema.SettingsTable.NAME,getContentValues(settings),"ID=?",IDs);
         }
     }
@@ -130,17 +123,19 @@ public class SQLiteSettingsService implements SettingsService {
     }
 
     // getSettings //////////////////////////////////////////////////////////////////////////////
-    public Settings getSettings() {
+    public Settings getSettings(String id) {
 
-
-            for (Settings settings : querySettings("ID=?", new String[]{"1"}, null)) {
-                if ("1".equals("1")) {
+        if (id == null) {
+            return null;
+        } else {
+            for (Settings settings : querySettings("ID=?", new String[]{id}, null)) {
+                if (settings.getId().equals(id)) {
                     return settings;
                 }
             }
 
-        return null;
-
+            return null;
+        }
     }
 
 }
