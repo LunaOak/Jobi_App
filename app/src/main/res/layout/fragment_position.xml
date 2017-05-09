@@ -156,7 +156,8 @@
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/position_contact_recycler_view">
+            android:id="@+id/position_contact_recycler_view"
+            android:background="@color/colorAccent5">
         </android.support.v7.widget.RecyclerView>
 
         <Button
@@ -188,7 +189,8 @@
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/position_event_recycler_view">
+            android:id="@+id/position_event_recycler_view"
+            android:background="@color/colorAccent5">
         </android.support.v7.widget.RecyclerView>
 
         <Button
