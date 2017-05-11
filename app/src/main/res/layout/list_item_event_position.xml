@@ -23,7 +23,8 @@
         tools:text="BIG INTERVIEW!"
         android:layout_toRightOf="@id/list_item_event_date"
         android:layout_toEndOf="@id/list_item_event_date"
-        android:textColor="@color/colorAccent"/>
+        android:textColor="@color/colorAccent"
+        android:textSize="17sp"/>
 
     <TextView
         android:id="@+id/list_item_event_type"

@@ -7,7 +7,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:background="@color/colorAccent5">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -77,6 +79,15 @@
         android:orientation="vertical">
 
         <!--Current Status-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:outlineProvider="bounds"
+            android:elevation="3sp"
+            android:padding=".5sp"
+            android:layout_marginBottom="7sp"
+            android:background="@color/colorWhite">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -107,38 +118,73 @@
                 android:layout_marginStart="5dp"/>
 
         </LinearLayout>
+        </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/coming_up_label"
-        android:textSize="20sp"
-        android:textColor="@color/colorAccent2"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:outlineProvider="bounds"
+            android:elevation="3sp"
+            android:padding=".5sp"
+            android:layout_marginBottom="7sp"
+            android:background="@color/colorWhite">
 
-    <android.support.v7.widget.RecyclerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/home_event_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp">
-    </android.support.v7.widget.RecyclerView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/coming_up_label"
+                android:textSize="20sp"
+                android:textColor="@color/colorAccent2"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/favorite_positions_label"
-        android:textSize="20sp"
-        android:textColor="@color/colorAccent2"/>
+            <android.support.v7.widget.RecyclerView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/home_event_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp">
+            </android.support.v7.widget.RecyclerView>
 
-    <android.support.v7.widget.RecyclerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/favorite_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp">
-    </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:outlineProvider="bounds"
+            android:elevation="3sp"
+            android:padding=".5sp"
+            android:layout_marginBottom="7sp"
+            android:background="@color/colorWhite">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/favorite_positions_label"
+                android:textSize="20sp"
+                android:textColor="@color/colorAccent2"/>
+
+
+            <android.support.v7.widget.RecyclerView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/favorite_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="130sp"
+                android:layout_marginBottom="5dp">
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
 
     <!--Selection-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:outlineProvider="bounds"
+            android:elevation="3sp"
+            android:padding=".5sp"
+            android:layout_marginBottom="7sp"
+            android:background="@color/colorWhite">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -205,6 +251,7 @@
 
         </LinearLayout>
 
+      </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
