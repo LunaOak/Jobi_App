@@ -24,7 +24,7 @@
         android:textStyle="bold"
         android:padding="4dp"
         tools:text="Position Title"
-        android:textColor="@color/colorAccent2"/>
+        android:textColor="@color/colorAccent"/>
 
     <TextView
         android:id="@+id/list_item_position_summary"

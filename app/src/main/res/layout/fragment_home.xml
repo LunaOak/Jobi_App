@@ -4,209 +4,256 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
-        android:background="@drawable/ic_mountain">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:background="@color/colorAccent5">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
             android:orientation="vertical"
-            android:layout_margin="10dp">
-
-            <!--Day-->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/day"
-                android:textColor="@color/home_date2"
-                android:textStyle="bold"
-                android:textSize="21sp" />
+            android:background="@drawable/ic_mountain">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:layout_margin="10dp">
 
-                <!--Month-->
+                <!--Day-->
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/month"
-                    android:textColor="@color/colorAccent"
+                    android:id="@+id/day"
+                    android:textColor="@color/home_date2"
                     android:textStyle="bold"
-                    android:textSize="27sp"/>
+                    android:textSize="21sp" />
 
-                <!--Date-->
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/date"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
-                    android:textSize="27sp"/>
+                    android:orientation="horizontal">
 
-                <!--Year-->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/year"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
-                    android:textSize="27sp"/>
+                    <!--Month-->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/month"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold"
+                        android:textSize="27sp"/>
 
+                    <!--Date-->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/date"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold"
+                        android:textSize="27sp"/>
+
+                    <!--Year-->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/year"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold"
+                        android:textSize="27sp"/>
+
+
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
-
-    <!--List of upcoming events-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="vertical">
-
-        <!--Current Status-->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/status_label"
-            android:textSize="20sp"
-            android:textColor="@color/colorAccent2"/>
-
+        <!--List of upcoming events-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="10dp">
+            android:layout_margin="10dp"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/status_color"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/circle"/>
-
-            <TextView
-                android:id="@+id/status_text"
+            <!--Current Status-->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textColor="@color/home_date2"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"/>
+                android:orientation="vertical"
+                android:outlineProvider="bounds"
+                android:elevation="3sp"
+                android:padding=".5sp"
+                android:layout_marginBottom="7sp"
+                android:background="@color/colorWhite">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/status_label"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorAccent2"/>
 
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/coming_up_label"
-        android:textSize="20sp"
-        android:textColor="@color/colorAccent2"/>
+                    <ImageView
+                        android:id="@+id/status_color"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/circle"/>
 
-    <android.support.v7.widget.RecyclerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/home_event_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp">
-    </android.support.v7.widget.RecyclerView>
+                    <TextView
+                        android:id="@+id/status_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="@color/home_date2"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/favorite_positions_label"
-        android:textSize="20sp"
-        android:textColor="@color/colorAccent2"/>
+                </LinearLayout>
+            </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/favorite_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp">
-    </android.support.v7.widget.RecyclerView>
-
-    <!--Selection-->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/manage_label"
-        android:textSize="20sp"
-        android:textColor="@color/colorAccent2"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/event_list_button"
-                android:layout_width="170dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/event_list_label"
-                android:background="@color/colorWhite"
-                android:textColor="@color/colorAccent"/>
+                android:orientation="vertical"
+                android:outlineProvider="bounds"
+                android:elevation="3sp"
+                android:padding=".5sp"
+                android:layout_marginBottom="7sp"
+                android:background="@color/colorWhite">
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/colorAccent2"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/coming_up_label"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorAccent2"/>
 
-            <Button
-                android:id="@+id/company_list_button"
-                android:layout_width="170dp"
+                <android.support.v7.widget.RecyclerView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/home_event_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp">
+                </android.support.v7.widget.RecyclerView>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/company_list_label"
-                android:background="@color/colorWhite"
-                android:textColor="@color/colorAccent" />
+                android:orientation="vertical"
+                android:outlineProvider="bounds"
+                android:elevation="3sp"
+                android:padding=".5sp"
+                android:layout_marginBottom="7sp"
+                android:background="@color/colorWhite">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/favorite_positions_label"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorAccent2"/>
 
-        </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorAccent2"/>
+                <android.support.v7.widget.RecyclerView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/favorite_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="130sp"
+                    android:layout_marginBottom="5dp">
+                </android.support.v7.widget.RecyclerView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            </LinearLayout>
 
-            <Button android:id="@+id/position_list_button"
-                android:layout_width="170dp"
+            <!--Selection-->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/position_list_label"
-                android:background="@color/colorWhite"
-                android:textColor="@color/colorAccent" />
+                android:orientation="vertical"
+                android:outlineProvider="bounds"
+                android:elevation="3sp"
+                android:padding=".5sp"
+                android:layout_marginBottom="7sp"
+                android:background="@color/colorWhite">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/manage_label"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorAccent2"/>
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/colorAccent2"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-            <Button android:id="@+id/create_position_button"
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:text="@string/create_position_label"
-                android:background="@color/colorWhite"
-                android:textColor="@color/colorAccent" />
+                    <Button
+                        android:id="@+id/event_list_button"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/event_list_label"
+                        android:background="@color/colorWhite"
+                        android:textColor="@color/colorAccent"/>
 
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorAccent2"/>
+
+                    <Button
+                        android:id="@+id/company_list_button"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/company_list_label"
+                        android:background="@color/colorWhite"
+                        android:textColor="@color/colorAccent" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorAccent2"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button android:id="@+id/position_list_button"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/position_list_label"
+                        android:background="@color/colorWhite"
+                        android:textColor="@color/colorAccent" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorAccent2"/>
+
+                    <Button android:id="@+id/create_position_button"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/create_position_label"
+                        android:background="@color/colorWhite"
+                        android:textColor="@color/colorAccent" />
+
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
 
 </ScrollView>
