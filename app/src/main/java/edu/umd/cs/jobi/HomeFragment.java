@@ -29,6 +29,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import edu.umd.cs.jobi.model.Company;
 import edu.umd.cs.jobi.model.Event;
 import edu.umd.cs.jobi.model.Position;
 import edu.umd.cs.jobi.model.Settings;
@@ -243,6 +244,16 @@ public class HomeFragment extends Fragment {
                 return;
             }
             Position positionCreated = PositionActivity.getPositionEdit(data);
+
+            String companyName = positionCreated.getCompany();
+            String companyId = companyService.getCompanyIdWithName(companyName);
+            if (companyId == null){ // If a company with the name doesn't exist, create it
+                Company newCompany = new Company(companyName, true);
+                companyId = newCompany.getId();
+                companyService.addCompanyToDb(newCompany);
+            }
+            positionCreated.setCompany(companyId);
+
             companyService.addPositionToDb(positionCreated);
         }
 
