@@ -13,7 +13,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="190dp"
             android:orientation="vertical"
             android:background="@drawable/ic_mountain">
 
@@ -21,7 +21,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_margin="10dp">
+                android:layout_margin="10dp"
+                android:paddingTop="40sp">
 
                 <!--Day-->
                 <TextView
@@ -68,6 +69,14 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <Button
+                android:layout_width="45sp"
+                android:layout_height="45sp"
+                android:background="@drawable/ic_menu_info_details"
+                android:id="@+id/home_help"
+                android:layout_marginLeft="312sp"
+                android:layout_marginTop="10sp"/>
 
         </LinearLayout>
 

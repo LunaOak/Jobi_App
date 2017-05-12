@@ -67,6 +67,7 @@ public class HomeFragment extends Fragment {
     private Button companyListButton;
     private Button positionListButton;
     private Button createPositionButton;
+    private Button infoButton;
     private Button eventListButton;
     private ImageView statusColor;
     private TextView statusText;
@@ -158,6 +159,15 @@ public class HomeFragment extends Fragment {
             statusColor.setColorFilter(interviewColor,PorterDuff.Mode.SRC_ATOP);
             statusText.setText(R.string.status_interviewing);
         }
+
+        infoButton = (Button)view.findViewById(R.id.home_help);
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Toast.makeText(getActivity().getApplicationContext(),
+                        "Scroll Down and Create a Position to Get Started!", Toast.LENGTH_LONG).show();
+            }
+        });
 
         eventListButton = (Button)view.findViewById(R.id.event_list_button);
         eventListButton.setOnClickListener(new View.OnClickListener() {
