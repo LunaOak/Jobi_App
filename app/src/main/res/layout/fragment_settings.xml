@@ -46,55 +46,55 @@
             android:text="@string/status_not_searching"/>
     </RadioGroup>
 
-    <!--Notifications ON/OFF-->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <!--&lt;!&ndash;Notifications ON/OFF&ndash;&gt;-->
+    <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/notifications_label"
-            android:textSize="20sp"
-            android:textColor="@color/colorAccent2"/>
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/notifications_label"-->
+            <!--android:textSize="20sp"-->
+            <!--android:textColor="@color/colorAccent2"/>-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/notifications_onOff_label"
-            android:layout_marginLeft="120dp"
-            android:layout_marginStart="120dp"/>
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/notifications_onOff_label"-->
+            <!--android:layout_marginLeft="120dp"-->
+            <!--android:layout_marginStart="120dp"/>-->
 
-        <Switch
-            android:id="@+id/settings_notification_switch"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:checked="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"/>
+        <!--<Switch-->
+            <!--android:id="@+id/settings_notification_switch"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:checked="true"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:layout_marginStart="5dp"/>-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
-    <!--Type of Notifications-->
-    <CheckBox android:id="@+id/settings_up_interviews"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/interviews_label"
-        android:checked="true"/>
+    <!--&lt;!&ndash;Type of Notifications&ndash;&gt;-->
+    <!--<CheckBox android:id="@+id/settings_up_interviews"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/interviews_label"-->
+        <!--android:checked="true"/>-->
 
-    <CheckBox android:id="@+id/settings_emails"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/emails_label"
-        android:checked="true"/>
+    <!--<CheckBox android:id="@+id/settings_emails"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/emails_label"-->
+        <!--android:checked="true"/>-->
 
-    <CheckBox android:id="@+id/settings_deadlines"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/deadline_label"
-        android:checked="true"
-        android:layout_marginBottom="10dp"/>
+    <!--<CheckBox android:id="@+id/settings_deadlines"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/deadline_label"-->
+        <!--android:checked="true"-->
+        <!--android:layout_marginBottom="10dp"/>-->
 
     <LinearLayout
         android:orientation="horizontal"

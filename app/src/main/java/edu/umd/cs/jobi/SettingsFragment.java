@@ -76,15 +76,15 @@ public class SettingsFragment extends Fragment {
         // Status Radio Group //
         statusRadioGroup = (RadioGroup)view.findViewById(R.id.settings_status_radio_group);
 
-        // Notifications Switch //
-        notificationsSwitch = (Switch) view.findViewById(R.id.settings_notification_switch);
-
-        // Notifications List //
-        notificationsInterviews = (CheckBox) view.findViewById(R.id.settings_up_interviews);
-        notificationsEmails = (CheckBox) view.findViewById(R.id.settings_emails);
-        notificationsDeadlines = (CheckBox) view.findViewById(R.id.settings_deadlines);
-
-        notificationsList = new ArrayList<>();
+//        // Notifications Switch //
+//        notificationsSwitch = (Switch) view.findViewById(R.id.settings_notification_switch);
+//
+//        // Notifications List //
+//        notificationsInterviews = (CheckBox) view.findViewById(R.id.settings_up_interviews);
+//        notificationsEmails = (CheckBox) view.findViewById(R.id.settings_emails);
+//        notificationsDeadlines = (CheckBox) view.findViewById(R.id.settings_deadlines);
+//
+//        notificationsList = new ArrayList<>();
 
         if (settings != null) {
 
@@ -104,43 +104,43 @@ public class SettingsFragment extends Fragment {
                     break;
             }
 
-            // Notifications Switch //
-            switch (settings.getSwitch()) {
-                case ON:
-                    notificationsSwitch.setChecked(true);
-                    break;
-                case OFF:
-                    notificationsSwitch.setChecked(false);
-                    break;
-                default:
-                    notificationsSwitch.setChecked(true);
-                    break;
-            }
-
-
-            notificationsInterviews.setChecked(false);
-            notificationsEmails.setChecked(false);
-            notificationsDeadlines.setChecked(false);
-
-            // Notifications List //
-            for (Settings.Notifications notif : settings.getNotifications()) {
-
-                if (notif.equals(Settings.Notifications.INTERVIEWS)) {
-                    notificationsInterviews.setChecked(true);
-                } else if (notif.equals(Settings.Notifications.EMAILS)) {
-                    notificationsEmails.setChecked(true);
-                } else if (notif.equals(Settings.Notifications.DEADLINES)) {
-                    notificationsDeadlines.setChecked(true);
-                }
-
-            }
+//            // Notifications Switch //
+//            switch (settings.getSwitch()) {
+//                case ON:
+//                    notificationsSwitch.setChecked(true);
+//                    break;
+//                case OFF:
+//                    notificationsSwitch.setChecked(false);
+//                    break;
+//                default:
+//                    notificationsSwitch.setChecked(true);
+//                    break;
+//            }
+//
+//
+//            notificationsInterviews.setChecked(false);
+//            notificationsEmails.setChecked(false);
+//            notificationsDeadlines.setChecked(false);
+//
+//            // Notifications List //
+//            for (Settings.Notifications notif : settings.getNotifications()) {
+//
+//                if (notif.equals(Settings.Notifications.INTERVIEWS)) {
+//                    notificationsInterviews.setChecked(true);
+//                } else if (notif.equals(Settings.Notifications.EMAILS)) {
+//                    notificationsEmails.setChecked(true);
+//                } else if (notif.equals(Settings.Notifications.DEADLINES)) {
+//                    notificationsDeadlines.setChecked(true);
+//                }
+//
+//            }
 
         } else {
             statusRadioGroup.check(R.id.settings_status_interviewing);
-            notificationsSwitch.setChecked(true);
-            notificationsInterviews.setChecked(true);
-            notificationsEmails.setChecked(true);
-            notificationsDeadlines.setChecked(true);
+//            notificationsSwitch.setChecked(true);
+//            notificationsInterviews.setChecked(true);
+//            notificationsEmails.setChecked(true);
+//            notificationsDeadlines.setChecked(true);
         }
 
 
@@ -171,28 +171,28 @@ public class SettingsFragment extends Fragment {
                         break;
                 }
 
-                // Notifications Switch //
-                if(notificationsSwitch.isChecked()){
-                    settings.setSwitch(Settings.NotificationSwitch.ON);
-                }
-                else {
-                    settings.setSwitch(Settings.NotificationSwitch.OFF);
-                }
+//                // Notifications Switch //
+//                if(notificationsSwitch.isChecked()){
+//                    settings.setSwitch(Settings.NotificationSwitch.ON);
+//                }
+//                else {
+//                    settings.setSwitch(Settings.NotificationSwitch.OFF);
+//                }
+//
+//                // Notifications CheckList //
+//                if (notificationsInterviews.isChecked()) {
+//                    notificationsList.add(Settings.Notifications.INTERVIEWS);
+//                }
+//
+//                if (notificationsEmails.isChecked()) {
+//                    notificationsList.add(Settings.Notifications.EMAILS);
+//                }
+//
+//                if (notificationsDeadlines.isChecked()) {
+//                    notificationsList.add(Settings.Notifications.DEADLINES);
+//                }
 
-                // Notifications CheckList //
-                if (notificationsInterviews.isChecked()) {
-                    notificationsList.add(Settings.Notifications.INTERVIEWS);
-                }
-
-                if (notificationsEmails.isChecked()) {
-                    notificationsList.add(Settings.Notifications.EMAILS);
-                }
-
-                if (notificationsDeadlines.isChecked()) {
-                    notificationsList.add(Settings.Notifications.DEADLINES);
-                }
-
-                settings.setNotifications(notificationsList);
+//                settings.setNotifications(notificationsList);
 
                 Intent data = new Intent();
                 data.putExtra(SETTINGS_UPDATED, settings);
